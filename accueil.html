@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
+<html class="dark" lang="fr">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Veryfi | Intelligent Document Processing (IDP) &amp; Data Extraction</title>
+<title>Registre+ | Accueil numérique sans papier – Scan de pièces d'identité</title>
 <!-- Tailwind CSS v3 with Plugins -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Google Fonts: Hanken Grotesk -->
@@ -61,45 +61,46 @@
   </style>
 </head>
 <body class="antialiased">
-<!-- BEGIN: TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-surface/80 nav-blur border-b border-white/5 transition-all duration-300" data-purpose="main-navigation">
+<!-- Barre de navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 nav-blur border-b border-white/5 transition-all duration-300">
 <div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto w-full">
 <div class="flex items-center gap-8">
-<a class="text-2xl font-extrabold text-white tracking-tight" href="/">Veryfi</a>
+<!-- Logo image remplaçant le texte Registre+ -->
+<a class="flex items-center" href="/">
+<img alt="Registre+" class="h-5 w-auto" src="images/noregis.svg"/>
+</a>
 <div class="hidden lg:flex items-center gap-6">
 <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Solutions</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Platform</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Developers</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Resources</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Demo</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Fonctionnalités</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Sécurité</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Ressources</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Tarifs</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Démo</a>
 </div>
 </div>
 <div class="flex items-center gap-4">
-<button class="text-sm font-semibold text-white px-4 py-2 hover:opacity-80">Login</button>
-<button class="bg-primary text-black font-bold text-sm px-6 py-2.5 rounded hover:scale-105 active:scale-95 transition-all">Get Started</button>
+<button class="text-sm font-semibold text-white px-4 py-2 hover:opacity-80">Connexion</button>
+<button class="bg-primary text-black font-bold text-sm px-6 py-2.5 rounded hover:scale-105 active:scale-95 transition-all">S'inscrire</button>
 </div>
 </div>
 </nav>
-<!-- END: TopNavBar -->
 <main>
-<!-- BEGIN: HeroSection -->
-<section class="relative pt-32 pb-20 hero-gradient overflow-hidden min-h-screen flex flex-col items-center justify-center" data-purpose="hero">
+<!-- Section Héro -->
+<section class="relative pt-32 pb-20 hero-gradient overflow-hidden min-h-screen flex flex-col items-center justify-center">
 <div class="max-w-4xl mx-auto px-margin-desktop text-center">
 <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-          Documents into Data — <span class="text-primary glow-text">securely</span>, in seconds
+          Enregistrement numérique des visiteurs — <span class="text-primary glow-text">sans papier</span>, en quelques secondes
         </h1>
 <p class="text-on-surface-variant text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-          APIs, Agents &amp; SDKs powered by Veryfi AI, enabling multi-modal document extraction, fraud detection, and endless business use cases.
+          Scannez les pièces d’identité, générez des badges, et gérez vos flux d’accès en toute conformité RGPD.
         </p>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-<button class="w-full sm:w-auto bg-primary text-black font-bold px-8 py-4 rounded hover:shadow-[0_0_20px_rgba(0,250,108,0.3)] transition-all">Start Free Trial</button>
-<button class="w-full sm:w-auto border border-white/20 text-white font-bold px-8 py-4 rounded hover:bg-white/5 transition-all">Demo Test-Drive</button>
+<button class="w-full sm:w-auto bg-primary text-black font-bold px-8 py-4 rounded hover:shadow-[0_0_20px_rgba(0,250,108,0.3)] transition-all">S'inscrire</button>
+<button class="w-full sm:w-auto border border-white/20 text-white font-bold px-8 py-4 rounded hover:bg-white/5 transition-all">Demander une démo</button>
 </div>
 </div>
-<!-- Hero Visuals -->
+<!-- Visuels héro (simulation d'interface) -->
 <div class="mt-20 relative w-full max-w-5xl mx-auto px-4 flex justify-center items-center">
-<!-- Abstract representation of the screenshot graphic -->
 <div class="relative w-full aspect-video flex justify-around items-center">
 <div class="w-1/3 p-4 bg-white/5 rounded-lg border border-white/10">
 <div class="h-2 w-1/2 bg-white/20 mb-2"></div>
@@ -113,7 +114,8 @@
 </div>
 <div class="relative group">
 <div class="absolute -inset-8 bg-primary/20 blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
-<div class="w-24 h-24 bg-primary text-black text-4xl font-black flex items-center justify-center rounded-2xl relative z-10">V</div>
+<!-- Logo image remplaçant le cercle "R+" -->
+<img alt="Registre+" class="w-24 h-24 object-contain rounded-2xl relative z-10 bg-primary/20 p-2" src="images/noregis.svg"/>
 </div>
 <div class="w-1/4 flex flex-col gap-2">
 <div class="h-1 bg-primary/30 w-full"></div>
@@ -124,205 +126,154 @@
 </div>
 </div>
 </section>
-<!-- END: HeroSection -->
-<!-- BEGIN: TrustedSection -->
-<section class="py-20 bg-surface-dim border-y border-white/5" data-purpose="social-proof">
+<!-- Section de confiance -->
+<section class="py-20 bg-surface-dim border-y border-white/5">
 <div class="max-w-container-max mx-auto px-margin-desktop text-center">
-<p class="text-on-surface-variant font-bold uppercase tracking-widest text-xs mb-10">Trusted by World-Leading Organizations</p>
+<p class="text-on-surface-variant font-bold uppercase tracking-widest text-xs mb-10">Reconnu par des organisations leaders</p>
 <div class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale">
-<span class="text-2xl font-bold">PEPSICO</span>
-<span class="text-2xl font-bold">NAVAN</span>
-<span class="text-2xl font-bold">RAPPILING</span>
-<span class="text-2xl font-bold">MERKLE</span>
-<span class="text-2xl font-bold">Square</span>
+<span class="text-2xl font-bold">ACCOR</span>
+<span class="text-2xl font-bold">ORANGE</span>
+<span class="text-2xl font-bold">SOCIETE GENERALE</span>
+<span class="text-2xl font-bold">AIRBUS</span>
+<span class="text-2xl font-bold">LVMH</span>
 </div>
 <div class="mt-16 flex justify-center gap-8">
-<!-- Mock Badges -->
 <div class="flex flex-col items-center">
 <div class="flex text-primary mb-1">★★★★★</div>
-<span class="text-[10px] text-on-surface-variant font-bold uppercase">G2 Leader 2024</span>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Note G2 4,9/5</span>
 </div>
 <div class="flex flex-col items-center">
-<div class="h-4 w-12 bg-white/20 rounded mb-1"></div>
-<span class="text-[10px] text-on-surface-variant font-bold uppercase">99% Accuracy</span>
+<div class="flex text-primary mb-1">★★★★★</div>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">99% de satisfaction</span>
 </div>
 </div>
 </div>
 </section>
-<!-- END: TrustedSection -->
-<!-- BEGIN: WhyVeryfi -->
-<section class="py-32 bg-surface text-center" data-purpose="benefits">
+<!-- Pourquoi Registre+ -->
+<section class="py-32 bg-surface text-center">
 <div class="max-w-container-max mx-auto px-margin-desktop">
-<h2 class="text-4xl font-extrabold mb-20">Why Veryfi</h2>
+<h2 class="text-4xl font-extrabold mb-20">Pourquoi Registre+</h2>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
 <div class="flex flex-col items-center">
 <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
-<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
 </div>
-<h3 class="text-xl font-bold mb-2">Day 1 Ready</h3>
-<p class="text-on-surface-variant">AI Accuracy out of the box.</p>
-</div>
-<div class="flex flex-col items-center">
-<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
-<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</div>
-<h3 class="text-xl font-bold mb-2">Blazing</h3>
-<p class="text-on-surface-variant">Fast APIs with 2s response times.</p>
+<h3 class="text-xl font-bold mb-2">Prêt en 1 jour</h3>
+<p class="text-on-surface-variant">Configuration rapide, compatible avec vos outils.</p>
 </div>
 <div class="flex flex-col items-center">
 <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
-<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
 </div>
-<h3 class="text-xl font-bold mb-2">Secure</h3>
-<p class="text-on-surface-variant">SOC 2 Type II Compliant.</p>
+<h3 class="text-xl font-bold mb-2">Ultra-rapide</h3>
+<p class="text-on-surface-variant">Enregistrement en moins de 20 secondes.</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
+<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-xl font-bold mb-2">Hébergement sécurisé</h3>
+<p class="text-on-surface-variant">Données hébergées en France, conformité RGPD.</p>
 </div>
 </div>
 </div>
 </section>
-<!-- END: WhyVeryfi -->
-<!-- BEGIN: TechnologySection -->
-<section class="py-32 bg-surface-dim relative" data-purpose="three-pillars">
+<!-- Les trois piliers : Scanner, Badger, Analyser -->
+<section class="py-32 bg-surface-dim relative">
 <div class="max-w-container-max mx-auto px-margin-desktop">
 <div class="text-center mb-20">
-<h2 class="text-4xl md:text-5xl font-extrabold mb-6">Supercharge Your Product with AI</h2>
-<p class="text-on-surface-variant max-w-3xl mx-auto">While other IDPs, Agents, APIs &amp; automation fail when they hit complex document workflows your customers actually use.</p>
+<h2 class="text-4xl md:text-5xl font-extrabold mb-6">Accueil numérique nouvelle génération</h2>
+<p class="text-on-surface-variant max-w-3xl mx-auto">Remplacez vos registres papier par une solution 100% digitale, rapide et sécurisée.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Pillar 1: Collect -->
+<!-- Scanner -->
 <div class="card-gradient border border-white/5 p-8 rounded-xl flex flex-col">
 <div class="flex items-center gap-3 mb-8">
-<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Collect</span>
+<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Scanner</span>
 </div>
-<p class="text-sm text-on-surface-variant mb-6">Turn physical or digital docs into raw data streams.</p>
+<p class="text-sm text-on-surface-variant mb-6">Lisez automatiquement les pièces d’identité, passeports et cartes de séjour.</p>
 <ul class="space-y-4 text-sm font-medium">
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Browser SDK for Documents
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Mobile SDK for Checks <span class="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-auto">POPULAR</span>
-</li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Mobile SDK for Credit Cards
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Mobile SDK for Documents <span class="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-auto">VIP</span>
-</li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> WhatsApp Instant App
-              </li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Scan CNI / Passeport</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Reconnaissance automatique des champs</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Prise de photo signée</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> API d’OCR intégrée</li>
 </ul>
 </div>
-<!-- Pillar 2: Extract -->
+<!-- Badger -->
 <div class="card-gradient border border-white/5 p-8 rounded-xl ring-2 ring-primary/20 relative">
 <div class="flex items-center gap-3 mb-8">
-<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Extract</span>
+<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Badger</span>
 </div>
-<p class="text-sm text-on-surface-variant mb-6">Extract 99% of data from unstructured docs in seconds.</p>
+<p class="text-sm text-on-surface-variant mb-6">Générez des badges d’accès personnalisés avec QR code et photo.</p>
 <ul class="space-y-4 text-sm font-medium">
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Bank Checks API <span class="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-auto">POPULAR</span>
-</li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Bank Statements API
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Credit Cards API
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Driver License Cards API
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Invoices API <span class="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-auto">POPULAR</span>
-</li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Receipts API <span class="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-auto">VIP</span>
-</li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Hotel Folios API
-              </li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Impression WiFi / Bluetooth</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> QR code de sortie</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Badge temporaire ou permanent</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Logo entreprise personnalisé</li>
 </ul>
 </div>
-<!-- Pillar 3: Extend -->
+<!-- Analyser -->
 <div class="card-gradient border border-white/5 p-8 rounded-xl flex flex-col">
 <div class="flex items-center gap-3 mb-8">
-<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Extend</span>
+<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Analyser</span>
 </div>
-<p class="text-sm text-on-surface-variant mb-6">Agents that work with your stack handle complex tasks in real time.</p>
+<p class="text-sm text-on-surface-variant mb-6">Tableaux de bord et rapports détaillés pour le suivi des entrées/sorties.</p>
 <ul class="space-y-4 text-sm font-medium">
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> AI Fake Document Detection
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Classification
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Chat With Your Data
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Fraud Protection <span class="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded ml-auto">VIP</span>
-</li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> PDF Splitter
-              </li>
-<li class="flex items-center gap-2">
-<span class="w-1 h-1 bg-primary rounded-full"></span> Product Intelligence
-              </li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Registre numérique inviolable</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Export PDF / Excel</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Alertes en temps réel</li>
+<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Dashboard complet</li>
 </ul>
 </div>
 </div>
 </div>
 </section>
-<!-- END: TechnologySection -->
-<!-- BEGIN: Industries -->
-<section class="py-32 bg-surface" data-purpose="industries">
+<!-- Secteurs d'activité (cartographie) -->
+<section class="py-32 bg-surface">
 <div class="max-w-container-max mx-auto px-margin-desktop">
-<h2 class="text-5xl font-extrabold mb-2 text-white">Transform Your Industry</h2>
-<h2 class="text-5xl font-extrabold mb-16 text-black bg-primary inline-block px-2">Revolutionize.</h2>
+<h2 class="text-5xl font-extrabold mb-2 text-white">Transformez votre secteur</h2>
+<h2 class="text-5xl font-extrabold mb-16 text-black bg-primary inline-block px-2">Simplifiez l’accueil.</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<!-- Industry Card 1 -->
+<!-- Entreprises -->
 <div class="bg-surface-container p-8 rounded-xl group hover:bg-surface-bright transition-all cursor-pointer border border-white/5">
 <div class="w-full h-48 bg-white/5 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-<img alt="Accounting Illustration" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCumt3azAl-KuDVJXfNjQfSlk0UFB_PCGrcaj-S4EcjhP80L6xEcgiA0EHr85wANIvK8pNXXw--nEcvdZ_sqrBylUyoFoOT5R3toWmvYtva4J4fwvpM9GSzNPvyHzDqoezNs1yOI2bxPIyyhvmmdLraVR3yTvt7rJ_KHdh0sIqCTUPfisdiLtfo_JI4q-QV1viYDJaLU8ieghcbBV3IhRm0auyQJG0ca2mnS3PqSZ4U5ycZYDy5g6tePR5_xSeIYqotHGyyB8JKA13T"/>
+<img alt="Bureau entreprise" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCumt3azAl-KuDVJXfNjQfSlk0UFB_PCGrcaj-S4EcjhP80L6xEcgiA0EHr85wANIvK8pNXXw--nEcvdZ_sqrBylUyoFoOT5R3toWmvYtva4J4fwvpM9GSzNPvyHzDqoezNs1yOI2bxPIyyhvmmdLraVR3yTvt7rJ_KHdh0sIqCTUPfisdiLtfo_JI4q-QV1viYDJaLU8ieghcbBV3IhRm0auyQJG0ca2mnS3PqSZ4U5ycZYDy5g6tePR5_xSeIYqotHGyyB8JKA13T"/>
 </div>
-<h3 class="text-2xl font-bold mb-4">Accounting</h3>
-<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Automate the most time-consuming parts of accounting workflows. Integrate our APIs to extract data from receipts, invoices, bank statements, and expense reports with near perfect accuracy.</p>
-<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">Discover More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
+<h3 class="text-2xl font-bold mb-4">Entreprises &amp; bureaux</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Gérez les entrées de vos collaborateurs, visiteurs et prestataires. Plus de registre papier, tout est dématérialisé et sécurisé.</p>
+<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
 </div>
-<!-- Industry Card 2 -->
+<!-- Copropriétés -->
 <div class="bg-surface-container p-8 rounded-xl group hover:bg-surface-bright transition-all cursor-pointer border border-white/5">
 <div class="w-full h-48 bg-white/5 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-<img alt="Banking Illustration" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKygGFoSsDlr2IzQDNljcRcdyJGenXIW9ZM7ZbmP0T8NHXs3WdYginVbzgaU-WJxRjNCU6CUZRZ8yZ_3razEXYWVS2HK4SrCtE5yZm47Dt7-oRxJpW0NGnUv5CeexX5mDRRu5ws8VqRARw3qIficFp0skjrmrJwahmHJYNPt-DDH-NU6ZMDscaVph7TQmljHLDIvNRAzCNz3xcWvriAmTRbW7-kOF1_Gbhi86PoB44don7zfylHfJSIoyyZ59Nk0jtZ6FAIbnTCWQz"/>
+<img alt="Résidence" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKygGFoSsDlr2IzQDNljcRcdyJGenXIW9ZM7ZbmP0T8NHXs3WdYginVbzgaU-WJxRjNCU6CUZRZ8yZ_3razEXYWVS2HK4SrCtE5yZm47Dt7-oRxJpW0NGnUv5CeexX5mDRRu5ws8VqRARw3qIficFp0skjrmrJwahmHJYNPt-DDH-NU6ZMDscaVph7TQmljHLDIvNRAzCNz3xcWvriAmTRbW7-kOF1_Gbhi86PoB44don7zfylHfJSIoyyZ59Nk0jtZ6FAIbnTCWQz"/>
 </div>
-<h3 class="text-2xl font-bold mb-4">Banking</h3>
-<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Modernize financial operations with intelligent document processing built for high volume environments. Integrate APIs that capture data from checks, loan applications, and KYC docs in seconds.</p>
-<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">Discover More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
+<h3 class="text-2xl font-bold mb-4">Résidences &amp; immeubles</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Contrôle d’accès pour copropriétés, livreurs et prestataires. Historique consultable par le syndic.</p>
+<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
 </div>
-<!-- Industry Card 3 -->
+<!-- Santé -->
 <div class="bg-surface-container p-8 rounded-xl group hover:bg-surface-bright transition-all cursor-pointer border border-white/5">
 <div class="w-full h-48 bg-white/5 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-<img alt="Automation Illustration" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwR68B-bUxF9mpSkVpOA5q0WH8thPv3ifkgnGTjFJO_20RpQdhxuGzUnBAYITT6pb2ALMdOHnbtT2EMR-YgU7hGfF0UI8D2h_Y1syfPpx-akxXaLkHiYl2jMRHmp2ZUzzQ9EPRME3Y6MUHiXJ3fZXbacSS2of8j9BGC5lqcMbt9bgCtANPQyK-O1LjrJajFGMgRUpM4i5wbhlWj87f4ZFGuAceLKdTJNWWEbT6zEE8QOfzhlQGhwIsmfpsHa1XZIh0FhFLkwASpOqi"/>
+<img alt="Clinique" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwR68B-bUxF9mpSkVpOA5q0WH8thPv3ifkgnGTjFJO_20RpQdhxuGzUnBAYITT6pb2ALMdOHnbtT2EMR-YgU7hGfF0UI8D2h_Y1syfPpx-akxXaLkHiYl2jMRHmp2ZUzzQ9EPRME3Y6MUHiXJ3fZXbacSS2of8j9BGC5lqcMbt9bgCtANPQyK-O1LjrJajFGMgRUpM4i5wbhlWj87f4ZFGuAceLKdTJNWWEbT6zEE8QOfzhlQGhwIsmfpsHa1XZIh0FhFLkwASpOqi"/>
 </div>
-<h3 class="text-2xl font-bold mb-4">BackOffice Automation</h3>
-<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Eliminate delivery bottlenecks in your workflow automation. Add our APIs into your RPA platform, extract structured data from invoices and receipts with 99% accuracy.</p>
-<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">Discover More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
+<h3 class="text-2xl font-bold mb-4">Santé &amp; cliniques</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Enregistrement des patients visiteurs, traçabilité des entrées, conformité avec les obligations sanitaires.</p>
+<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
 </div>
 </div>
 </div>
 </section>
-<!-- END: Industries -->
-<!-- BEGIN: TryItSection -->
-<section class="py-32 bg-surface-dim" data-purpose="interactive-demo">
+<!-- Section interactive : essai API (représentation du scan) -->
+<section class="py-32 bg-surface-dim">
 <div class="max-w-container-max mx-auto px-margin-desktop text-center">
-<h2 class="text-4xl font-extrabold mb-12">Try It</h2>
+<h2 class="text-4xl font-extrabold mb-12">Essayez le scan en direct</h2>
 <div class="flex flex-wrap justify-center gap-2 mb-12">
-<button class="px-6 py-2 bg-primary text-black font-bold rounded-full text-sm">Receipt</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Invoice</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Bill</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">US Check 2</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">DL FL</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Credit Card</button>
+<button class="px-6 py-2 bg-primary text-black font-bold rounded-full text-sm">Carte d'identité</button>
+<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Passeport</button>
+<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Permis de conduire</button>
+<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Carte de séjour</button>
 </div>
-<!-- Mock API/Console Viewer -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-left">
 <div class="bg-black/40 rounded-xl p-6 border border-white/10 aspect-video relative">
 <div class="flex gap-1.5 mb-4">
@@ -330,13 +281,12 @@
 <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
 <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
 </div>
-<pre class="text-xs font-mono text-primary/80"><code><span class="text-white">// Easy to use RESTful API</span>
-curl -X POST \
-  -H <span class="text-yellow-400">"Client-ID: {{CLIENT_ID}}"</span> \
-  -H <span class="text-yellow-400">"ApiKey: {{API_KEY}}"</span> \
-  -d <span class="text-yellow-400">'{"file_url": "receipt.jpg"}'</span> \
-  https://api.veryfi.com/api/v8/partner/documents/</code>
-              </pre>
+<pre class="text-xs font-mono text-primary/80"><code><span class="text-white">// Simulation appel API scan</span>
+POST /api/v1/scan
+{
+  "document": "cni_recto_verso.jpg",
+  "type": "cni"
+}</code></pre>
 </div>
 <div class="bg-black/40 rounded-xl p-6 border border-white/10 aspect-video relative">
 <div class="flex gap-1.5 mb-4">
@@ -345,50 +295,49 @@ curl -X POST \
 <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
 </div>
 <pre class="text-xs font-mono text-white/60"><code>{
-  <span class="text-primary">"vendor"</span>: {
-    <span class="text-primary">"name"</span>: <span class="text-yellow-400">"Walgreens"</span>,
-    <span class="text-primary">"address"</span>: <span class="text-yellow-400">"201 N. High St."</span>
-  },
-  <span class="text-primary">"total"</span>: <span class="text-yellow-400">12.45</span>,
-  <span class="text-primary">"currency"</span>: <span class="text-yellow-400">"USD"</span>,
-  <span class="text-primary">"date"</span>: <span class="text-yellow-400">"2024-05-15"</span>
-}</code>
-              </pre>
+  <span class="text-primary">"nom"</span>: <span class="text-yellow-400">"DUPONT"</span>,
+  <span class="text-primary">"prenom"</span>: <span class="text-yellow-400">"Jean"</span>,
+  <span class="text-primary">"date_naissance"</span>: <span class="text-yellow-400">"1985-06-15"</span>,
+  <span class="text-primary">"num_document"</span>: <span class="text-yellow-400">"12AB34567"</span>,
+  <span class="text-primary">"type"</span>: <span class="text-yellow-400">"CNI"</span>,
+  <span class="text-primary">"photo_base64"</span>: <span class="text-yellow-400">"/9j/4AAQSkZJRg..."</span>
+}</code></pre>
 </div>
 </div>
 </div>
 </section>
-<!-- END: TryItSection -->
-<!-- BEGIN: FinalCTA -->
-<section class="py-32 bg-primary" data-purpose="cta">
+<!-- Dernier appel à l'action -->
+<section class="py-32 bg-primary">
 <div class="max-w-container-max mx-auto px-margin-desktop text-center">
-<h2 class="text-4xl md:text-6xl font-black text-black mb-8">Ready to Build?</h2>
+<h2 class="text-4xl md:text-6xl font-black text-black mb-8">Prêt à passer au 100% numérique ?</h2>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-<button class="bg-black text-white font-bold px-10 py-5 rounded-lg hover:scale-105 transition-transform">Get Started for Free</button>
-<button class="bg-white/20 text-black font-bold px-10 py-5 rounded-lg hover:bg-white/30 transition-all border border-black/10">Schedule a Demo</button>
+<button class="bg-black text-white font-bold px-10 py-5 rounded-lg hover:scale-105 transition-transform">Créer un compte</button>
+<button class="bg-white/20 text-black font-bold px-10 py-5 rounded-lg hover:bg-white/30 transition-all border border-black/10">Demander une démo</button>
 </div>
 </div>
 </section>
-<!-- END: FinalCTA -->
 </main>
-<!-- BEGIN: Footer -->
-<footer class="bg-surface-dim pt-20 pb-10 border-t border-white/5" data-purpose="footer">
+<!-- Pied de page -->
+<footer class="bg-surface-dim pt-20 pb-10 border-t border-white/5">
 <div class="max-w-container-max mx-auto px-margin-desktop">
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter mb-20">
 <div class="col-span-2">
-<a class="text-2xl font-extrabold text-white mb-6 block" href="/">Veryfi</a>
-<p class="text-on-surface-variant text-sm max-w-xs">Intelligent Document Processing for the modern enterprise. Secure, fast, and highly accurate.</p>
+<!-- Logo dans le pied de page -->
+<a class="inline-block mb-6" href="/">
+<img alt="Registre+" class="h-5 w-auto" src="images/noregis.svg"/>
+</a>
+<p class="text-on-surface-variant text-sm max-w-xs">Solution d’accueil numérique pour remplacer le registre papier, conforme RGPD et hautement sécurisée.</p>
 </div>
 <div>
 <h4 class="text-white font-bold mb-6">Solutions</h4>
 <ul class="space-y-4 text-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">Receipts</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Invoices</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Bank Checks</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Scan CNI</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Badges</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Registre électronique</a></li>
 </ul>
 </div>
 <div>
-<h4 class="text-white font-bold mb-6">Developers</h4>
+<h4 class="text-white font-bold mb-6">Développeurs</h4>
 <ul class="space-y-4 text-sm text-on-surface-variant">
 <li><a class="hover:text-primary transition-colors" href="#">API Docs</a></li>
 <li><a class="hover:text-primary transition-colors" href="#">SDKs</a></li>
@@ -396,31 +345,31 @@ curl -X POST \
 </ul>
 </div>
 <div>
-<h4 class="text-white font-bold mb-6">Resources</h4>
+<h4 class="text-white font-bold mb-6">Ressources</h4>
 <ul class="space-y-4 text-sm text-on-surface-variant">
 <li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Whitepapers</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Webinars</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Livres blancs</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Webinaires</a></li>
 </ul>
 </div>
 <div>
-<h4 class="text-white font-bold mb-6">Company</h4>
+<h4 class="text-white font-bold mb-6">Entreprise</h4>
 <ul class="space-y-4 text-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Security</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">À propos</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Sécurité</a></li>
 <li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
 </ul>
 </div>
 </div>
 <div class="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-4">
-<p class="text-on-surface-variant text-xs">© 2024 Veryfi, Inc. All rights reserved.</p>
+<p class="text-on-surface-variant text-xs">© 2024 Registre+, Inc. Tous droits réservés. Accueil numérique sans papier.</p>
 <div class="flex gap-6 text-xs text-on-surface-variant">
-<a class="hover:text-primary" href="#">Privacy Policy</a>
-<a class="hover:text-primary" href="#">Terms of Service</a>
-<a class="hover:text-primary" href="#">Cookie Settings</a>
+<a class="hover:text-primary" href="#">Confidentialité</a>
+<a class="hover:text-primary" href="#">Conditions</a>
+<a class="hover:text-primary" href="#">Paramètres des cookies</a>
 </div>
 </div>
 </div>
 </footer>
-<!-- END: Footer -->
-</body></html>
+</body>
+</html>
