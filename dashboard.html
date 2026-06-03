@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html class="light" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tableau de bord FinIntel | Intelligence financière</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#f9f9f9",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#f0f1f1",
+                    "tertiary-fixed-dim": "#bac3ff",
+                    "surface-container": "#eeeeee",
+                    "primary-container": "#171c3a",
+                    "on-tertiary-fixed": "#071450",
+                    "primary": "#000220",
+                    "teal-accent": "#01655E",
+                    "secondary-fixed-dim": "#00e562",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#1a1c1c",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#c0c4eb",
+                    "outline": "#77767e",
+                    "primary-fixed": "#dee0ff",
+                    "on-surface-variant": "#46464e",
+                    "secondary-container": "#14fe6f",
+                    "on-primary-container": "#7f84a8",
+                    "border-light": "#E2E5F1",
+                    "surface-dim": "#dadada",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#c7c5ce",
+                    "tertiary": "#000321",
+                    "on-tertiary-fixed-variant": "#37427d",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#575c7e",
+                    "deep-navy": "#171C3A",
+                    "muted-periwinkle": "#9BA6E8",
+                    "primary-fixed-dim": "#c0c4eb",
+                    "surface-container-high": "#e8e8e8",
+                    "secondary": "#006e2b",
+                    "inverse-surface": "#2f3131",
+                    "background": "#f9f9f9",
+                    "surface-variant": "#e2e2e2",
+                    "secondary-fixed": "#69ff88",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#00702c",
+                    "electric-green": "#00FA6C",
+                    "on-secondary-fixed-variant": "#00531e",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f3f3f4",
+                    "surface": "#f9f9f9",
+                    "on-background": "#1a1c1c",
+                    "on-tertiary-container": "#7782c2",
+                    "surface-subtle": "#F8F9FD",
+                    "on-primary-fixed-variant": "#404565",
+                    "tertiary-fixed": "#dee0ff",
+                    "surface-container-highest": "#e2e2e2",
+                    "on-secondary-fixed": "#002108",
+                    "tertiary-container": "#0b1853",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#141937"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "32px",
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["JetBrains Mono"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "button-text": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "button-text": ["14px", {"lineHeight": "20px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f9f9f9; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E5F1;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #171C3A;
+            border-radius: 10px;
+        }
+        .nav-active {
+            color: #00FA6C !important;
+            border-right: 2px solid #00FA6C;
+            background-color: #171c3a;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface select-none">
+<!-- Barre latérale -->
+<aside class="bg-deep-navy h-screen w-64 fixed left-0 top-0 flex flex-col py-margin-desktop z-50">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">FinIntel</h1>
+<p class="font-label-md text-label-md text-muted-periwinkle mt-1">Entreprise v2.1</p>
+</div>
+<nav class="flex-1 space-y-1 px-3" id="main-nav">
+<a class="nav-link flex items-center px-3 py-3 font-label-md text-label-md transition-colors duration-200 ease-in-out text-muted-periwinkle hover:text-on-primary hover:bg-primary-container nav-active" data-section="dashboard" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+            Tableau de bord
+        </a>
+<a class="nav-link flex items-center px-3 py-3 font-label-md text-label-md transition-colors duration-200 ease-in-out text-muted-periwinkle hover:text-on-primary hover:bg-primary-container" data-section="documents" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="description">description</span>
+            Historiques
+        </a>
+<!-- Éléments Analytics et Workflow supprimés -->
+<a class="nav-link flex items-center px-3 py-3 font-label-md text-label-md transition-colors duration-200 ease-in-out text-muted-periwinkle hover:text-on-primary hover:bg-primary-container" data-section="settings" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+            Paramètres
+        </a>
+</nav>
+<div class="px-4 mt-auto">
+<div class="mt-6 space-y-1">
+<a class="flex items-center px-3 py-2 font-label-md text-label-md text-muted-periwinkle hover:text-on-primary transition-colors" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="help">help</span>
+                Assistance
+            </a>
+<a class="flex items-center px-3 py-2 font-label-md text-label-md text-muted-periwinkle hover:text-on-primary transition-colors" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
+                Déconnexion
+            </a>
+</div>
+</div>
+</aside>
+<!-- Corps principal -->
+<div class="ml-64 min-h-screen flex flex-col">
+<!-- Barre d'en-tête -->
+<header class="flex justify-between items-center px-margin-desktop h-16 w-full bg-surface-container-lowest border-b border-border-light z-40 sticky top-0">
+<div class="flex items-center space-x-8">
+<span class="font-headline-md text-headline-md text-primary font-bold" id="page-title">Intelligence financière</span>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="bg-surface-container border-none rounded-full pl-10 pr-4 py-2 text-body-md w-64 focus:ring-2 focus:ring-deep-navy transition-all" placeholder="Rechercher des données..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex space-x-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+</div>
+<div class="flex items-center space-x-3 border-l pl-6 border-border-light">
+<div class="text-right">
+<p class="font-button-text text-button-text text-primary">Alex Sterling</p>
+<p class="text-body-sm text-on-surface-variant">Directeur financier</p>
+</div>
+<img alt="Photo de profil" class="w-10 h-10 rounded-full border-2 border-electric-green" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+</div>
+</div>
+</header>
+<!-- Sections de contenu -->
+<main class="p-margin-desktop flex-1 overflow-y-auto">
+<div class="max-w-[1440px] mx-auto">
+<!-- Section Tableau de bord -->
+<section class="content-section active space-y-gutter" id="dashboard">
+<!-- En-tête actions -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-primary">Réception des documents</h3>
+<p class="text-on-surface-variant font-body-md">Gérez et analysez les données extraites de vos documents financiers.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-border-light rounded-lg font-button-text text-button-text hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="filter_list">filter_list</span>
+                    Filtres avancés
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-border-light rounded-lg font-button-text text-button-text hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+                    Exporter CSV
+                </button>
+</div>
+</div>
+<!-- Widgets du tableau de bord -->
+<div class="grid grid-cols-12 gap-gutter mb-gutter">
+<div class="col-span-12 md:col-span-4 bg-surface-lowest p-6 rounded-xl border border-border-light shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary-container rounded-lg">
+<span class="material-symbols-outlined text-electric-green" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+<span class="text-body-sm text-on-surface-variant font-medium">+12% par rapport à hier</span>
+</div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-1">En attente de traitement</p>
+<h4 class="text-3xl font-bold text-primary">42</h4>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-lowest p-6 rounded-xl border border-border-light shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-secondary-container/20 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle">check_circle</span>
+</div>
+<span class="text-body-sm text-secondary font-medium">99,8% de précision</span>
+</div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-1">Traités aujourd'hui</p>
+<h4 class="text-3xl font-bold text-primary">1 284</h4>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-lowest p-6 rounded-xl border border-border-light shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-error-container/40 rounded-lg">
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+<span class="text-body-sm text-error font-medium">Nécessite une attention</span>
+</div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-1">Anomalies d'extraction</p>
+<h4 class="text-3xl font-bold text-primary">3</h4>
+</div>
+</div>
+<!-- Tableau des documents -->
+<div class="bg-surface-lowest rounded-xl border border-border-light shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-light flex items-center justify-between bg-surface-subtle">
+<div class="flex gap-4">
+<button class="font-button-text text-button-text text-primary border-b-2 border-primary pb-1">Tous les documents</button>
+<button class="font-button-text text-button-text text-on-surface-variant hover:text-primary transition-colors pb-1">Factures</button>
+<button class="font-button-text text-button-text text-on-surface-variant hover:text-primary transition-colors pb-1">Reçus</button>
+<button class="font-button-text text-button-text text-on-surface-variant hover:text-primary transition-colors pb-1">Relevés</button>
+</div>
+<div class="text-body-sm text-on-surface-variant">
+                    Affichage 1-10 de 1 284 documents
+                </div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low border-b border-border-light">
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">
+<div class="flex items-center gap-1 cursor-pointer">DATE <span class="material-symbols-outlined text-[14px]" data-icon="expand_more">expand_more</span></div>
+</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">FOURNISSEUR</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">TYPE DE DOC.</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant text-right">MONTANT</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">STATUT</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant text-center">ACTIONS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-body-md text-on-surface">24 oct. 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center font-bold text-primary text-xs">AM</div>
+<span class="font-button-text text-button-text text-primary">Amazon Web Services</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-body-md">Facture #INV-9921</td>
+<td class="px-6 py-4 text-right font-label-md font-bold text-primary">1 240,50 $</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container/20 text-secondary border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
+                                    Traité
+                                </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-body-md text-on-surface">24 oct. 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center font-bold text-primary text-xs">SL</div>
+<span class="font-button-text text-button-text text-primary">Slack Technologies</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-body-md">Frais d'abonnement</td>
+<td class="px-6 py-4 text-right font-label-md font-bold text-primary">450,00 $</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container/20 text-secondary border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
+                                    Traité
+                                </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-body-md text-on-surface">23 oct. 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center font-bold text-primary text-xs">AD</div>
+<span class="font-button-text text-button-text text-primary">Adobe Creative Cloud</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-body-md">Facture #67721</td>
+<td class="px-6 py-4 text-right font-label-md font-bold text-primary">52,99 $</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-container text-muted-periwinkle border border-primary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-muted-periwinkle mr-1.5"></span>
+                                    En attente
+                                </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-body-md text-on-surface">23 oct. 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center font-bold text-primary text-xs">ST</div>
+<span class="font-button-text text-button-text text-primary">Stripe Terminal</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-body-md">Commande matériel</td>
+<td class="px-6 py-4 text-right font-label-md font-bold text-primary">3 420,00 $</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-container text-error border border-error/20">
+<span class="w-1.5 h-1.5 rounded-full bg-error mr-1.5"></span>
+                                    Révision
+                                </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-body-md text-on-surface">22 oct. 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center font-bold text-primary text-xs">GO</div>
+<span class="font-button-text text-button-text text-primary">Google Workspace</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface-variant text-body-md">Facturation mensuelle</td>
+<td class="px-6 py-4 text-right font-label-md font-bold text-primary">840,00 $</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-container/20 text-secondary border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
+                                    Traité
+                                </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-border-light bg-surface-subtle flex items-center justify-between">
+<button class="text-body-sm font-medium text-on-surface-variant hover:text-primary flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                    Précédent
+                </button>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded bg-primary text-on-primary text-xs font-bold">1</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-medium">2</button>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-medium">3</button>
+<span class="px-1 text-on-surface-variant">...</span>
+<button class="w-8 h-8 rounded hover:bg-surface-container text-xs font-medium">12</button>
+</div>
+<button class="text-body-sm font-medium text-on-surface-variant hover:text-primary flex items-center gap-1 transition-colors">
+                    Suivant
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+
+<!-- Section Historiques (ex Documents) -->
+<section class="content-section space-y-gutter" id="documents">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Mes historiques</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Gérez vos justificatifs et factures financières.</p>
+</div>
+<div class="flex space-x-3">
+<button class="bg-electric-green text-deep-navy px-4 py-2 rounded-lg font-button-text text-button-text flex items-center">
+<span class="material-symbols-outlined mr-2" data-icon="upload">upload</span>
+                            Nouveau dépôt
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-surface-container-lowest border border-border-light p-6 rounded-xl">
+<p class="text-body-sm font-label-md text-on-surface-variant uppercase">En attente</p>
+<h3 class="text-headline-lg font-bold mt-2">12</h3>
+</div>
+<div class="bg-surface-container-lowest border border-border-light p-6 rounded-xl">
+<p class="text-body-sm font-label-md text-on-surface-variant uppercase">Vérifiés</p>
+<h3 class="text-headline-lg font-bold mt-2 text-secondary">842</h3>
+</div>
+<div class="bg-surface-container-lowest border border-border-light p-6 rounded-xl">
+<p class="text-body-sm font-label-md text-on-surface-variant uppercase">Anomalies</p>
+<h3 class="text-headline-lg font-bold mt-2 text-error">3</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-light rounded-xl overflow-hidden">
+<div class="p-4 border-b border-border-light flex justify-between items-center bg-surface-subtle">
+<div class="flex items-center space-x-4">
+<button class="text-body-md font-bold border-b-2 border-deep-navy px-2 pb-1">Tous les documents</button>
+<button class="text-body-md text-on-surface-variant px-2 pb-1">Non traités</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-subtle border-b border-border-light">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md">Nom du document</th>
+<th class="px-6 py-4 font-label-md text-label-md">Date</th>
+<th class="px-6 py-4 font-label-md text-label-md">Marchand</th>
+<th class="px-6 py-4 font-label-md text-label-md">Montant</th>
+<th class="px-6 py-4 font-label-md text-label-md">Statut</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-medium">AWS_Invoice_Oct.pdf</td>
+<td class="px-6 py-4 text-on-surface-variant">24 oct. 2023</td>
+<td class="px-6 py-4">Amazon Web Services</td>
+<td class="px-6 py-4 font-bold">12 450,00 $</td>
+<td class="px-6 py-4"><span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-[10px] font-bold">VÉRIFIÉ</span></td>
+<td class="px-6 py-4 text-right"><button class="material-symbols-outlined text-on-surface-variant">more_vert</button></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-medium">Dinner_Receipt.jpg</td>
+<td class="px-6 py-4 text-on-surface-variant">23 oct. 2023</td>
+<td class="px-6 py-4">The Capital Grille</td>
+<td class="px-6 py-4 font-bold">482,12 $</td>
+<td class="px-6 py-4"><span class="px-2 py-1 bg-surface-variant text-on-surface-variant rounded text-[10px] font-bold">EN ATTENTE</span></td>
+<td class="px-6 py-4 text-right"><button class="material-symbols-outlined text-on-surface-variant">more_vert</button></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-medium">SaaS_License_Renewal.pdf</td>
+<td class="px-6 py-4 text-on-surface-variant">22 oct. 2023</td>
+<td class="px-6 py-4">Figma Inc.</td>
+<td class="px-6 py-4 font-bold">3 200,00 $</td>
+<td class="px-6 py-4"><span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded text-[10px] font-bold">VÉRIFIÉ</span></td>
+<td class="px-6 py-4 text-right"><button class="material-symbols-outlined text-on-surface-variant">more_vert</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- Section Paramètres -->
+<section class="content-section space-y-gutter" id="settings">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Paramètres</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Gérez votre profil et les préférences de sécurité.</p>
+</div>
+</div>
+<div class="max-w-3xl bg-surface-container-lowest border border-border-light rounded-xl overflow-hidden">
+<div class="p-6 border-b border-border-light">
+<h3 class="font-headline-md mb-4">Profil de l'organisation</h3>
+<div class="space-y-6">
+<div class="flex items-center space-x-6 pb-6 border-b border-border-light">
+<img alt="Logo organisation" class="w-16 h-16 rounded-xl border border-border-light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+<div>
+<button class="bg-deep-navy text-on-primary px-4 py-2 rounded-lg font-button-text text-button-text mr-2">Changer le logo</button>
+<button class="text-error font-button-text text-button-text">Supprimer</button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-label-md mb-2">Nom de l'entreprise</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-3 focus:ring-2 focus:ring-deep-navy" type="text" value="Sterling &amp; Associés"/>
+</div>
+<div>
+<label class="block text-sm font-label-md mb-2">Devise</label>
+<select class="w-full bg-surface-container border-none rounded-lg p-3 focus:ring-2 focus:ring-deep-navy">
+<option>USD - Dollar américain</option>
+<option>EUR - Euro</option>
+</select>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-label-md mb-2">Email de facturation</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-3 focus:ring-2 focus:ring-deep-navy" type="email" value="facturation@sterling-assoc.com"/>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md mb-4">Sécurité</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-subtle border border-border-light rounded-lg">
+<div>
+<p class="font-bold">Authentification à deux facteurs</p>
+<p class="text-sm text-on-surface-variant">Obligatoire pour tous les comptes administrateur</p>
+</div>
+<div class="w-12 h-6 bg-electric-green rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-deep-navy rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-subtle border border-border-light rounded-lg">
+<div>
+<p class="font-bold">Intégration SSO</p>
+<p class="text-sm text-on-surface-variant">Connecté via Okta</p>
+</div>
+<button class="text-deep-navy font-button-text text-button-text border-b border-deep-navy">Configurer</button>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-subtle border-t border-border-light text-right">
+<button class="bg-deep-navy text-on-primary px-8 py-3 rounded-lg font-button-text text-button-text hover:opacity-90 transition-opacity">Enregistrer les modifications</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Bouton flottant d'action -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-electric-green text-deep-navy rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-50 group">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+<script>
+    // Logique de navigation SPA (mise à jour pour les sections restantes)
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.content-section');
+    const pageTitle = document.getElementById('page-title');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetSection = link.getAttribute('data-section');
+            
+            // Mise à jour de l'élément actif
+            navLinks.forEach(l => {
+                l.classList.remove('nav-active');
+                l.classList.add('text-muted-periwinkle');
+                l.classList.remove('text-on-primary', 'bg-primary-container');
+            });
+            link.classList.add('nav-active');
+            link.classList.remove('text-muted-periwinkle');
+
+            // Mise à jour de la visibilité des sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === targetSection) {
+                    section.classList.add('active');
+                }
+            });
+
+            // Mise à jour du titre de page
+            const sectionNames = {
+                'dashboard': 'Centre de documents',
+                'documents': 'Dépôt d\'historiques',
+                'settings': 'Paramètres de la plateforme'
+            };
+            pageTitle.innerText = sectionNames[targetSection] || 'FinIntel';
+        });
+    });
+
+    // Interactions décoratives
+    document.querySelectorAll('.bento-grid > div, .bg-surface-container-lowest').forEach(card => {
+        if (card.classList.contains('p-6') || card.classList.contains('p-8')) {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+            card.style.transition = 'transform 0.2s ease-out, border-color 0.2s ease-out';
+        }
+    });
+
+    // Interaction focus sur la recherche
+    const searchInput = document.querySelector('input[type="text"]');
+    if (searchInput) {
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('w-80');
+            searchInput.parentElement.classList.remove('w-64');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.add('w-64');
+            searchInput.parentElement.classList.remove('w-80');
+        });
+    }
+
+    // Micro-interaction pour les lignes du tableau du tableau de bord
+    const dashboardRows = document.querySelectorAll('#dashboard tbody tr');
+    dashboardRows.forEach(row => {
+        row.addEventListener('click', () => {
+            console.log('Ouverture des détails du document...');
+            alert('Détails du document (démonstration)');
+        });
+    });
+</script>
+</body>
+</html>
