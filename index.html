@@ -1,181 +1,149 @@
 <!DOCTYPE html>
-<html class="light" lang="fr">
+<html class="dark" lang="fr">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Connexion | nosregistre</title>
+<title>Connexion | Registre+</title>
+<!-- Tailwind CSS v3 -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                "surface-container-highest": "#e2e2e2",
-                "on-tertiary-fixed": "#071450",
-                "surface-tint": "#575c7e",
-                "tertiary-fixed-dim": "#bac3ff",
-                "on-surface-variant": "#46464e",
-                "on-primary-fixed": "#141937",
-                "on-tertiary-container": "#7782c2",
-                "error": "#ba1a1a",
-                "on-primary-container": "#7f84a8",
-                "teal-accent": "#01655E",
-                "surface-container-high": "#e8e8e8",
-                "on-background": "#1a1c1c",
-                "tertiary": "#000321",
-                "on-secondary": "#ffffff",
-                "on-secondary-fixed-variant": "#00531e",
-                "primary-fixed": "#dee0ff",
-                "border-light": "#E2E5F1",
-                "muted-periwinkle": "#9BA6E8",
-                "tertiary-fixed": "#dee0ff",
-                "surface": "#f9f9f9",
-                "surface-container-low": "#f3f3f4",
-                "secondary-fixed-dim": "#00e562",
-                "electric-green": "#00FA6C",
-                "surface-subtle": "#F8F9FD",
-                "outline-variant": "#c7c5ce",
-                "surface-bright": "#f9f9f9",
-                "surface-dim": "#dadada",
-                "primary": "#000220",
-                "on-surface": "#1a1c1c",
-                "background": "#f9f9f9",
-                "deep-navy": "#171C3A",
-                "on-tertiary-fixed-variant": "#37427d",
-                "on-primary": "#ffffff",
-                "inverse-primary": "#c0c4eb",
-                "on-secondary-container": "#00702c",
-                "tertiary-container": "#0b1853",
-                "primary-fixed-dim": "#c0c4eb",
-                "on-primary-fixed-variant": "#404565",
-                "on-secondary-fixed": "#002108",
-                "surface-variant": "#e2e2e2",
-                "inverse-on-surface": "#f0f1f1",
-                "on-error": "#ffffff",
-                "on-tertiary": "#ffffff",
-                "secondary": "#006e2b",
-                "secondary-fixed": "#69ff88",
-                "outline": "#77767e",
-                "surface-container-lowest": "#ffffff",
-                "error-container": "#ffdad6",
-                "primary-container": "#171c3a",
-                "inverse-surface": "#2f3131",
-                "surface-container": "#eeeeee",
-                "on-error-container": "#93000a",
-                "secondary-container": "#14fe6f"
-            },
-            "borderRadius": {
-                "DEFAULT": "0.125rem",
-                "lg": "0.25rem",
-                "xl": "0.5rem",
-                "full": "0.75rem"
-            },
-            "spacing": {
-                "unit": "4px",
-                "margin-mobile": "16px",
-                "gutter": "24px",
-                "margin-desktop": "32px",
-                "container-max": "1440px"
-            },
-            "fontFamily": {
-                "headline-lg-mobile": ["Hanken Grotesk"],
-                "body-sm": ["Inter"],
-                "button-text": ["Hanken Grotesk"],
-                "body-md": ["Inter"],
-                "headline-md": ["Hanken Grotesk"],
-                "label-md": ["JetBrains Mono"],
-                "body-lg": ["Inter"],
-                "headline-lg": ["Hanken Grotesk"]
-            },
-            "fontSize": {
-                "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-                "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
-                "button-text": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
-                "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
-                "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-                "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
-                "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
-            }
+<!-- Google Fonts: Hanken Grotesk (uniquement) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#00fa6c',
+            'surface': '#111410',
+            'surface-dim': '#0b0f0b',
+            'surface-container': '#191d18',
+            'on-surface': '#e2e3dd',
+            'on-surface-variant': '#c2c9bd',
           },
-        },
+          fontFamily: {
+            sans: ['Hanken Grotesk', 'sans-serif'],
+          },
+          maxWidth: {
+            'container-max': '1280px',
+          },
+          spacing: {
+            'margin-desktop': '5%',
+          },
+          gap: {
+            'gutter': '24px',
+          }
+        }
       }
-    </script>
+    }
+  </script>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #171c3a 0%, #013e38 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .auth-card {
-            background-color: rgba(23, 28, 58, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(226, 229, 241, 0.1);
-        }
-
-        .custom-input:focus {
-            border-color: #00FA6C;
-            box-shadow: 0 0 0 1px #00FA6C;
-        }
-
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-    </style>
+    body {
+      background-color: #111410;
+      color: #e2e3dd;
+      font-family: 'Hanken Grotesk', sans-serif;
+    }
+    .glow-text {
+      text-shadow: 0 0 20px rgba(0, 250, 108, 0.4);
+    }
+    .hero-gradient {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 250, 108, 0.08) 0%, rgba(17, 20, 16, 1) 70%);
+    }
+    .glass-card {
+      background: rgba(25, 29, 24, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .custom-input {
+      background-color: transparent !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    .custom-input:focus {
+      border-color: #00fa6c;
+      box-shadow: 0 0 0 1px #00fa6c;
+      outline: none;
+      background-color: transparent !important;
+    }
+    .custom-input:hover {
+      border-color: rgba(0, 250, 108, 0.5);
+    }
+    /* Forcer la transparence sur l'autofill des navigateurs */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #111410 inset !important;
+      -webkit-text-fill-color: #e2e3dd !important;
+      caret-color: #e2e3dd;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+    ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+  </style>
 </head>
-<body class="font-body-md text-on-surface antialiased overflow-x-hidden">
-<!-- Barre de navigation supérieure : vide -->
-<header class="flex justify-center items-center w-full py-8 px-4 bg-transparent fixed top-0 z-50"></header>
-<!-- Zone de contenu principale -->
-<main class="flex-grow flex items-center justify-center px-margin-mobile md:px-margin-desktop py-20 mt-10">
-<div class="w-full max-w-[480px] auth-card rounded-xl p-8 md:p-12 transition-all duration-500 hover:shadow-2xl">
-<h1 class="font-headline-lg text-headline-lg text-on-primary text-center mb-10">Connexion</h1>
+<body class="antialiased min-h-screen flex flex-col">
+<!-- Barre de navigation (identique à la landing page) -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto w-full">
+<div class="flex items-center gap-8">
+<a class="text-2xl font-extrabold text-white tracking-tight" href="#">Registre+</a>
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Accueil</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Fonctionnalités</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Tarifs</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-sm font-semibold text-white px-4 py-2 hover:opacity-80">Connexion</button>
+<button class="bg-primary text-black font-bold text-sm px-6 py-2.5 rounded hover:scale-105 active:scale-95 transition-all">Essai gratuit</button>
+</div>
+</div>
+</nav>
+<!-- Zone de connexion (centrée, avec carte glassmorphism) -->
+<main class="flex-grow flex items-center justify-center pt-32 pb-20 px-4">
+<div class="w-full max-w-md">
+<div class="glass-card rounded-2xl p-8 md:p-10 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,250,108,0.1)]">
+<div class="text-center mb-8">
+<h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Connexion</h1>
+<p class="text-on-surface-variant text-sm">Accédez à votre espace d’accueil numérique</p>
+</div>
 <form action="#" class="space-y-6" id="loginForm" method="POST">
-<!-- Champ Email professionnel -->
+<!-- Email -->
 <div class="space-y-2">
-<label class="font-body-sm text-body-sm text-muted-periwinkle block" for="email">Email professionnel</label>
-<div class="relative group">
-<input class="w-full bg-transparent border border-white/20 rounded-full py-4 px-6 text-on-primary placeholder:text-white/30 focus:outline-none focus:border-electric-green transition-all custom-input" id="email" name="email" placeholder="vous@entreprise.com" type="email"/>
-<span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-electric-green transition-colors">mail</span>
+<label class="block text-sm font-medium text-on-surface-variant" for="email">Email professionnel</label>
+<div class="relative">
+<input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="email" name="email" placeholder="vous@entreprise.com" type="email"/>
 </div>
 </div>
-<!-- Champ Mot de passe -->
+<!-- Mot de passe -->
 <div class="space-y-2">
-<label class="font-body-sm text-body-sm text-muted-periwinkle block" for="password">Mot de passe</label>
-<div class="relative group">
-<input class="w-full bg-transparent border border-white/20 rounded-full py-4 px-6 text-on-primary placeholder:text-white/30 focus:outline-none focus:border-electric-green transition-all custom-input" id="password" name="password" placeholder="Entrez votre mot de passe" type="password"/>
-<button class="absolute right-6 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors" onclick="togglePassword()" type="button">
-<span class="material-symbols-outlined" id="eyeIcon">visibility</span>
+<div class="flex justify-between items-center">
+<label class="block text-sm font-medium text-on-surface-variant" for="password">Mot de passe</label>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Mot de passe oublié ?</a>
+</div>
+<div class="relative">
+<input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="password" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-white transition-colors" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined text-xl" id="eyeIcon">visibility</span>
 </button>
 </div>
 </div>
-<!-- Lien Mot de passe oublié -->
-<div class="flex justify-end">
-<a class="font-body-sm text-body-sm text-muted-periwinkle hover:text-electric-green transition-colors" href="#">Mot de passe oublié ?</a>
-</div>
 <!-- Bouton de connexion -->
-<button class="w-full bg-electric-green text-primary font-button-text text-button-text py-4 rounded-full transition-all active:scale-95 hover:brightness-110 shadow-lg shadow-electric-green/20" type="submit">SE CONNECTER</button>
+<button class="w-full bg-primary text-black font-bold text-base py-3.5 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20" type="submit">SE CONNECTER</button>
 </form>
 <!-- Séparateur -->
-<div class="relative my-10">
-<div aria-hidden="true" class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/10"></div></div>
-<div class="relative flex justify-center text-xs"><span class="bg-transparent px-2 font-label-md text-label-md text-white/40">OU</span></div>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/10"></div></div>
+<div class="relative flex justify-center text-xs"><span class="bg-transparent px-2 text-on-surface-variant">OU</span></div>
 </div>
-<!-- Bouton Se connecter avec Google (remplace le spinner) -->
-<button class="w-full border border-white/20 text-on-primary font-button-text text-button-text py-4 rounded-full hover:bg-white/5 transition-all flex items-center justify-center gap-3" type="button" id="googleLoginBtn">
-<!-- Icône Google officielle (couleurs) -->
+<!-- Bouton Google -->
+<button class="w-full flex items-center justify-center gap-3 border border-white/10 hover:border-primary/50 text-white font-medium text-sm py-3.5 rounded-xl hover:bg-white/5 transition-all" type="button" id="googleLoginBtn">
 <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -186,39 +154,54 @@
 </button>
 <!-- Lien d'inscription -->
 <div class="text-center mt-8">
-<p class="font-body-sm text-body-sm text-muted-periwinkle">Vous n'avez pas de compte ? <a class="text-muted-periwinkle hover:text-electric-green transition-colors font-semibold ml-1" href="#">S'inscrire</a></p>
+<p class="text-sm text-on-surface-variant">Vous n'avez pas de compte ? <a class="text-primary font-semibold hover:underline ml-1" href="#">S'inscrire</a></p>
 </div>
+</div>
+<!-- Note de sécurité (optionnelle) -->
+<p class="text-center text-xs text-on-surface-variant/50 mt-6">Conforme RGPD – Données hébergées en France</p>
 </div>
 </main>
-<!-- Pied de page vide -->
-<footer class="fixed bottom-0 left-0 w-full flex flex-col md:flex-row justify-center items-center gap-4 py-6 px-4 bg-transparent"></footer>
+<!-- Pied de page simplifié (comme la landing page) -->
+<footer class="border-t border-white/5 py-8 mt-auto">
+<div class="max-w-container-max mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-on-surface-variant text-xs">© 2024 Registre+, Inc. Tous droits réservés.</p>
+<div class="flex gap-6 text-xs text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-primary transition-colors" href="#">Conditions</a>
+<a class="hover:text-primary transition-colors" href="#">Sécurité</a>
+</div>
+</div>
+</footer>
+
+<!-- Icônes Material Symbols (nécessaires pour l'œil) -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeIcon = document.getElementById('eyeIcon');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.textContent = 'visibility_off';
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.textContent = 'visibility';
-            }
-        }
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      const eye = document.getElementById('eyeIcon');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        eye.textContent = 'visibility_off';
+      } else {
+        pwd.type = 'password';
+        eye.textContent = 'visibility';
+      }
+    }
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = this.querySelector('button[type="submit"]');
-            const originalText = btn.textContent;
-            btn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> CONNEXION EN COURS...</span>';
-            setTimeout(() => {
-                btn.textContent = originalText;
-                alert('La logique de connexion se déclencherait ici.');
-            }, 1500);
-        });
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+      btn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> CONNEXION EN COURS...</span>';
+      setTimeout(() => {
+        btn.textContent = original;
+        alert('Démonstration : connexion simulée.');
+      }, 1500);
+    });
 
-        document.getElementById('googleLoginBtn').addEventListener('click', function() {
-            alert('Connexion avec Google (simulation)');
-        });
-    </script>
+    document.getElementById('googleLoginBtn').addEventListener('click', function() {
+      alert('Connexion avec Google (simulation)');
+    });
+  </script>
 </body>
 </html>
