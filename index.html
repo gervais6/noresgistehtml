@@ -4,12 +4,16 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Connexion | Registre+</title>
+<!-- Favicon (logo dans l'onglet) -->
+<link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
 <!-- Tailwind CSS v3 -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Google Fonts: Hanken Grotesk (uniquement) -->
+<!-- Google Fonts: Hanken Grotesk -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script>
     tailwind.config = {
       darkMode: 'class',
@@ -40,6 +44,8 @@
     }
   </script>
 <style>
+    /* Styles globaux */
+    * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
     body {
       background-color: #111410;
       color: #e2e3dd;
@@ -70,7 +76,6 @@
     .custom-input:hover {
       border-color: rgba(0, 250, 108, 0.5);
     }
-    /* Forcer la transparence sur l'autofill des navigateurs */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
@@ -80,6 +85,72 @@
       caret-color: #e2e3dd;
       transition: background-color 5000s ease-in-out 0s;
     }
+    /* Mode clair */
+    html.light body {
+      background-color: #f9f9f9;
+      color: #1a1c1c;
+    }
+    html.light .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #e2e5f1;
+      backdrop-filter: blur(12px);
+    }
+    html.light .custom-input {
+      background-color: #ffffff !important;
+      border-color: #e2e5f1;
+      color: #1a1c1c;
+    }
+    html.light .custom-input:focus {
+      border-color: #00fa6c;
+      box-shadow: 0 0 0 1px #00fa6c;
+    }
+    html.light .custom-input::placeholder {
+      color: #9ca3af;
+    }
+    html.light .custom-input:hover {
+      border-color: rgba(0, 250, 108, 0.5);
+    }
+    html.light input:-webkit-autofill,
+    html.light input:-webkit-autofill:hover,
+    html.light input:-webkit-autofill:focus,
+    html.light input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+      -webkit-text-fill-color: #1a1c1c !important;
+    }
+    html.light .border-white\/10 {
+      border-color: #e2e5f1;
+    }
+    html.light .border-white\/5 {
+      border-color: #e2e5f1;
+    }
+    html.light .text-on-surface-variant {
+      color: #46464e;
+    }
+    html.light .text-white {
+      color: #1a1c1c;
+    }
+    html.light .bg-surface\/80 {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    html.light .hover\:bg-white\/5:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    html.light .material-symbols-outlined {
+      color: #4b5563;
+    }
+    html.light .glass-card .material-symbols-outlined {
+      color: #6b7280;
+    }
+    html.light button .material-symbols-outlined {
+      color: currentColor;
+    }
+    html.light .shadow-lg.shadow-primary\/20 {
+      box-shadow: 0 10px 15px -3px rgba(0, 250, 108, 0.1), 0 4px 6px -2px rgba(0, 250, 108, 0.05);
+    }
+    /* Ajustement logo mode clair (filtre inversé si logo sombre) */
+    html.light .logo-theme {
+      filter: invert(1);
+    }
     ::-webkit-scrollbar {
       width: 0px;
       background: transparent;
@@ -87,25 +158,22 @@
   </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
-<!-- Barre de navigation (identique à la landing page) -->
+<!-- Barre de navigation avec logo réduit (h-3) et bouton thème -->
 <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
 <div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto w-full">
 <div class="flex items-center gap-8">
-<a class="text-2xl font-extrabold text-white tracking-tight" href="#">Registre+</a>
-<div class="hidden lg:flex items-center gap-6">
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Accueil</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Fonctionnalités</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Tarifs</a>
-<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
-</div>
+<a class="flex items-center" href="#">
+<img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/>
+</a>
 </div>
 <div class="flex items-center gap-4">
-<button class="text-sm font-semibold text-white px-4 py-2 hover:opacity-80">Connexion</button>
-<button class="bg-primary text-black font-bold text-sm px-6 py-2.5 rounded hover:scale-105 active:scale-95 transition-all">Essai gratuit</button>
+<button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span>
+</button>
 </div>
 </div>
 </nav>
-<!-- Zone de connexion (centrée, avec carte glassmorphism) -->
+<!-- Zone de connexion -->
 <main class="flex-grow flex items-center justify-center pt-32 pb-20 px-4">
 <div class="w-full max-w-md">
 <div class="glass-card rounded-2xl p-8 md:p-10 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,250,108,0.1)]">
@@ -134,15 +202,12 @@
 </button>
 </div>
 </div>
-<!-- Bouton de connexion -->
 <button class="w-full bg-primary text-black font-bold text-base py-3.5 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20" type="submit">SE CONNECTER</button>
 </form>
-<!-- Séparateur -->
 <div class="relative my-8">
 <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/10"></div></div>
 <div class="relative flex justify-center text-xs"><span class="bg-transparent px-2 text-on-surface-variant">OU</span></div>
 </div>
-<!-- Bouton Google -->
 <button class="w-full flex items-center justify-center gap-3 border border-white/10 hover:border-primary/50 text-white font-medium text-sm py-3.5 rounded-xl hover:bg-white/5 transition-all" type="button" id="googleLoginBtn">
 <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -152,19 +217,20 @@
 </svg>
 <span>Se connecter avec Google</span>
 </button>
-<!-- Lien d'inscription -->
 <div class="text-center mt-8">
 <p class="text-sm text-on-surface-variant">Vous n'avez pas de compte ? <a class="text-primary font-semibold hover:underline ml-1" href="#">S'inscrire</a></p>
 </div>
 </div>
-<!-- Note de sécurité (optionnelle) -->
 <p class="text-center text-xs text-on-surface-variant/50 mt-6">Conforme RGPD – Données hébergées en France</p>
 </div>
 </main>
-<!-- Pied de page simplifié (comme la landing page) -->
+<!-- Pied de page avec logo réduit (h-3) -->
 <footer class="border-t border-white/5 py-8 mt-auto">
 <div class="max-w-container-max mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-3">
+<img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/>
 <p class="text-on-surface-variant text-xs">© 2024 Registre+, Inc. Tous droits réservés.</p>
+</div>
 <div class="flex gap-6 text-xs text-on-surface-variant">
 <a class="hover:text-primary transition-colors" href="#">Confidentialité</a>
 <a class="hover:text-primary transition-colors" href="#">Conditions</a>
@@ -173,9 +239,8 @@
 </div>
 </footer>
 
-<!-- Icônes Material Symbols (nécessaires pour l'œil) -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script>
+    // Fonction pour afficher/masquer le mot de passe
     function togglePassword() {
       const pwd = document.getElementById('password');
       const eye = document.getElementById('eyeIcon');
@@ -188,6 +253,39 @@
       }
     }
 
+    // Gestion du thème clair/sombre
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+    
+    // Charger le thème sauvegardé
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      html.classList.remove('dark');
+      html.classList.add('light');
+      themeIcon.textContent = 'light_mode';
+    } else {
+      html.classList.remove('light');
+      html.classList.add('dark');
+      themeIcon.textContent = 'dark_mode';
+    }
+    
+    // Basculer au clic
+    themeToggle.addEventListener('click', () => {
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        localStorage.setItem('theme', 'light');
+        themeIcon.textContent = 'light_mode';
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.textContent = 'dark_mode';
+      }
+    });
+
+    // Simulation de connexion
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const btn = this.querySelector('button[type="submit"]');
@@ -195,7 +293,7 @@
       btn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> CONNEXION EN COURS...</span>';
       setTimeout(() => {
         btn.textContent = original;
-        alert('Démonstration : connexion simulée.');
+        alert('Démonstration : connexion simulée. Redirection vers le tableau de bord.');
       }, 1500);
     });
 

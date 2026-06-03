@@ -1,15 +1,20 @@
+
 <!DOCTYPE html>
 <html class="dark" lang="fr">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Registre+ | Accueil numérique sans papier – Scan de pièces d'identité</title>
-<!-- Tailwind CSS v3 with Plugins -->
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
+<!-- Tailwind CSS v3 -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Google Fonts: Hanken Grotesk -->
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script>
     tailwind.config = {
       darkMode: 'class',
@@ -23,51 +28,169 @@
             'on-surface': '#e2e3dd',
             'on-surface-variant': '#c2c9bd',
           },
-          fontFamily: {
-            sans: ['Hanken Grotesk', 'sans-serif'],
-          },
-          maxWidth: {
-            'container-max': '1280px',
-          },
-          padding: {
-            'margin-desktop': '5%',
-          },
-          gap: {
-            'gutter': '24px',
-          }
+          fontFamily: { sans: ['Hanken Grotesk', 'sans-serif'] },
+          maxWidth: { 'container-max': '1280px' },
+          padding: { 'margin-desktop': '5%' },
+          gap: { 'gutter': '24px' }
         }
       }
     }
   </script>
-<style data-purpose="custom-layout">
+<style>
+    /* TRANSITIONS GLOBALES */
+    * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
     body {
       background-color: #111410;
       color: #e2e3dd;
       font-family: 'Hanken Grotesk', sans-serif;
     }
-    .glow-text {
-      text-shadow: 0 0 20px rgba(0, 250, 108, 0.4);
-    }
+    .glow-text { text-shadow: 0 0 20px rgba(0, 250, 108, 0.4); }
     .hero-gradient {
       background: radial-gradient(circle at 50% 50%, rgba(0, 250, 108, 0.08) 0%, rgba(17, 20, 16, 1) 70%);
     }
     .card-gradient {
       background: linear-gradient(180deg, rgba(25, 29, 24, 1) 0%, rgba(17, 20, 16, 1) 100%);
     }
-    .nav-blur {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+    .nav-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background-color: #00fa6c;
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.7s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    
+    /* ========= MODE CLAIR ========= */
+    html.light body {
+      background-color: #f9f9f9;
+      color: #1a1c1c;
+    }
+    html.light .hero-gradient {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 250, 108, 0.08) 0%, #f9f9f9 100%);
+    }
+    html.light .card-gradient {
+      background: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%);
+    }
+    html.light .bg-surface\/80 { background-color: rgba(255, 255, 255, 0.8); }
+    html.light .bg-surface-dim { background-color: #f3f4f6; }
+    html.light .bg-surface-container { background-color: #ffffff; }
+    html.light .border-white\/5, html.light .border-white\/10, html.light .border-white\/20 {
+      border-color: #e2e5f1;
+    }
+    html.light .text-on-surface-variant { color: #46464e; }
+    html.light .bg-primary\/10 { background-color: rgba(0, 250, 108, 0.1); }
+    html.light .bg-primary\/20 { background-color: rgba(0, 250, 108, 0.2); }
+    html.light .bg-black\/40 { background-color: #f3f4f6; }
+    html.light .bg-white\/5 { background-color: rgba(0, 0, 0, 0.05); }
+    html.light .hover\:bg-white\/5:hover { background-color: rgba(0, 0, 0, 0.05); }
+    html.light .material-symbols-outlined { color: #4b5563; }
+    html.light button .material-symbols-outlined { color: currentColor; }
+    html.light .text-primary { color: #00a856; }
+    html.light .bg-primary { background-color: #00a856; }
+    html.light .glow-text { text-shadow: 0 0 20px rgba(0, 168, 86, 0.3); }
+    html.light .typewriter-cursor { background-color: #00a856; }
+    /* Adaptation du logo pour la barre de navigation (uniquement) */
+    html.light .logo-theme {
+      filter: invert(1);
+    }
+    
+    /* Titre "Pourquoi" : toujours blanc */
+    .why-title {
+      color: #ffffff !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    /* Logo dans le titre : taille réduite, aucune modification de couleur */
+    .why-logo {
+      height: 1.8rem;
+      width: auto;
+      vertical-align: middle;
+    }
+    /* Cartes "Pourquoi" : fond noir constant, texte blanc */
+    .why-card {
+      background-color: #000000 !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+    .why-card:hover {
+      background-color: #0a0a0a !important;
+      transform: translateY(-2px);
+    }
+    .why-card h3, .why-card p, .why-card .text-on-surface-variant {
+      color: #ffffff !important;
+    }
+    .why-card .bg-primary\/10, .why-card .border-primary\/20 {
+      background-color: rgba(0, 250, 108, 0.15) !important;
+      border-color: rgba(0, 250, 108, 0.3) !important;
+    }
+    .why-icon-img {
+      width: 3rem;
+      height: 3rem;
+      object-fit: contain;
+    }
+    html.light .why-card {
+      background-color: #000000 !important;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    html.light .why-card h3, html.light .why-card p, html.light .why-card .text-on-surface-variant {
+      color: #ffffff !important;
+    }
+    
+    /* Titre "Transformez votre secteur" toujours blanc */
+    .transform-title {
+      color: #ffffff !important;
+    }
+    /* Cartes secteurs : toujours fond noir, texte blanc */
+    .sector-card {
+      background-color: #000000 !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+    .sector-card:hover {
+      background-color: #0a0a0a !important;
+      transform: translateY(-2px);
+    }
+    .sector-card h3, .sector-card p, .sector-card a {
+      color: #ffffff !important;
+    }
+    .sector-card a:hover {
+      color: #00fa6c !important;
+    }
+    /* Images dans les cartes secteurs */
+    .sector-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+    .sector-card:hover .sector-img {
+      opacity: 1;
+    }
+    html.light .sector-card {
+      background-color: #000000 !important;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    html.light .sector-card h3, html.light .sector-card p, html.light .sector-card a {
+      color: #ffffff !important;
     }
   </style>
 </head>
 <body class="antialiased">
-<!-- Barre de navigation -->
+<!-- Barre de navigation avec bouton thème -->
 <nav class="fixed top-0 w-full z-50 bg-surface/80 nav-blur border-b border-white/5 transition-all duration-300">
 <div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto w-full">
 <div class="flex items-center gap-8">
-<!-- Logo image remplaçant le texte Registre+ -->
 <a class="flex items-center" href="/">
-<img alt="Registre+" class="h-5 w-auto" src="images/noregis.svg"/>
+<img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/>
 </a>
 <div class="hidden lg:flex items-center gap-6">
 <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Solutions</a>
@@ -79,16 +202,20 @@
 </div>
 </div>
 <div class="flex items-center gap-4">
-<button class="text-sm font-semibold text-white px-4 py-2 hover:opacity-80">Connexion</button>
+<button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span>
+</button>
+<button class="text-sm font-semibold text-white hover:opacity-80 transition-colors">Connexion</button>
 <button class="bg-primary text-black font-bold text-sm px-6 py-2.5 rounded hover:scale-105 active:scale-95 transition-all">S'inscrire</button>
 </div>
 </div>
 </nav>
+
 <main>
-<!-- Section Héro -->
+<!-- HERO -->
 <section class="relative pt-32 pb-20 hero-gradient overflow-hidden min-h-screen flex flex-col items-center justify-center">
 <div class="max-w-4xl mx-auto px-margin-desktop text-center">
-<h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-gray-900 dark:text-white">
           Enregistrement numérique des visiteurs — <span class="text-primary glow-text">sans papier</span>, en quelques secondes
         </h1>
 <p class="text-on-surface-variant text-lg md:text-xl mb-10 max-w-2xl mx-auto">
@@ -96,280 +223,172 @@
         </p>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
 <button class="w-full sm:w-auto bg-primary text-black font-bold px-8 py-4 rounded hover:shadow-[0_0_20px_rgba(0,250,108,0.3)] transition-all">S'inscrire</button>
-<button class="w-full sm:w-auto border border-white/20 text-white font-bold px-8 py-4 rounded hover:bg-white/5 transition-all">Demander une démo</button>
+<button class="w-full sm:w-auto border border-white/20 text-gray-900 dark:text-white font-bold px-8 py-4 rounded hover:bg-white/5 transition-all">Voir une vidéo</button>
 </div>
 </div>
-<!-- Visuels héro (simulation d'interface) -->
+<!-- Visuels héro -->
 <div class="mt-20 relative w-full max-w-5xl mx-auto px-4 flex justify-center items-center">
 <div class="relative w-full aspect-video flex justify-around items-center">
 <div class="w-1/3 p-4 bg-white/5 rounded-lg border border-white/10">
-<div class="h-2 w-1/2 bg-white/20 mb-2"></div>
-<div class="h-2 w-full bg-white/10 mb-2"></div>
-<div class="h-2 w-3/4 bg-white/10 mb-4"></div>
-<div class="grid grid-cols-3 gap-2">
-<div class="h-8 bg-white/5"></div>
-<div class="h-8 bg-white/5"></div>
-<div class="h-8 bg-white/5"></div>
+<div class="h-2 w-1/2 bg-white/20 mb-2"></div><div class="h-2 w-full bg-white/10 mb-2"></div><div class="h-2 w-3/4 bg-white/10 mb-4"></div>
+<div class="grid grid-cols-3 gap-2"><div class="h-8 bg-white/5"></div><div class="h-8 bg-white/5"></div><div class="h-8 bg-white/5"></div></div>
 </div>
-</div>
-<div class="relative group">
-<div class="absolute -inset-8 bg-primary/20 blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
-<!-- Logo image remplaçant le cercle "R+" -->
-<img alt="Registre+" class="w-24 h-24 object-contain rounded-2xl relative z-10 bg-primary/20 p-2" src="images/noregis.svg"/>
-</div>
-<div class="w-1/4 flex flex-col gap-2">
-<div class="h-1 bg-primary/30 w-full"></div>
-<div class="h-1 bg-primary/50 w-2/3"></div>
-<div class="h-1 bg-primary/20 w-3/4"></div>
-<div class="h-1 bg-primary/40 w-1/2"></div>
-</div>
+<div class="relative group"><div class="absolute -inset-8 bg-primary/20 blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div><img alt="Registre+" class="w-16 h-16 object-contain rounded-2xl relative z-10 bg-primary/20 p-2" src="images/noregis.svg"/></div>
+<div class="w-1/4 flex flex-col gap-2"><div class="h-1 bg-primary/30 w-full"></div><div class="h-1 bg-primary/50 w-2/3"></div><div class="h-1 bg-primary/20 w-3/4"></div><div class="h-1 bg-primary/40 w-1/2"></div></div>
 </div>
 </div>
 </section>
-<!-- Section de confiance -->
+
+<!-- Confiance -->
 <section class="py-20 bg-surface-dim border-y border-white/5">
 <div class="max-w-container-max mx-auto px-margin-desktop text-center">
 <p class="text-on-surface-variant font-bold uppercase tracking-widest text-xs mb-10">Reconnu par des organisations leaders</p>
 <div class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale">
-<span class="text-2xl font-bold">ACCOR</span>
-<span class="text-2xl font-bold">ORANGE</span>
-<span class="text-2xl font-bold">SOCIETE GENERALE</span>
-<span class="text-2xl font-bold">AIRBUS</span>
-<span class="text-2xl font-bold">LVMH</span>
+<span class="text-2xl font-bold text-gray-900 dark:text-white">ACCOR</span><span class="text-2xl font-bold text-gray-900 dark:text-white">ORANGE</span><span class="text-2xl font-bold text-gray-900 dark:text-white">SOCIETE GENERALE</span><span class="text-2xl font-bold text-gray-900 dark:text-white">AIRBUS</span><span class="text-2xl font-bold text-gray-900 dark:text-white">LVMH</span>
 </div>
 <div class="mt-16 flex justify-center gap-8">
-<div class="flex flex-col items-center">
-<div class="flex text-primary mb-1">★★★★★</div>
-<span class="text-[10px] text-on-surface-variant font-bold uppercase">Note G2 4,9/5</span>
-</div>
-<div class="flex flex-col items-center">
-<div class="flex text-primary mb-1">★★★★★</div>
-<span class="text-[10px] text-on-surface-variant font-bold uppercase">99% de satisfaction</span>
-</div>
+<div class="flex flex-col items-center"><div class="flex text-primary mb-1">★★★★★</div><span class="text-[10px] text-on-surface-variant font-bold uppercase">Note G2 4,9/5</span></div>
+<div class="flex flex-col items-center"><div class="flex text-primary mb-1">★★★★★</div><span class="text-[10px] text-on-surface-variant font-bold uppercase">99% de satisfaction</span></div>
 </div>
 </div>
 </section>
-<!-- Pourquoi Registre+ -->
+
+<!-- Pourquoi + logo + images depuis dossier images -->
 <section class="py-32 bg-surface text-center">
 <div class="max-w-container-max mx-auto px-margin-desktop">
-<h2 class="text-4xl font-extrabold mb-20">Pourquoi Registre+</h2>
+<h2 class="text-4xl font-extrabold why-title mb-20">
+  Pourquoi
+  <img src="images/noregis.svg" alt="Registre+" class="why-logo">
+</h2>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-<div class="flex flex-col items-center">
-<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
-<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</div>
-<h3 class="text-xl font-bold mb-2">Prêt en 1 jour</h3>
-<p class="text-on-surface-variant">Configuration rapide, compatible avec vos outils.</p>
-</div>
-<div class="flex flex-col items-center">
-<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
-<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</div>
-<h3 class="text-xl font-bold mb-2">Ultra-rapide</h3>
-<p class="text-on-surface-variant">Enregistrement en moins de 20 secondes.</p>
-</div>
-<div class="flex flex-col items-center">
-<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
-<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</div>
-<h3 class="text-xl font-bold mb-2">Hébergement sécurisé</h3>
-<p class="text-on-surface-variant">Données hébergées en France, conformité RGPD.</p>
-</div>
+  <div class="why-card flex flex-col items-center">
+    <img src="images/speedometer.png" alt="Speedometer" class="why-icon-img mb-6">
+    <h3 class="text-xl font-bold mb-2">Prêt en 1 jour</h3>
+    <p class="text-sm">Configuration rapide, compatible avec vos outils.</p>
+  </div>
+  <div class="why-card flex flex-col items-center">
+    <img src="images/time-tracking.png" alt="Time tracking" class="why-icon-img mb-6">
+    <h3 class="text-xl font-bold mb-2">Ultra-rapide</h3>
+    <p class="text-sm">Enregistrement en moins de 20 secondes.</p>
+  </div>
+  <div class="why-card flex flex-col items-center">
+    <img src="images/cyber-security.png" alt="Cyber security" class="why-icon-img mb-6">
+    <h3 class="text-xl font-bold mb-2">Hébergement sécurisé</h3>
+    <p class="text-sm">Données hébergées en France, conformité RGPD.</p>
+  </div>
 </div>
 </div>
 </section>
-<!-- Les trois piliers : Scanner, Badger, Analyser -->
+
+<!-- Trois piliers -->
 <section class="py-32 bg-surface-dim relative">
 <div class="max-w-container-max mx-auto px-margin-desktop">
-<div class="text-center mb-20">
-<h2 class="text-4xl md:text-5xl font-extrabold mb-6">Accueil numérique nouvelle génération</h2>
-<p class="text-on-surface-variant max-w-3xl mx-auto">Remplacez vos registres papier par une solution 100% digitale, rapide et sécurisée.</p>
-</div>
+<div class="text-center mb-20"><h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6">Accueil numérique nouvelle génération</h2><p class="text-on-surface-variant max-w-3xl mx-auto">Remplacez vos registres papier par une solution 100% digitale, rapide et sécurisée.</p></div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Scanner -->
-<div class="card-gradient border border-white/5 p-8 rounded-xl flex flex-col">
-<div class="flex items-center gap-3 mb-8">
-<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Scanner</span>
-</div>
-<p class="text-sm text-on-surface-variant mb-6">Lisez automatiquement les pièces d’identité, passeports et cartes de séjour.</p>
-<ul class="space-y-4 text-sm font-medium">
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Scan CNI / Passeport</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Reconnaissance automatique des champs</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Prise de photo signée</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> API d’OCR intégrée</li>
-</ul>
-</div>
-<!-- Badger -->
-<div class="card-gradient border border-white/5 p-8 rounded-xl ring-2 ring-primary/20 relative">
-<div class="flex items-center gap-3 mb-8">
-<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Badger</span>
-</div>
-<p class="text-sm text-on-surface-variant mb-6">Générez des badges d’accès personnalisés avec QR code et photo.</p>
-<ul class="space-y-4 text-sm font-medium">
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Impression WiFi / Bluetooth</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> QR code de sortie</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Badge temporaire ou permanent</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Logo entreprise personnalisé</li>
-</ul>
-</div>
-<!-- Analyser -->
-<div class="card-gradient border border-white/5 p-8 rounded-xl flex flex-col">
-<div class="flex items-center gap-3 mb-8">
-<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Analyser</span>
-</div>
-<p class="text-sm text-on-surface-variant mb-6">Tableaux de bord et rapports détaillés pour le suivi des entrées/sorties.</p>
-<ul class="space-y-4 text-sm font-medium">
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Registre numérique inviolable</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Export PDF / Excel</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Alertes en temps réel</li>
-<li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Dashboard complet</li>
-</ul>
-</div>
+<div class="card-gradient border border-white/5 p-8 rounded-xl flex flex-col"><div class="flex items-center gap-3 mb-8"><span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Scanner</span></div><p class="text-sm text-on-surface-variant mb-6">Lisez automatiquement les pièces d’identité, passeports et cartes de séjour.</p><ul class="space-y-4 text-sm font-medium text-gray-900 dark:text-white"><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Scan CNI / Passeport</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Reconnaissance automatique des champs</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Prise de photo signée</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> API d’OCR intégrée</li></ul></div>
+<div class="card-gradient border border-white/5 p-8 rounded-xl ring-2 ring-primary/20 relative"><div class="flex items-center gap-3 mb-8"><span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Badger</span></div><p class="text-sm text-on-surface-variant mb-6">Générez des badges d’accès personnalisés avec QR code et photo.</p><ul class="space-y-4 text-sm font-medium text-gray-900 dark:text-white"><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Impression WiFi / Bluetooth</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> QR code de sortie</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Badge temporaire ou permanent</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Logo entreprise personnalisé</li></ul></div>
+<div class="card-gradient border border-white/5 p-8 rounded-xl flex flex-col"><div class="flex items-center gap-3 mb-8"><span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded">Analyser</span></div><p class="text-sm text-on-surface-variant mb-6">Tableaux de bord et rapports détaillés pour le suivi des entrées/sorties.</p><ul class="space-y-4 text-sm font-medium text-gray-900 dark:text-white"><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Registre numérique inviolable</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Export PDF / Excel</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Alertes en temps réel</li><li class="flex items-center gap-2"><span class="w-1 h-1 bg-primary rounded-full"></span> Dashboard complet</li></ul></div>
 </div>
 </div>
 </section>
-<!-- Secteurs d'activité (cartographie) -->
+
+<!-- Secteurs d'activité avec images depuis dossier images -->
 <section class="py-32 bg-surface">
 <div class="max-w-container-max mx-auto px-margin-desktop">
-<h2 class="text-5xl font-extrabold mb-2 text-white">Transformez votre secteur</h2>
-<h2 class="text-5xl font-extrabold mb-16 text-black bg-primary inline-block px-2">Simplifiez l’accueil.</h2>
+<h2 class="text-5xl font-extrabold mb-2 transform-title">Transformez votre secteur</h2>
+<div class="text-5xl font-extrabold mb-16 text-black bg-primary inline-block px-2"><span id="typewriter-text"></span><span class="typewriter-cursor"></span></div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<!-- Entreprises -->
-<div class="bg-surface-container p-8 rounded-xl group hover:bg-surface-bright transition-all cursor-pointer border border-white/5">
-<div class="w-full h-48 bg-white/5 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-<img alt="Bureau entreprise" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCumt3azAl-KuDVJXfNjQfSlk0UFB_PCGrcaj-S4EcjhP80L6xEcgiA0EHr85wANIvK8pNXXw--nEcvdZ_sqrBylUyoFoOT5R3toWmvYtva4J4fwvpM9GSzNPvyHzDqoezNs1yOI2bxPIyyhvmmdLraVR3yTvt7rJ_KHdh0sIqCTUPfisdiLtfo_JI4q-QV1viYDJaLU8ieghcbBV3IhRm0auyQJG0ca2mnS3PqSZ4U5ycZYDy5g6tePR5_xSeIYqotHGyyB8JKA13T"/>
-</div>
-<h3 class="text-2xl font-bold mb-4">Entreprises &amp; bureaux</h3>
-<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Gérez les entrées de vos collaborateurs, visiteurs et prestataires. Plus de registre papier, tout est dématérialisé et sécurisé.</p>
-<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
-</div>
-<!-- Copropriétés -->
-<div class="bg-surface-container p-8 rounded-xl group hover:bg-surface-bright transition-all cursor-pointer border border-white/5">
-<div class="w-full h-48 bg-white/5 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-<img alt="Résidence" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKygGFoSsDlr2IzQDNljcRcdyJGenXIW9ZM7ZbmP0T8NHXs3WdYginVbzgaU-WJxRjNCU6CUZRZ8yZ_3razEXYWVS2HK4SrCtE5yZm47Dt7-oRxJpW0NGnUv5CeexX5mDRRu5ws8VqRARw3qIficFp0skjrmrJwahmHJYNPt-DDH-NU6ZMDscaVph7TQmljHLDIvNRAzCNz3xcWvriAmTRbW7-kOF1_Gbhi86PoB44don7zfylHfJSIoyyZ59Nk0jtZ6FAIbnTCWQz"/>
-</div>
-<h3 class="text-2xl font-bold mb-4">Résidences &amp; immeubles</h3>
-<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Contrôle d’accès pour copropriétés, livreurs et prestataires. Historique consultable par le syndic.</p>
-<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
-</div>
-<!-- Santé -->
-<div class="bg-surface-container p-8 rounded-xl group hover:bg-surface-bright transition-all cursor-pointer border border-white/5">
-<div class="w-full h-48 bg-white/5 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
-<img alt="Clinique" class="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwR68B-bUxF9mpSkVpOA5q0WH8thPv3ifkgnGTjFJO_20RpQdhxuGzUnBAYITT6pb2ALMdOHnbtT2EMR-YgU7hGfF0UI8D2h_Y1syfPpx-akxXaLkHiYl2jMRHmp2ZUzzQ9EPRME3Y6MUHiXJ3fZXbacSS2of8j9BGC5lqcMbt9bgCtANPQyK-O1LjrJajFGMgRUpM4i5wbhlWj87f4ZFGuAceLKdTJNWWEbT6zEE8QOfzhlQGhwIsmfpsHa1XZIh0FhFLkwASpOqi"/>
-</div>
-<h3 class="text-2xl font-bold mb-4">Santé &amp; cliniques</h3>
-<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Enregistrement des patients visiteurs, traçabilité des entrées, conformité avec les obligations sanitaires.</p>
-<a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
-</div>
+  <div class="sector-card p-8 rounded-xl group transition-all cursor-pointer">
+    <div class="w-full h-48 bg-white/10 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
+      <img src="images/illustation1.png" alt="Illustration secteur" class="sector-img">
+    </div>
+    <h3 class="text-2xl font-bold mb-4">Entreprises &amp; bureaux</h3>
+    <p class="text-sm mb-6 leading-relaxed opacity-90">Gérez les entrées de vos collaborateurs, visiteurs et prestataires. Plus de registre papier, tout est dématérialisé et sécurisé.</p>
+    <a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
+  </div>
+  <div class="sector-card p-8 rounded-xl group transition-all cursor-pointer">
+    <div class="w-full h-48 bg-white/10 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
+      <img src="images/l.jpg" alt="Illustration résidence" class="sector-img">
+    </div>
+    <h3 class="text-2xl font-bold mb-4">Résidences &amp; immeubles</h3>
+    <p class="text-sm mb-6 leading-relaxed opacity-90">Contrôle d’accès pour copropriétés, livreurs et prestataires. Historique consultable par le syndic.</p>
+    <a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
+  </div>
+  <div class="sector-card p-8 rounded-xl group transition-all cursor-pointer">
+    <div class="w-full h-48 bg-white/10 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
+      <img src="images/g.png" alt="Illustration santé" class="sector-img">
+    </div>
+    <h3 class="text-2xl font-bold mb-4">Santé &amp; cliniques</h3>
+    <p class="text-sm mb-6 leading-relaxed opacity-90">Enregistrement des patients visiteurs, traçabilité des entrées, conformité avec les obligations sanitaires.</p>
+    <a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
+  </div>
 </div>
 </div>
 </section>
-<!-- Section interactive : essai API (représentation du scan) -->
+
+<!-- Scan en direct -->
 <section class="py-32 bg-surface-dim">
 <div class="max-w-container-max mx-auto px-margin-desktop text-center">
-<h2 class="text-4xl font-extrabold mb-12">Essayez le scan en direct</h2>
-<div class="flex flex-wrap justify-center gap-2 mb-12">
-<button class="px-6 py-2 bg-primary text-black font-bold rounded-full text-sm">Carte d'identité</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Passeport</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Permis de conduire</button>
-<button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Carte de séjour</button>
-</div>
+<h2 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-12">Scannez vos documents</h2>
+<div class="flex flex-wrap justify-center gap-2 mb-12"><button class="px-6 py-2 bg-primary text-black font-bold rounded-full text-sm">Carte d'identité</button><button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Passeport</button><button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Permis de conduire</button><button class="px-6 py-2 border border-white/10 hover:border-primary text-on-surface-variant text-sm rounded-full">Carte de séjour</button></div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-left">
-<div class="bg-black/40 rounded-xl p-6 border border-white/10 aspect-video relative">
-<div class="flex gap-1.5 mb-4">
-<div class="w-3 h-3 rounded-full bg-red-500/50"></div>
-<div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-<div class="w-3 h-3 rounded-full bg-green-500/50"></div>
-</div>
-<pre class="text-xs font-mono text-primary/80"><code><span class="text-white">// Simulation appel API scan</span>
-POST /api/v1/scan
-{
-  "document": "cni_recto_verso.jpg",
-  "type": "cni"
-}</code></pre>
-</div>
-<div class="bg-black/40 rounded-xl p-6 border border-white/10 aspect-video relative">
-<div class="flex gap-1.5 mb-4">
-<div class="w-3 h-3 rounded-full bg-red-500/50"></div>
-<div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
-<div class="w-3 h-3 rounded-full bg-green-500/50"></div>
-</div>
-<pre class="text-xs font-mono text-white/60"><code>{
-  <span class="text-primary">"nom"</span>: <span class="text-yellow-400">"DUPONT"</span>,
-  <span class="text-primary">"prenom"</span>: <span class="text-yellow-400">"Jean"</span>,
-  <span class="text-primary">"date_naissance"</span>: <span class="text-yellow-400">"1985-06-15"</span>,
-  <span class="text-primary">"num_document"</span>: <span class="text-yellow-400">"12AB34567"</span>,
-  <span class="text-primary">"type"</span>: <span class="text-yellow-400">"CNI"</span>,
-  <span class="text-primary">"photo_base64"</span>: <span class="text-yellow-400">"/9j/4AAQSkZJRg..."</span>
-}</code></pre>
-</div>
+
+
 </div>
 </div>
 </section>
-<!-- Dernier appel à l'action -->
+
+<!-- Dernier CTA -->
 <section class="py-32 bg-primary">
 <div class="max-w-container-max mx-auto px-margin-desktop text-center">
 <h2 class="text-4xl md:text-6xl font-black text-black mb-8">Prêt à passer au 100% numérique ?</h2>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
 <button class="bg-black text-white font-bold px-10 py-5 rounded-lg hover:scale-105 transition-transform">Créer un compte</button>
-<button class="bg-white/20 text-black font-bold px-10 py-5 rounded-lg hover:bg-white/30 transition-all border border-black/10">Demander une démo</button>
+<button class="bg-white/20 text-black font-bold px-10 py-5 rounded-lg hover:bg-white/30 transition-all border border-black/10">Voir une vidéo</button>
 </div>
 </div>
 </section>
 </main>
-<!-- Pied de page -->
+
+<!-- Footer -->
 <footer class="bg-surface-dim pt-20 pb-10 border-t border-white/5">
 <div class="max-w-container-max mx-auto px-margin-desktop">
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter mb-20">
-<div class="col-span-2">
-<!-- Logo dans le pied de page -->
-<a class="inline-block mb-6" href="/">
-<img alt="Registre+" class="h-5 w-auto" src="images/noregis.svg"/>
-</a>
-<p class="text-on-surface-variant text-sm max-w-xs">Solution d’accueil numérique pour remplacer le registre papier, conforme RGPD et hautement sécurisée.</p>
+<div class="col-span-2"><a class="inline-block mb-6" href="/"><img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/></a><p class="text-on-surface-variant text-sm max-w-xs">Solution d’accueil numérique pour remplacer le registre papier, conforme RGPD et hautement sécurisée.</p></div>
+<div><h4 class="text-gray-900 dark:text-white font-bold mb-6">Solutions</h4><ul class="space-y-4 text-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" href="#">Scan CNI</a></li><li><a class="hover:text-primary transition-colors" href="#">Badges</a></li><li><a class="hover:text-primary transition-colors" href="#">Registre électronique</a></li></ul></div>
+<div><h4 class="text-gray-900 dark:text-white font-bold mb-6">Développeurs</h4><ul class="space-y-4 text-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" href="#">API Docs</a></li><li><a class="hover:text-primary transition-colors" href="#">SDKs</a></li><li><a class="hover:text-primary transition-colors" href="#">GitHub</a></li></ul></div>
+<div><h4 class="text-gray-900 dark:text-white font-bold mb-6">Ressources</h4><ul class="space-y-4 text-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" href="#">Blog</a></li><li><a class="hover:text-primary transition-colors" href="#">Livres blancs</a></li><li><a class="hover:text-primary transition-colors" href="#">Webinaires</a></li></ul></div>
+<div><h4 class="text-gray-900 dark:text-white font-bold mb-6">Entreprise</h4><ul class="space-y-4 text-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" href="#">À propos</a></li><li><a class="hover:text-primary transition-colors" href="#">Sécurité</a></li><li><a class="hover:text-primary transition-colors" href="#">Contact</a></li></ul></div>
 </div>
-<div>
-<h4 class="text-white font-bold mb-6">Solutions</h4>
-<ul class="space-y-4 text-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">Scan CNI</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Badges</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Registre électronique</a></li>
-</ul>
-</div>
-<div>
-<h4 class="text-white font-bold mb-6">Développeurs</h4>
-<ul class="space-y-4 text-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">API Docs</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">SDKs</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">GitHub</a></li>
-</ul>
-</div>
-<div>
-<h4 class="text-white font-bold mb-6">Ressources</h4>
-<ul class="space-y-4 text-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Livres blancs</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Webinaires</a></li>
-</ul>
-</div>
-<div>
-<h4 class="text-white font-bold mb-6">Entreprise</h4>
-<ul class="space-y-4 text-sm text-on-surface-variant">
-<li><a class="hover:text-primary transition-colors" href="#">À propos</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Sécurité</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
-</ul>
-</div>
-</div>
-<div class="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-4">
-<p class="text-on-surface-variant text-xs">© 2024 Registre+, Inc. Tous droits réservés. Accueil numérique sans papier.</p>
-<div class="flex gap-6 text-xs text-on-surface-variant">
-<a class="hover:text-primary" href="#">Confidentialité</a>
-<a class="hover:text-primary" href="#">Conditions</a>
-<a class="hover:text-primary" href="#">Paramètres des cookies</a>
-</div>
-</div>
+<div class="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-4"><p class="text-on-surface-variant text-xs">© 2024 Registre+, Inc. Tous droits réservés. Accueil numérique sans papier.</p><div class="flex gap-6 text-xs text-on-surface-variant"><a class="hover:text-primary" href="#">Confidentialité</a><a class="hover:text-primary" href="#">Conditions</a><a class="hover:text-primary" href="#">Paramètres des cookies</a></div></div>
 </div>
 </footer>
+
+<script>
+  // Machine à écrire
+  document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('typewriter-text');
+    const fullText = "Simplifiez l’accueil.";
+    let index = 0;
+    function typeNextLetter() { if (index < fullText.length) { textElement.textContent += fullText.charAt(index); index++; setTimeout(typeNextLetter, 80); } }
+    textElement.textContent = "";
+    typeNextLetter();
+  });
+
+  // Gestion thème clair/sombre
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  const html = document.documentElement;
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') { html.classList.remove('dark'); html.classList.add('light'); themeIcon.textContent = 'light_mode'; }
+  else { html.classList.remove('light'); html.classList.add('dark'); themeIcon.textContent = 'dark_mode'; }
+  themeToggle.addEventListener('click', () => {
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark'); html.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode';
+    } else {
+      html.classList.remove('light'); html.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode';
+    }
+  });
+</script>
 </body>
 </html>

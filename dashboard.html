@@ -4,516 +4,422 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Registre+ | Tableau de bord</title>
-<!-- Tailwind CSS v3 -->
+<link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Google Fonts: Hanken Grotesk (uniquement) -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Html5-QRCode - version stable -->
+<script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
 <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            'primary': '#00fa6c',
-            'surface': '#111410',
-            'surface-dim': '#0b0f0b',
-            'surface-container': '#191d18',
-            'on-surface': '#e2e3dd',
-            'on-surface-variant': '#c2c9bd',
-          },
-          fontFamily: {
-            sans: ['Hanken Grotesk', 'sans-serif'],
-          },
-          maxWidth: {
-            'container-max': '1280px',
-          },
-          spacing: {
-            'margin-desktop': '5%',
-          },
-          gap: {
-            'gutter': '24px',
-          }
+          colors: { 'primary': '#00fa6c' },
+          fontFamily: { sans: ['Hanken Grotesk', 'sans-serif'] },
+          maxWidth: { 'container-max': '1280px' },
+          spacing: { 'margin-desktop': '5%' },
+          gap: { 'gutter': '24px' }
         }
       }
     }
   </script>
 <style>
-    body {
-      background-color: #111410;
-      color: #e2e3dd;
-      font-family: 'Hanken Grotesk', sans-serif;
+    * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+    body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
+    .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .stat-card { background: rgba(25, 29, 24, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .bg-surface-container { background-color: #191d18; }
+    .bg-surface-dim\/80 { background-color: rgba(11, 15, 11, 0.8); }
+    input, select { background-color: #191d18; border-color: rgba(255, 255, 255, 0.1); color: #e2e3dd; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #00fa6c; border-radius: 10px; }
+    .content-section { display: none; }
+    .content-section.active { display: block; }
+    .nav-active { color: #00fa6c !important; background-color: rgba(0, 250, 108, 0.1); border-left: 3px solid #00fa6c; }
+    .stat-card:hover, .glass-card:hover { transform: translateY(-2px); }
+    .table-row-hover:hover { background-color: rgba(0, 250, 108, 0.05); }
+    input:focus { outline: none; border-color: #00fa6c; box-shadow: 0 0 0 1px #00fa6c; }
+    html.light body { background-color: #f9f9f9; color: #1a1c1c; }
+    html.light .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid #e2e5f1; }
+    html.light .stat-card { background: #ffffff; border: 1px solid #e2e5f1; }
+    html.light .bg-surface-container { background-color: #ffffff; }
+    html.light .bg-surface-dim\/80 { background-color: rgba(248, 249, 250, 0.9); }
+    html.light .border-white\/5, html.light .border-white\/10 { border-color: #e2e5f1; }
+    html.light .text-on-surface-variant { color: #46464e; }
+    html.light .text-white { color: #1a1c1c; }
+    html.light .bg-surface\/80 { background-color: rgba(255, 255, 255, 0.8); }
+    html.light input, html.light select { background-color: #ffffff; border-color: #e2e5f1; color: #1a1c1c; }
+    html.light .bg-black\/40 { background-color: #f3f4f6; }
+    html.light .bg-red-500\/20 { background-color: #fee2e2; }
+    html.light .bg-yellow-500\/20 { background-color: #fef3c7; }
+    html.light .bg-primary\/10 { background-color: rgba(0, 250, 108, 0.1); }
+    html.light .bg-primary\/20 { background-color: rgba(0, 250, 108, 0.2); }
+    html.light .text-red-400 { color: #dc2626; }
+    html.light .text-yellow-400 { color: #d97706; }
+    html.light .bg-surface-container\/50 { background-color: #f9fafb; }
+    html.light .logo-theme { filter: invert(1); }
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000;
+      opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease;
     }
-    .glass-card {
-      background: rgba(25, 29, 24, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-content {
+      background-color: #191d18; border-radius: 1rem; max-width: 500px; width: 90%;
+      border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transform: scale(0.95); transition: transform 0.2s ease;
     }
-    .card-hover {
-      transition: all 0.2s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-2px);
-      border-color: rgba(0, 250, 108, 0.3);
-      box-shadow: 0 10px 25px -5px rgba(0, 250, 108, 0.1);
-    }
-    .nav-active {
-      color: #00fa6c !important;
-      background-color: rgba(0, 250, 108, 0.1);
-      border-left: 3px solid #00fa6c;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #00fa6c;
-      border-radius: 10px;
-    }
-    .content-section {
-      display: none;
-    }
-    .content-section.active {
-      display: block;
-    }
-    /* Animation pour les cartes */
-    .stat-card {
-      background: rgba(25, 29, 24, 0.8);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: all 0.2s ease;
-    }
-    .stat-card:hover {
-      border-color: rgba(0, 250, 108, 0.3);
-      transform: translateY(-2px);
-    }
-    /* Styles pour les inputs et tableaux */
-    input:focus {
-      outline: none;
-      border-color: #00fa6c;
-      box-shadow: 0 0 0 1px #00fa6c;
-    }
-    .table-row-hover:hover {
-      background-color: rgba(0, 250, 108, 0.05);
-    }
+    .modal-overlay.active .modal-content { transform: scale(1); }
+    html.light .modal-content { background-color: #ffffff; border: 1px solid #e2e5f1; }
+    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 1.5rem; }
+    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: flex-end; gap: 0.75rem; }
+    .detail-row { display: flex; margin-bottom: 1rem; }
+    .detail-label { width: 100px; font-weight: 600; color: #a1a3a8; }
+    .detail-value { flex: 1; color: #e2e3dd; }
+    #qr-reader { width: 100%; border-radius: 1rem; overflow: hidden; background: #000; }
+    #qr-reader video { width: 100%; border-radius: 0.75rem; }
+    .scanner-status { font-size: 0.85rem; padding: 0.5rem; border-radius: 0.5rem; text-align: center; margin-top: 0.75rem; }
+    button:active { transform: scale(0.98); }
   </style>
 </head>
 <body class="antialiased font-sans">
-<!-- Barre latérale (restylée) -->
+<!-- Barre latérale (inchangée) -->
 <aside class="fixed left-0 top-0 h-screen w-64 bg-surface-dim/80 backdrop-blur-md border-r border-white/5 flex flex-col z-50">
-<div class="px-6 py-8">
-<h1 class="text-2xl font-extrabold text-white tracking-tight">Registre+</h1>
-<p class="text-xs text-on-surface-variant mt-1">Accueil numérique</p>
-</div>
-<nav class="flex-1 px-3 space-y-1" id="main-nav">
-<a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all nav-active" data-section="dashboard" href="#">
-<span class="material-symbols-outlined mr-3 text-xl">dashboard</span>
-            Tableau de bord
-        </a>
-<a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="documents" href="#">
-<span class="material-symbols-outlined mr-3 text-xl">description</span>
-            Historiques
-        </a>
-<a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="settings" href="#">
-<span class="material-symbols-outlined mr-3 text-xl">settings</span>
-            Paramètres
-        </a>
-</nav>
-<div class="p-4 mt-auto border-t border-white/5">
-<div class="space-y-1">
-<a class="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" href="#">
-<span class="material-symbols-outlined mr-3 text-xl">help</span>
-                Assistance
-            </a>
-<a class="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" href="#">
-<span class="material-symbols-outlined mr-3 text-xl">logout</span>
-                Déconnexion
-            </a>
-</div>
-</div>
+  <div class="px-6 py-8"><img alt="Registre+" class="h-3 w-auto mb-2 logo-theme" src="images/noregis.svg"/></div>
+  <nav class="flex-1 px-3 space-y-1" id="main-nav">
+    <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all nav-active" data-section="dashboard" href="#"><span class="material-symbols-outlined mr-3 text-xl">dashboard</span> Tableau de bord</a>
+    <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="documents" href="#"><span class="material-symbols-outlined mr-3 text-xl">description</span> Historiques</a>
+    <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="settings" href="#"><span class="material-symbols-outlined mr-3 text-xl">settings</span> Paramètres</a>
+  </nav>
+  <div class="p-4 mt-auto border-t border-white/5">
+    <div class="space-y-1">
+      <a class="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" href="#"><span class="material-symbols-outlined mr-3 text-xl">help</span> Assistance</a>
+      <a class="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" href="#"><span class="material-symbols-outlined mr-3 text-xl">logout</span> Déconnexion</a>
+    </div>
+  </div>
 </aside>
 <!-- Corps principal -->
 <div class="ml-64 min-h-screen flex flex-col">
-<!-- Barre d'en-tête -->
-<header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-white/5 px-margin-desktop h-16 flex justify-between items-center">
-<div class="flex items-center space-x-6">
-<span class="text-xl font-bold text-white" id="page-title">Tableau de bord</span>
-<div class="relative hidden md:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
-<input class="bg-surface-container border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:border-primary focus:ring-0 transition-all" placeholder="Rechercher..." type="text"/>
-</div>
-</div>
-<div class="flex items-center space-x-4">
-<button class="p-2 rounded-full hover:bg-white/5 transition-all relative">
-<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full"></span>
-</button>
-<button class="p-2 rounded-full hover:bg-white/5 transition-all">
-<span class="material-symbols-outlined text-on-surface-variant">history</span>
-</button>
-<div class="flex items-center space-x-3 pl-4 border-l border-white/10">
-<div class="text-right">
-<p class="text-sm font-semibold text-white">Alex Sterling</p>
-<p class="text-xs text-on-surface-variant">Directeur</p>
-</div>
-<img alt="Photo de profil" class="w-9 h-9 rounded-full border border-primary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
-</div>
-</div>
-</header>
-<!-- Contenu principal -->
-<main class="flex-1 p-6 overflow-y-auto custom-scrollbar">
-<div class="max-w-7xl mx-auto">
-<!-- Section Tableau de bord -->
-<section class="content-section active space-y-6" id="dashboard">
-<!-- En-tête et actions -->
-<div class="flex flex-wrap justify-between items-end gap-4 mb-6">
-<div>
-<h2 class="text-2xl font-bold text-white">Réception des visiteurs</h2>
-<p class="text-on-surface-variant text-sm">Gérez les enregistrements et badges numériques</p>
-</div>
-<div class="flex gap-3">
-<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm font-medium hover:bg-white/5 transition-all">
-<span class="material-symbols-outlined text-lg">filter_list</span>
-                Filtres
-            </button>
-<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm font-medium hover:bg-white/5 transition-all">
-<span class="material-symbols-outlined text-lg">download</span>
-                Exporter CSV
-            </button>
-</div>
-</div>
-<!-- Widgets stats -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-<div class="stat-card rounded-xl p-6">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 rounded-lg bg-primary/10">
-<span class="material-symbols-outlined text-primary">hourglass_empty</span>
-</div>
-<span class="text-xs text-on-surface-variant">+12% vs hier</span>
-</div>
-<p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">En attente</p>
-<h3 class="text-3xl font-bold text-white">42</h3>
-</div>
-<div class="stat-card rounded-xl p-6">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 rounded-lg bg-primary/10">
-<span class="material-symbols-outlined text-primary">check_circle</span>
-</div>
-<span class="text-xs text-primary">99.8% précis</span>
-</div>
-<p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Traités aujourd'hui</p>
-<h3 class="text-3xl font-bold text-white">1 284</h3>
-</div>
-<div class="stat-card rounded-xl p-6">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 rounded-lg bg-red-500/20">
-<span class="material-symbols-outlined text-red-400">warning</span>
-</div>
-<span class="text-xs text-red-400">À corriger</span>
-</div>
-<p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Anomalies</p>
-<h3 class="text-3xl font-bold text-white">3</h3>
-</div>
-</div>
-<!-- Tableau des enregistrements -->
-<div class="glass-card rounded-xl overflow-hidden">
-<div class="px-6 py-4 border-b border-white/5 flex flex-wrap justify-between items-center gap-3">
-<div class="flex gap-4">
-<button class="text-sm font-semibold text-primary border-b-2 border-primary pb-1">Tous</button>
-<button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Visiteurs</button>
-<button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Prestataires</button>
-<button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Livreurs</button>
-</div>
-<div class="text-xs text-on-surface-variant">1-10 sur 1 284</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-surface-container/50 border-b border-white/5">
-<tr>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Date</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Visiteur</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Type</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-right">Badge</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th>
-<th class="px-6 py-3 text-center"></th>
-</tr>
-</thead>
-<tbody class="divide-y divide-white/5">
-<tr class="table-row-hover transition-colors">
-<td class="px-6 py-4 text-sm">24 oct. 2023</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">AM</div>
-<span class="font-medium">Amazon Logistics</span>
-</div>
-</td>
-<td class="px-6 py-4 text-on-surface-variant text-sm">Livreur</td>
-<td class="px-6 py-4 text-right font-mono text-sm">#B-9921</td>
-<td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">Sorti</span></td>
-<td class="px-6 py-4 text-center"><button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-<tr class="table-row-hover transition-colors">
-<td class="px-6 py-4 text-sm">24 oct. 2023</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">SL</div>
-<span class="font-medium">Sarah Lefèvre</span>
-</div>
-</td>
-<td class="px-6 py-4 text-on-surface-variant text-sm">Visiteuse</td>
-<td class="px-6 py-4 text-right font-mono text-sm">#V-4502</td>
-<td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">En cours</span></td>
-<td class="px-6 py-4 text-center"><button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-<tr class="table-row-hover transition-colors">
-<td class="px-6 py-4 text-sm">23 oct. 2023</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">AD</div>
-<span class="font-medium">Anthony Dubois</span>
-</div>
-</td>
-<td class="px-6 py-4 text-on-surface-variant text-sm">Prestataire</td>
-<td class="px-6 py-4 text-right font-mono text-sm">#P-67721</td>
-<td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/20">En attente</span></td>
-<td class="px-6 py-4 text-center"><button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-<tr class="table-row-hover transition-colors">
-<td class="px-6 py-4 text-sm">23 oct. 2023</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">ST</div>
-<span class="font-medium">Stripe Terminal</span>
-</div>
-</td>
-<td class="px-6 py-4 text-on-surface-variant text-sm">Technicien</td>
-<td class="px-6 py-4 text-right font-mono text-sm">#T-3420</td>
-<td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-500/20 text-red-400 border border-red-500/20">Révision</span></td>
-<td class="px-6 py-4 text-center"><button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-<tr class="table-row-hover transition-colors">
-<td class="px-6 py-4 text-sm">22 oct. 2023</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">GO</div>
-<span class="font-medium">Google France</span>
-</div>
-</td>
-<td class="px-6 py-4 text-on-surface-variant text-sm">Visiteur</td>
-<td class="px-6 py-4 text-right font-mono text-sm">#G-8400</td>
-<td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">Sorti</span></td>
-<td class="px-6 py-4 text-center"><button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="px-6 py-4 border-t border-white/5 flex justify-between items-center">
-<button class="text-sm text-on-surface-variant hover:text-primary flex items-center gap-1"><span class="material-symbols-outlined text-lg">chevron_left</span> Précédent</button>
-<div class="flex gap-1">
-<button class="w-8 h-8 rounded bg-primary/20 text-primary text-sm font-bold">1</button>
-<button class="w-8 h-8 rounded hover:bg-white/5 text-sm">2</button>
-<button class="w-8 h-8 rounded hover:bg-white/5 text-sm">3</button>
-<span class="px-2">...</span>
-<button class="w-8 h-8 rounded hover:bg-white/5 text-sm">12</button>
-</div>
-<button class="text-sm text-on-surface-variant hover:text-primary flex items-center gap-1">Suivant <span class="material-symbols-outlined text-lg">chevron_right</span></button>
-</div>
-</div>
-</section>
+  <header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-white/5 px-margin-desktop h-16 flex justify-between items-center">
+    <div class="flex items-center space-x-6">
+      <span class="text-xl font-bold text-white" id="page-title">Tableau de bord</span>
+      <div class="relative hidden md:block">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+        <input class="bg-surface-container border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:border-primary focus:ring-0 transition-all" placeholder="Rechercher..." type="text"/>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5 transition-all"><span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span></button>
+      <button class="p-2 rounded-full hover:bg-white/5 transition-all relative"><span class="material-symbols-outlined text-on-surface-variant">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full"></span></button>
+      <button class="p-2 rounded-full hover:bg-white/5 transition-all"><span class="material-symbols-outlined text-on-surface-variant">history</span></button>
+      <div class="flex items-center space-x-3 pl-4 border-l border-white/10">
+        <div class="text-right"><p class="text-sm font-semibold text-white">Alex Sterling</p><p class="text-xs text-on-surface-variant">Directeur</p></div>
+        <img alt="Photo" class="w-9 h-9 rounded-full border border-primary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+      </div>
+    </div>
+  </header>
+  <main class="flex-1 p-6 overflow-y-auto custom-scrollbar">
+    <div class="max-w-7xl mx-auto">
+      <!-- Section Dashboard -->
+      <section class="content-section active space-y-6" id="dashboard">
+        <div class="flex flex-wrap justify-between items-end gap-4 mb-6">
+          <div><h2 class="text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-sm">Gérez les enregistrements et badges numériques</p></div>
+          <div class="flex gap-3">
+            <button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm font-medium hover:bg-white/5 transition-all"><span class="material-symbols-outlined text-lg">filter_list</span> Filtres</button>
+            <button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm font-medium hover:bg-white/5 transition-all"><span class="material-symbols-outlined text-lg">download</span> Exporter CSV</button>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="stat-card rounded-xl p-6"><div class="flex justify-between items-start mb-4"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">how_to_reg</span></div><span class="text-xs text-on-surface-variant">+12% vs mois dernier</span></div><p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Total Entrées</p><h3 class="text-3xl font-bold text-white" id="totalEntries">1 284</h3></div>
+          <div class="stat-card rounded-xl p-6"><div class="flex justify-between items-start mb-4"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">people</span></div><span class="text-xs text-primary">Actuellement</span></div><p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Actuellement</p><h3 class="text-3xl font-bold text-white" id="currentlyInside">24</h3></div>
+          <div class="stat-card rounded-xl p-6"><div class="flex justify-between items-start mb-4"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">exit_to_app</span></div><span class="text-xs text-on-surface-variant">+9% vs hier</span></div><p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Sorties</p><h3 class="text-3xl font-bold text-white">1 260</h3></div>
+        </div>
+        <div class="glass-card rounded-xl overflow-hidden">
+          <div class="px-6 py-4 border-b border-white/5 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex gap-4"><button class="text-sm font-semibold text-primary border-b-2 border-primary pb-1">Tous</button><button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Visiteurs</button><button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Prestataires</button><button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Livreurs</button></div>
+            <div class="text-xs text-on-surface-variant"><span id="rowCounter">1-5</span> sur <span id="totalRows">5</span></div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-surface-container/50 border-b border-white/5"><tr><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Date</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Visiteur</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Type</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-right">Pièce</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Actions</th></tr></thead>
+              <tbody class="divide-y divide-white/5" id="dashboardTableBody">
+                <tr class="table-row-hover" data-date="24 oct. 2023" data-visitor="Amazon Logistics" data-type="Livreur" data-piece="#B-9921" data-status="Sorti" data-status-class="bg-primary/10 text-primary border-primary/20"><td class="px-6 py-4 text-sm">24 oct. 2023</td><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">AM</div><span class="font-medium">Amazon Logistics</span></div></td><td class="px-6 py-4 text-on-surface-variant text-sm">Livreur</td><td class="px-6 py-4 text-right font-mono text-sm">#B-9921</td><td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">Sorti</span></td><td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr>
+                <tr class="table-row-hover" data-date="24 oct. 2023" data-visitor="Sarah Lefèvre" data-type="Visiteuse" data-piece="#V-4502" data-status="En cours" data-status-class="bg-primary/10 text-primary border-primary/20"><td class="px-6 py-4 text-sm">24 oct. 2023</td><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">SL</div><span class="font-medium">Sarah Lefèvre</span></div></td><td class="px-6 py-4 text-on-surface-variant text-sm">Visiteuse</td><td class="px-6 py-4 text-right font-mono text-sm">#V-4502</td><td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">En cours</span></td><td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr>
+                <tr class="table-row-hover" data-date="23 oct. 2023" data-visitor="Anthony Dubois" data-type="Prestataire" data-piece="#P-67721" data-status="En attente" data-status-class="bg-yellow-500/20 text-yellow-400 border-yellow-500/20"><td class="px-6 py-4 text-sm">23 oct. 2023</td><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">AD</div><span class="font-medium">Anthony Dubois</span></div></td><td class="px-6 py-4 text-on-surface-variant text-sm">Prestataire</td><td class="px-6 py-4 text-right font-mono text-sm">#P-67721</td><td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/20">En attente</span></td><td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr>
+                <tr class="table-row-hover" data-date="23 oct. 2023" data-visitor="Stripe Terminal" data-type="Technicien" data-piece="#T-3420" data-status="Révision" data-status-class="bg-red-500/20 text-red-400 border-red-500/20"><td class="px-6 py-4 text-sm">23 oct. 2023</td><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">ST</div><span class="font-medium">Stripe Terminal</span></div></td><td class="px-6 py-4 text-on-surface-variant text-sm">Technicien</td><td class="px-6 py-4 text-right font-mono text-sm">#T-3420</td><td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-500/20 text-red-400 border border-red-500/20">Révision</span></td><td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr>
+                <tr class="table-row-hover" data-date="22 oct. 2023" data-visitor="Google France" data-type="Visiteur" data-piece="#G-8400" data-status="Sorti" data-status-class="bg-primary/10 text-primary border-primary/20"><td class="px-6 py-4 text-sm">22 oct. 2023</td><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">GO</div><span class="font-medium">Google France</span></div></td><td class="px-6 py-4 text-on-surface-variant text-sm">Visiteur</td><td class="px-6 py-4 text-right font-mono text-sm">#G-8400</td><td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">Sorti</span></td><td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-6 py-4 border-t border-white/5 flex justify-between items-center">
+            <button class="text-sm text-on-surface-variant hover:text-primary flex items-center gap-1"><span class="material-symbols-outlined text-lg">chevron_left</span> Précédent</button>
+            <div class="flex gap-1"><button class="w-8 h-8 rounded bg-primary/20 text-primary text-sm font-bold">1</button><button class="w-8 h-8 rounded hover:bg-white/5 text-sm">2</button><button class="w-8 h-8 rounded hover:bg-white/5 text-sm">3</button><span class="px-2">...</span><button class="w-8 h-8 rounded hover:bg-white/5 text-sm">12</button></div>
+            <button class="text-sm text-on-surface-variant hover:text-primary flex items-center gap-1">Suivant <span class="material-symbols-outlined text-lg">chevron_right</span></button>
+          </div>
+        </div>
+      </section>
 
-<!-- Section Historiques -->
-<section class="content-section space-y-6" id="documents">
-<div class="flex justify-between items-center mb-6">
-<div>
-<h2 class="text-2xl font-bold text-white">Mes historiques</h2>
-<p class="text-on-surface-variant text-sm">Gérez vos justificatifs et badges générés</p>
-</div>
-<button class="bg-primary text-black font-bold px-5 py-2 rounded-xl flex items-center gap-2 hover:brightness-110 transition-all">
-<span class="material-symbols-outlined text-lg">upload</span>
-            Nouveau dépôt
-        </button>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-<div class="glass-card p-6 rounded-xl">
-<p class="text-xs uppercase text-on-surface-variant tracking-wider">En attente</p>
-<h3 class="text-3xl font-bold text-white mt-2">12</h3>
-</div>
-<div class="glass-card p-6 rounded-xl">
-<p class="text-xs uppercase text-on-surface-variant tracking-wider">Vérifiés</p>
-<h3 class="text-3xl font-bold text-primary mt-2">842</h3>
-</div>
-<div class="glass-card p-6 rounded-xl">
-<p class="text-xs uppercase text-on-surface-variant tracking-wider">Anomalies</p>
-<h3 class="text-3xl font-bold text-red-400 mt-2">3</h3>
-</div>
-</div>
-<div class="glass-card rounded-xl overflow-hidden">
-<div class="px-6 py-3 border-b border-white/5 flex gap-4">
-<button class="text-sm font-bold text-primary border-b-2 border-primary pb-1">Tous</button>
-<button class="text-sm text-on-surface-variant hover:text-white pb-1">Non traités</button>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-surface-container/50 border-b border-white/5">
-<tr>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Nom</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Date</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Visiteur</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Badge</th>
-<th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Statut</th>
-<th class="px-6 py-3"></th>
-</tr>
-</thead>
-<tbody class="divide-y divide-white/5">
-<tr class="table-row-hover">
-<td class="px-6 py-3 text-sm font-medium">Entrepôt_Oct.pdf</td>
-<td class="px-6 py-3 text-on-surface-variant text-sm">24 oct. 2023</td>
-<td class="px-6 py-3">Amazon Logistics</td>
-<td class="px-6 py-3 font-mono text-sm">#B-9921</td>
-<td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-primary/10 text-primary">VÉRIFIÉ</span></td>
-<td class="px-6 py-3 text-right"><button class="text-on-surface-variant"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-<tr class="table-row-hover">
-<td class="px-6 py-3 text-sm font-medium">Dinner_Receipt.jpg</td>
-<td class="px-6 py-3 text-on-surface-variant text-sm">23 oct. 2023</td>
-<td class="px-6 py-3">The Capital Grille</td>
-<td class="px-6 py-3 font-mono text-sm">#V-8912</td>
-<td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400">EN ATTENTE</span></td>
-<td class="px-6 py-3 text-right"><button class="text-on-surface-variant"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-<tr class="table-row-hover">
-<td class="px-6 py-3 text-sm font-medium">SaaS_License.pdf</td>
-<td class="px-6 py-3 text-on-surface-variant text-sm">22 oct. 2023</td>
-<td class="px-6 py-3">Figma Inc.</td>
-<td class="px-6 py-3 font-mono text-sm">#F-3200</td>
-<td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-primary/10 text-primary">VÉRIFIÉ</span></td>
-<td class="px-6 py-3 text-right"><button class="text-on-surface-variant"><span class="material-symbols-outlined text-xl">more_vert</span></button></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
+      <!-- Section Historiques (inchangée) -->
+      <section class="content-section space-y-6" id="documents">
+        <div class="flex justify-between items-center mb-6"><div><h2 class="text-2xl font-bold text-white">Mes historiques</h2><p class="text-on-surface-variant text-sm">Gérez vos justificatifs et badges générés</p></div><button class="bg-primary text-black font-bold px-5 py-2 rounded-xl flex items-center gap-2 hover:brightness-110 transition-all"><span class="material-symbols-outlined text-lg">upload</span> Nouveau dépôt</button></div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"><div class="glass-card p-6 rounded-xl"><p class="text-xs uppercase text-on-surface-variant tracking-wider">En attente</p><h3 class="text-3xl font-bold text-white mt-2">12</h3></div><div class="glass-card p-6 rounded-xl"><p class="text-xs uppercase text-on-surface-variant tracking-wider">Vérifiés</p><h3 class="text-3xl font-bold text-primary mt-2">842</h3></div><div class="glass-card p-6 rounded-xl"><p class="text-xs uppercase text-on-surface-variant tracking-wider">Anomalies</p><h3 class="text-3xl font-bold text-red-400 mt-2">3</h3></div></div>
+        <div class="glass-card rounded-xl overflow-hidden">
+          <div class="px-6 py-3 border-b border-white/5 flex gap-4"><button class="text-sm font-bold text-primary border-b-2 border-primary pb-1">Tous</button><button class="text-sm text-on-surface-variant hover:text-white pb-1">Non traités</button></div>
+          <div class="overflow-x-auto"><table class="w-full text-left"><thead class="bg-surface-container/50 border-b border-white/5"><tr><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Nom</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Date</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Visiteur</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Pièce</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Statut</th><th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase text-center">Actions</th></tr></thead><tbody class="divide-y divide-white/5"><tr class="table-row-hover" data-date="24 oct. 2023" data-visitor="Amazon Logistics" data-type="Justificatif" data-piece="#B-9921" data-status="VÉRIFIÉ" data-status-class="bg-primary/10 text-primary"><td class="px-6 py-3 text-sm font-medium">Entrepôt_Oct.pdf</td><td class="px-6 py-3 text-on-surface-variant text-sm">24 oct. 2023</td><td class="px-6 py-3">Amazon Logistics</td><td class="px-6 py-3 font-mono text-sm">#B-9921</td><td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-primary/10 text-primary">VÉRIFIÉ</span></td><td class="px-6 py-3 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr><tr class="table-row-hover" data-date="23 oct. 2023" data-visitor="The Capital Grille" data-type="Justificatif" data-piece="#V-8912" data-status="EN ATTENTE" data-status-class="bg-yellow-500/20 text-yellow-400"><td class="px-6 py-3 text-sm font-medium">Dinner_Receipt.jpg</td><td class="px-6 py-3 text-on-surface-variant text-sm">23 oct. 2023</td><td class="px-6 py-3">The Capital Grille</td><td class="px-6 py-3 font-mono text-sm">#V-8912</td><td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400">EN ATTENTE</span></td><td class="px-6 py-3 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr><tr class="table-row-hover" data-date="22 oct. 2023" data-visitor="Figma Inc." data-type="Justificatif" data-piece="#F-3200" data-status="VÉRIFIÉ" data-status-class="bg-primary/10 text-primary"><td class="px-6 py-3 text-sm font-medium">SaaS_License.pdf</td><td class="px-6 py-3 text-on-surface-variant text-sm">22 oct. 2023</td><td class="px-6 py-3">Figma Inc.</td><td class="px-6 py-3 font-mono text-sm">#F-3200</td><td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-primary/10 text-primary">VÉRIFIÉ</span></td><td class="px-6 py-3 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td></tr></tbody></table></div>
+        </div>
+      </section>
 
-<!-- Section Paramètres -->
-<section class="content-section space-y-6" id="settings">
-<div>
-<h2 class="text-2xl font-bold text-white">Paramètres</h2>
-<p class="text-on-surface-variant text-sm">Gérez votre profil et la sécurité</p>
+      <!-- Section Paramètres (inchangée) -->
+      <section class="content-section space-y-6" id="settings">
+        <div><h2 class="text-2xl font-bold text-white">Paramètres</h2><p class="text-on-surface-variant text-sm">Gérez votre profil et la sécurité</p></div>
+        <div class="max-w-3xl glass-card rounded-xl overflow-hidden">
+          <div class="p-6 border-white/5"><h3 class="text-lg font-bold mb-6">Profil de l'organisation</h3><div class="space-y-6"><div class="flex items-center gap-6 pb-6 border-b border-white/5"><img alt="Logo" class="w-16 h-16 rounded-xl border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/><div><button class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer logo</button><button class="text-red-400 text-sm font-bold">Supprimer</button></div></div></div></div>
+          <div class="p-6 border-b border-white/5"><h3 class="text-lg font-bold mb-6">Informations personnelles</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-6 settings-fields"><div><label class="block text-xs font-semibold mb-2">Prénom</label><input class="w-full border border-white/10 rounded-lg p-3 text-sm" type="text" value="Alex"/></div><div><label class="block text-xs font-semibold mb-2">Nom</label><input class="w-full border border-white/10 rounded-lg p-3 text-sm" type="text" value="Sterling"/></div><div><label class="block text-xs font-semibold mb-2">Téléphone</label><input class="w-full border border-white/10 rounded-lg p-3 text-sm" type="tel" value="+33 6 12 34 56 78"/></div><div><label class="block text-xs font-semibold mb-2">Département</label><input class="w-full border border-white/10 rounded-lg p-3 text-sm" type="text" value="Direction"/></div><div><label class="block text-xs font-semibold mb-2">Poste</label><input class="w-full border border-white/10 rounded-lg p-3 text-sm" type="text" value="Directeur général"/></div><div><label class="block text-xs font-semibold mb-2">Accréditation</label><select class="w-full border border-white/10 rounded-lg p-3 text-sm"><option>Niveau 1 - Visiteur</option><option>Niveau 2 - Personnel</option><option selected>Niveau 3 - Administrateur</option></select></div></div></div>
+          <div class="p-6"><h3 class="text-lg font-bold mb-6">Sécurité</h3><div class="space-y-4"><div class="flex justify-between items-center p-4 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Authentification à deux facteurs</p><p class="text-xs text-on-surface-variant">Obligatoire pour les admins</p></div><div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer"><div class="absolute right-1 top-1 w-4 h-4 bg-black rounded-full"></div></div></div><div class="flex justify-between items-center p-4 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Intégration SSO</p><p class="text-xs text-on-surface-variant">Connecté via Okta</p></div><button class="text-primary text-sm font-bold border-b border-primary">Configurer</button></div></div></div>
+          <div class="p-6 bg-surface-container/30 border-t border-white/5 text-right"><button class="bg-primary text-black font-bold px-8 py-3 rounded-lg" id="saveSettingsBtn">Enregistrer</button></div>
+        </div>
+      </section>
+    </div>
+  </main>
 </div>
-<div class="max-w-3xl glass-card rounded-xl overflow-hidden">
-<div class="p-6 border-b border-white/5">
-<h3 class="text-lg font-bold mb-6">Profil de l'organisation</h3>
-<div class="space-y-6">
-<div class="flex items-center gap-6 pb-6 border-b border-white/5">
-<img alt="Logo" class="w-16 h-16 rounded-xl border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
-<div>
-<button class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer logo</button>
-<button class="text-red-400 text-sm font-bold">Supprimer</button>
+
+<!-- MODAL DÉTAILS -->
+<div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la pièce</h3><button id="closeModalBtn" class="text-on-surface-variant hover:text-white"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body"><div class="detail-row"><div class="detail-label">Date :</div><div class="detail-value" id="modalDate">-</div></div><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor">-</div></div><div class="detail-row"><div class="detail-label">Type :</div><div class="detail-value" id="modalType">-</div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece">-</div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus">-</div></div></div><div class="modal-footer"><button id="closeModalFooterBtn" class="px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
+
+<!-- MODAL SCAN CAMÉRA -->
+<div id="scanModal" class="modal-overlay">
+  <div class="modal-content max-w-lg">
+    <div class="modal-header">
+      <h3 class="text-lg font-bold text-white">Scanner une pièce d'identité (QR code)</h3>
+      <button id="closeScanBtn" class="text-on-surface-variant hover:text-white"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div id="qr-reader" style="width:100%"></div>
+      <div id="scanStatus" class="scanner-status text-on-surface-variant text-sm mt-3 text-center"></div>
+      <p class="text-xs text-center text-on-surface-variant mt-2">Positionnez le QR code de la pièce d'identité devant la caméra</p>
+    </div>
+    <div class="modal-footer">
+      <button id="stopScanBtn" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Arrêter / Fermer</button>
+    </div>
+  </div>
 </div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div>
-<label class="block text-xs font-semibold mb-2">Nom de l'entreprise</label>
-<input class="w-full bg-surface-container border border-white/10 rounded-lg p-3 text-sm focus:border-primary focus:ring-0" type="text" value="Sterling &amp; Associés"/>
-</div>
-<div>
-<label class="block text-xs font-semibold mb-2">Devise</label>
-<select class="w-full bg-surface-container border border-white/10 rounded-lg p-3 text-sm focus:border-primary focus:ring-0">
-<option>USD - Dollar américain</option>
-<option>EUR - Euro</option>
-</select>
-</div>
-<div class="md:col-span-2">
-<label class="block text-xs font-semibold mb-2">Email de facturation</label>
-<input class="w-full bg-surface-container border border-white/10 rounded-lg p-3 text-sm focus:border-primary focus:ring-0" type="email" value="facturation@sterling-assoc.com"/>
-</div>
-</div>
-</div>
-</div>
-<div class="p-6">
-<h3 class="text-lg font-bold mb-6">Sécurité</h3>
-<div class="space-y-4">
-<div class="flex justify-between items-center p-4 bg-surface-container/50 rounded-lg border border-white/5">
-<div>
-<p class="font-semibold">Authentification à deux facteurs</p>
-<p class="text-xs text-on-surface-variant">Obligatoire pour les admins</p>
-</div>
-<div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
-<div class="absolute right-1 top-1 w-4 h-4 bg-black rounded-full"></div>
-</div>
-</div>
-<div class="flex justify-between items-center p-4 bg-surface-container/50 rounded-lg border border-white/5">
-<div>
-<p class="font-semibold">Intégration SSO</p>
-<p class="text-xs text-on-surface-variant">Connecté via Okta</p>
-</div>
-<button class="text-primary text-sm font-bold border-b border-primary">Configurer</button>
-</div>
-</div>
-</div>
-<div class="p-6 bg-surface-container/30 border-t border-white/5 text-right">
-<button class="bg-primary text-black font-bold px-8 py-3 rounded-lg hover:brightness-110">Enregistrer</button>
-</div>
-</div>
-</section>
-</div>
-</main>
-</div>
-<!-- Bouton flottant -->
-<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-black rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform z-50">
-<span class="material-symbols-outlined text-3xl">add</span>
+
+<!-- BOUTON FLOTTANT : OUVERTURE CAMÉRA -->
+<button id="scanFloatingBtn" class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-black rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform z-50">
+  <span class="material-symbols-outlined text-3xl">qr_code_scanner</span>
 </button>
 
 <script>
-    // Navigation SPA
+    // ========== 1. Navigation et thème (inchangé) ==========
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('.content-section');
     const pageTitle = document.getElementById('page-title');
-    const sectionTitles = {
-      dashboard: 'Tableau de bord',
-      documents: 'Historiques',
-      settings: 'Paramètres'
-    };
-
+    const sectionTitles = { dashboard: 'Tableau de bord', documents: 'Historiques', settings: 'Paramètres' };
     navLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const target = link.dataset.section;
         navLinks.forEach(l => l.classList.remove('nav-active'));
         link.classList.add('nav-active');
-        sections.forEach(section => {
-          section.classList.remove('active');
-          if (section.id === target) section.classList.add('active');
-        });
+        sections.forEach(section => { section.classList.remove('active'); if (section.id === target) section.classList.add('active'); });
         pageTitle.innerText = sectionTitles[target] || 'Registre+';
       });
     });
-
-    // Hover sur les cartes
-    document.querySelectorAll('.stat-card, .glass-card').forEach(card => {
-      if (card.classList.contains('stat-card') || card.classList.contains('glass-card')) {
-        card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-2px)');
-        card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const htmlEl = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') { htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); themeIcon.textContent = 'light_mode'; }
+    else { htmlEl.classList.remove('light'); htmlEl.classList.add('dark'); themeIcon.textContent = 'dark_mode'; }
+    themeToggle.addEventListener('click', () => {
+      if (htmlEl.classList.contains('dark')) {
+        htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode';
+      } else {
+        htmlEl.classList.remove('light'); htmlEl.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode';
       }
     });
-
-    // Focus sur la recherche
-    const search = document.querySelector('input[type="text"]');
-    if (search) {
-      search.addEventListener('focus', () => search.parentElement.classList.add('ring-1', 'ring-primary'));
-      search.addEventListener('blur', () => search.parentElement.classList.remove('ring-1', 'ring-primary'));
-    }
-
-    // Clic sur les lignes du tableau
-    document.querySelectorAll('#dashboard tbody tr').forEach(row => {
-      row.addEventListener('click', () => alert('Détails du badge (démo)'));
+    document.querySelectorAll('.stat-card, .glass-card').forEach(card => {
+      card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-2px)');
+      card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
     });
+
+    // ========== 2. Gestion modale détails et suppression ==========
+    const detailModal = document.getElementById('detailModal');
+    const closeModalBtns = [document.getElementById('closeModalBtn'), document.getElementById('closeModalFooterBtn')];
+    function openDetailModal(data) {
+      document.getElementById('modalDate').innerText = data.date;
+      document.getElementById('modalVisitor').innerText = data.visitor;
+      document.getElementById('modalType').innerText = data.type || 'Document';
+      document.getElementById('modalPiece').innerText = data.piece;
+      document.getElementById('modalStatus').innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${data.statusClass}">${data.status}</span>`;
+      detailModal.classList.add('active');
+    }
+    function closeDetailModal() { detailModal.classList.remove('active'); }
+    closeModalBtns.forEach(btn => { if (btn) btn.addEventListener('click', closeDetailModal); });
+    detailModal.addEventListener('click', (e) => { if (e.target === detailModal) closeDetailModal(); });
+
+    function attachRowEvents(container) {
+      const rows = container.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        if (row.dataset.eventsAttached === 'true') return;
+        row.dataset.eventsAttached = 'true';
+        const viewBtn = row.querySelector('.view-btn');
+        const deleteBtn = row.querySelector('.delete-btn');
+        const date = row.getAttribute('data-date');
+        const visitor = row.getAttribute('data-visitor');
+        const piece = row.getAttribute('data-piece');
+        let type = row.getAttribute('data-type');
+        let status = row.getAttribute('data-status');
+        let statusClass = row.getAttribute('data-status-class');
+        if (!type) type = row.querySelector('td:nth-child(3)') ? row.querySelector('td:nth-child(3)').innerText : 'Document';
+        if (!status) {
+          const statusSpan = row.querySelector('td:nth-last-child(2) span');
+          if (statusSpan) status = statusSpan.innerText.trim();
+          else status = 'Inconnu';
+        }
+        if (!statusClass) {
+          if (status === 'VÉRIFIÉ' || status === 'Sorti' || status === 'En cours') statusClass = 'bg-primary/10 text-primary';
+          else if (status === 'EN ATTENTE' || status === 'En attente') statusClass = 'bg-yellow-500/20 text-yellow-400';
+          else if (status === 'Révision') statusClass = 'bg-red-500/20 text-red-400';
+          else statusClass = 'bg-primary/10 text-primary';
+        }
+        if (viewBtn) viewBtn.addEventListener('click', (e) => { e.stopPropagation(); openDetailModal({ date, visitor, type, piece, status, statusClass }); });
+        if (deleteBtn) deleteBtn.addEventListener('click', (e) => { e.stopPropagation(); if (confirm('Supprimer cette pièce ?')) { row.remove(); updateCounters(); } });
+        row.addEventListener('click', (e) => { if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) openDetailModal({ date, visitor, type, piece, status, statusClass }); });
+      });
+    }
+    function updateCounters() {
+      const rows = document.querySelectorAll('#dashboardTableBody tr');
+      const total = rows.length;
+      document.getElementById('totalRows').innerText = total;
+      document.getElementById('rowCounter').innerText = `1-${Math.min(5,total)}`;
+      const totalEntriesSpan = document.getElementById('totalEntries');
+      if(totalEntriesSpan) totalEntriesSpan.innerText = (1284 + (total - 5)).toString();
+      const currentlyActive = Array.from(rows).filter(r => r.getAttribute('data-status') === 'En cours').length;
+      const currentlySpan = document.getElementById('currentlyInside');
+      if(currentlySpan) currentlySpan.innerText = currentlyActive;
+    }
+    function addScannedVisitor(scanData) {
+      const tbody = document.getElementById('dashboardTableBody');
+      const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }).replace('.', '');
+      const displayName = scanData.length > 35 ? scanData.substring(0,32)+'...' : scanData;
+      const initials = (displayName.match(/[A-Za-z0-9]/g)?.slice(0,2).join('') || 'ID').toUpperCase();
+      const newPiece = '#' + Math.floor(Math.random()*9000+1000).toString();
+      const newRow = document.createElement('tr');
+      newRow.className = 'table-row-hover';
+      newRow.setAttribute('data-date', today);
+      newRow.setAttribute('data-visitor', displayName);
+      newRow.setAttribute('data-type', 'Pièce scannée');
+      newRow.setAttribute('data-piece', newPiece);
+      newRow.setAttribute('data-status', 'En cours');
+      newRow.setAttribute('data-status-class', 'bg-primary/10 text-primary border-primary/20');
+      newRow.innerHTML = `
+        <td class="px-6 py-4 text-sm">${today}</td>
+        <td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">${initials}</div><span class="font-medium">${escapeHtml(displayName)}</span></div></td>
+        <td class="px-6 py-4 text-on-surface-variant text-sm">Pièce scannée</td>
+        <td class="px-6 py-4 text-right font-mono text-sm">${newPiece}</td>
+        <td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">En cours</span></td>
+        <td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
+      `;
+      tbody.prepend(newRow);
+      attachRowEvents(document.getElementById('dashboard'));
+      updateCounters();
+    }
+    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+    // ========== 3. SCANNER CAMÉRA (CORRIGÉ) ==========
+    let html5QrCode = null;
+    const scanModal = document.getElementById('scanModal');
+    const closeScanBtn = document.getElementById('closeScanBtn');
+    const stopScanBtn = document.getElementById('stopScanBtn');
+    const scanStatusDiv = document.getElementById('scanStatus');
+    
+    async function stopScanner() {
+      if (html5QrCode && html5QrCode.isScanning) {
+        try { await html5QrCode.stop(); } catch(e) { console.warn(e); }
+        try { html5QrCode.clear(); } catch(e) {}
+      }
+      html5QrCode = null;
+    }
+    
+    async function startScanner() {
+      await stopScanner();
+      const qrContainer = document.getElementById('qr-reader');
+      if (!qrContainer) return;
+      qrContainer.innerHTML = ''; // nettoie pour éviter duplication
+      try {
+        html5QrCode = new Html5Qrcode("qr-reader");
+        const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          config,
+          (decodedText) => {
+            scanStatusDiv.innerHTML = `✅ Scan réussi : ${decodedText.substring(0, 60)}`;
+            addScannedVisitor(decodedText);
+            // Ferme automatiquement le modal après succès
+            setTimeout(() => { closeScanModalAndStop(); }, 1500);
+          },
+          (errorMessage) => {
+            // Ignorer les erreurs de décodage temporaires
+            if (errorMessage && errorMessage.includes("No MultiFormat")) return;
+            if (errorMessage && errorMessage.includes("NotFoundException")) return;
+            scanStatusDiv.innerHTML = `🔍 En attente d'un QR code valide...`;
+          }
+        );
+        scanStatusDiv.innerHTML = `📷 Caméra activée. Scannez le QR code de la pièce d'identité.`;
+      } catch (err) {
+        console.error("Erreur caméra:", err);
+        let errorMsg = "❌ Impossible d'accéder à la caméra. ";
+        if (err.name === 'NotAllowedError') errorMsg += "Permission refusée. Autorisez la caméra dans les paramètres du navigateur.";
+        else if (err.name === 'NotFoundError') errorMsg += "Aucune caméra trouvée sur cet appareil.";
+        else errorMsg += "Vérifiez que vous utilisez HTTPS ou localhost pour la géolocalisation.";
+        scanStatusDiv.innerHTML = errorMsg;
+      }
+    }
+    
+    async function closeScanModalAndStop() {
+      await stopScanner();
+      scanModal.classList.remove('active');
+      const readerDiv = document.getElementById('qr-reader');
+      if (readerDiv) readerDiv.innerHTML = '';
+      if (scanStatusDiv) scanStatusDiv.innerHTML = '';
+    }
+    
+    function openScanModal() {
+      scanModal.classList.add('active');
+      // Petit délai pour que le modal soit visible avant de demander la caméra
+      setTimeout(() => { startScanner(); }, 100);
+    }
+    
+    // Bouton flottant vert : ouvre le scanner
+    const scanFab = document.getElementById('scanFloatingBtn');
+    if (scanFab) {
+      scanFab.addEventListener('click', (e) => {
+        e.preventDefault();
+        openScanModal();
+      });
+    }
+    closeScanBtn.addEventListener('click', closeScanModalAndStop);
+    stopScanBtn.addEventListener('click', closeScanModalAndStop);
+    scanModal.addEventListener('click', (e) => { if (e.target === scanModal) closeScanModalAndStop(); });
+    
+    // Nettoyage avant fermeture page
+    window.addEventListener('beforeunload', () => {
+      if (html5QrCode && html5QrCode.isScanning) {
+        html5QrCode.stop().catch(e=>{});
+      }
+    });
+    
+    // Attachement événements existants
+    attachRowEvents(document.getElementById('dashboard'));
+    attachRowEvents(document.getElementById('documents'));
+    updateCounters();
+    document.getElementById('saveSettingsBtn')?.addEventListener('click', () => alert('Paramètres enregistrés (simulation)'));
   </script>
 </body>
 </html>
