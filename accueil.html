@@ -1,22 +1,35 @@
+Voici la version responsive de votre landing page, avec un menu mobile adapté, des textes optimisés pour tous les écrans, et un affichage fluide sur smartphones.
 
+```html
 <!DOCTYPE html>
 <html class="dark" lang="fr">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>Registre+ | Accueil numérique sans papier – Scan de pièces d'identité</title>
+<!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
+<!-- Tailwind CSS v3 -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          colors: { 'primary': '#00fa6c' },
+          colors: {
+            'primary': '#00fa6c',
+            'surface': '#111410',
+            'surface-dim': '#0b0f0b',
+            'surface-container': '#191d18',
+            'on-surface': '#e2e3dd',
+            'on-surface-variant': '#c2c9bd',
+          },
           fontFamily: { sans: ['Hanken Grotesk', 'sans-serif'] },
           maxWidth: { 'container-max': '1280px' },
           padding: { 'margin-desktop': '5%' },
@@ -27,10 +40,18 @@
   </script>
 <style>
     * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
-    body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
+    body {
+      background-color: #111410;
+      color: #e2e3dd;
+      font-family: 'Hanken Grotesk', sans-serif;
+    }
     .glow-text { text-shadow: 0 0 20px rgba(0, 250, 108, 0.4); }
-    .hero-gradient { background: radial-gradient(circle at 50% 50%, rgba(0, 250, 108, 0.08) 0%, rgba(17, 20, 16, 1) 70%); }
-    .card-gradient { background: linear-gradient(180deg, rgba(25, 29, 24, 1) 0%, rgba(17, 20, 16, 1) 100%); }
+    .hero-gradient {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 250, 108, 0.08) 0%, rgba(17, 20, 16, 1) 70%);
+    }
+    .card-gradient {
+      background: linear-gradient(180deg, rgba(25, 29, 24, 1) 0%, rgba(17, 20, 16, 1) 100%);
+    }
     .nav-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .typewriter-cursor {
       display: inline-block;
@@ -43,13 +64,23 @@
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
     
-    html.light body { background-color: #f9f9f9; color: #1a1c1c; }
-    html.light .hero-gradient { background: radial-gradient(circle at 50% 50%, rgba(0, 250, 108, 0.08) 0%, #f9f9f9 100%); }
-    html.light .card-gradient { background: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%); }
+    /* Mode clair */
+    html.light body {
+      background-color: #f9f9f9;
+      color: #1a1c1c;
+    }
+    html.light .hero-gradient {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 250, 108, 0.08) 0%, #f9f9f9 100%);
+    }
+    html.light .card-gradient {
+      background: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%);
+    }
     html.light .bg-surface\/80 { background-color: rgba(255, 255, 255, 0.8); }
     html.light .bg-surface-dim { background-color: #f3f4f6; }
     html.light .bg-surface-container { background-color: #ffffff; }
-    html.light .border-white\/5, html.light .border-white\/10, html.light .border-white\/20 { border-color: #e2e5f1; }
+    html.light .border-white\/5, html.light .border-white\/10, html.light .border-white\/20 {
+      border-color: #e2e5f1;
+    }
     html.light .text-on-surface-variant { color: #46464e; }
     html.light .bg-primary\/10 { background-color: rgba(0, 250, 108, 0.1); }
     html.light .bg-primary\/20 { background-color: rgba(0, 250, 108, 0.2); }
@@ -64,77 +95,107 @@
     html.light .typewriter-cursor { background-color: #00a856; }
     html.light .logo-theme { filter: invert(1); }
     
-    .why-title { color: #ffffff !important; display: inline-flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+    /* Titres "Pourquoi" toujours blancs */
+    .why-title {
+      color: #ffffff !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
     .why-logo { height: 1.8rem; width: auto; }
-    .why-card { background-color: #000000 !important; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; transition: all 0.2s ease; }
+    .why-card {
+      background-color: #000000 !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
     .why-card:hover { background-color: #0a0a0a !important; transform: translateY(-2px); }
     .why-card h3, .why-card p, .why-card .text-on-surface-variant { color: #ffffff !important; }
     .why-icon-img { width: 3rem; height: 3rem; object-fit: contain; }
     
-    .sector-card { background-color: #000000 !important; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.2s ease; }
+    /* Cartes secteurs toujours noires */
+    .sector-card {
+      background-color: #000000 !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
     .sector-card:hover { background-color: #0a0a0a !important; transform: translateY(-2px); }
     .sector-card h3, .sector-card p, .sector-card a { color: #ffffff !important; }
     .sector-card a:hover { color: #00fa6c !important; }
     .sector-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.2s ease; }
     .sector-card:hover .sector-img { opacity: 1; }
     
+    /* Menu mobile */
     .mobile-menu { transform: translateX(-100%); transition: transform 0.3s ease; }
     .mobile-menu.open { transform: translateX(0); }
     @media (min-width: 1024px) { .mobile-menu { display: none; } }
     .menu-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40; backdrop-filter: blur(2px); }
     .menu-backdrop.open { display: block; }
     
-    @media (max-width: 640px) {
-      h1 { font-size: 2rem !important; line-height: 1.2 !important; }
-      .transform-title { font-size: 1.75rem !important; }
-      .typewriter-container { font-size: 1.5rem !important; }
-      .typewriter-cursor { height: 1em; }
-      .why-title { font-size: 1.75rem !important; }
+    /* Ajustements responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem !important; line-height: 1.2 !important; }
+      .transform-title { font-size: 2rem !important; }
+      .why-title { font-size: 2rem !important; }
       .sector-card { padding: 1rem; }
-      .sector-card h3 { font-size: 1.2rem; }
+      .sector-card h3 { font-size: 1.25rem; }
     }
   </style>
 </head>
 <body class="antialiased">
 
+<!-- Overlay menu mobile -->
 <div id="menuBackdrop" class="menu-backdrop"></div>
 
-<nav class="fixed top-0 w-full z-50 bg-surface/80 nav-blur border-b border-white/5">
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 nav-blur border-b border-white/5 transition-all duration-300">
 <div class="flex justify-between items-center px-4 md:px-margin-desktop py-4 max-w-container-max mx-auto w-full">
   <div class="flex items-center gap-4">
-    <a href="/"><img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/></a>
+    <a class="flex items-center" href="/">
+      <img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/>
+    </a>
   </div>
   <div class="hidden lg:flex items-center gap-6">
-    <a class="text-sm font-medium text-on-surface-variant hover:text-primary" href="#">Solutions</a>
-    <a class="text-sm font-medium text-on-surface-variant hover:text-primary" href="#">Fonctionnalités</a>
-    <a class="text-sm font-medium text-on-surface-variant hover:text-primary" href="#">Sécurité</a>
-    <a class="text-sm font-medium text-on-surface-variant hover:text-primary" href="#">Ressources</a>
-    <a class="text-sm font-medium text-on-surface-variant hover:text-primary" href="#">Tarifs</a>
-    <a class="text-sm font-medium text-on-surface-variant hover:text-primary" href="#">Démo</a>
+    <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Solutions</a>
+    <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Fonctionnalités</a>
+    <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Sécurité</a>
+    <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Ressources</a>
+    <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Tarifs</a>
+    <a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Démo</a>
   </div>
   <div class="flex items-center gap-3">
-    <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5"><span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span></button>
-    <button id="menuBtn" class="lg:hidden p-2 rounded-full hover:bg-white/5"><span class="material-symbols-outlined text-on-surface-variant">menu</span></button>
+    <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5 transition-all">
+      <span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span>
+    </button>
+    <button id="menuBtn" class="lg:hidden p-2 rounded-full hover:bg-white/5 transition-all">
+      <span class="material-symbols-outlined text-on-surface-variant">menu</span>
+    </button>
     <div class="hidden sm:flex items-center gap-3">
-      <button class="text-sm font-semibold text-white hover:opacity-80">Connexion</button>
-      <button class="bg-primary text-black font-bold text-sm px-5 py-2 rounded hover:scale-105">S'inscrire</button>
+      <button class="text-sm font-semibold text-white hover:opacity-80 transition-colors">Connexion</button>
+      <button class="bg-primary text-black font-bold text-sm px-5 py-2 rounded hover:scale-105 transition-all">S'inscrire</button>
     </div>
   </div>
 </div>
+
+<!-- Menu mobile déroulant -->
 <div id="mobileMenu" class="mobile-menu fixed top-16 left-0 w-64 h-full bg-surface-dim/95 backdrop-blur-lg border-r border-white/10 z-50 flex flex-col p-6 gap-4">
-  <a class="text-md font-medium text-on-surface-variant hover:text-primary" href="#">Solutions</a>
-  <a class="text-md font-medium text-on-surface-variant hover:text-primary" href="#">Fonctionnalités</a>
-  <a class="text-md font-medium text-on-surface-variant hover:text-primary" href="#">Sécurité</a>
-  <a class="text-md font-medium text-on-surface-variant hover:text-primary" href="#">Ressources</a>
-  <a class="text-md font-medium text-on-surface-variant hover:text-primary" href="#">Tarifs</a>
-  <a class="text-md font-medium text-on-surface-variant hover:text-primary" href="#">Démo</a>
+  <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Solutions</a>
+  <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Fonctionnalités</a>
+  <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Sécurité</a>
+  <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Ressources</a>
+  <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Tarifs</a>
+  <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Démo</a>
   <hr class="border-white/10 my-2">
-  <button class="w-full text-left text-md font-semibold text-white hover:opacity-80">Connexion</button>
-  <button class="w-full bg-primary text-black font-bold text-md py-2 rounded">S'inscrire</button>
+  <button class="w-full text-left text-md font-semibold text-white hover:opacity-80 transition-colors">Connexion</button>
+  <button class="w-full bg-primary text-black font-bold text-md py-2 rounded hover:scale-105 transition-all">S'inscrire</button>
 </div>
 </nav>
 
 <main>
+<!-- HERO responsive -->
 <section class="relative pt-28 md:pt-32 pb-16 md:pb-20 hero-gradient overflow-hidden min-h-screen flex flex-col items-center justify-center">
 <div class="max-w-4xl mx-auto px-4 md:px-margin-desktop text-center">
 <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4 md:mb-6 leading-tight text-gray-900 dark:text-white">
@@ -148,6 +209,7 @@
   <button class="w-full sm:w-auto border border-white/20 text-gray-900 dark:text-white font-bold px-6 md:px-8 py-3 md:py-4 rounded hover:bg-white/5 transition-all text-sm md:text-base">Voir une vidéo</button>
 </div>
 </div>
+<!-- Visuels simplifiés pour mobile -->
 <div class="mt-12 md:mt-20 relative w-full max-w-5xl mx-auto px-4 flex justify-center items-center">
 <div class="relative w-full flex flex-col md:flex-row justify-around items-center gap-4">
   <div class="w-2/3 md:w-1/3 p-3 bg-white/5 rounded-lg border border-white/10">
@@ -160,6 +222,7 @@
 </div>
 </section>
 
+<!-- Confiance (logos responsives) -->
 <section class="py-12 md:py-20 bg-surface-dim border-y border-white/5">
 <div class="max-w-container-max mx-auto px-4 md:px-margin-desktop text-center">
 <p class="text-on-surface-variant font-bold uppercase tracking-widest text-xs mb-8 md:mb-10">Reconnu par des organisations leaders</p>
@@ -177,6 +240,7 @@
 </div>
 </section>
 
+<!-- Pourquoi + images -->
 <section class="py-16 md:py-32 bg-surface text-center">
 <div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
 <h2 class="text-3xl md:text-4xl font-extrabold why-title mb-12 md:mb-20">
@@ -203,6 +267,7 @@
 </div>
 </section>
 
+<!-- Trois piliers -->
 <section class="py-16 md:py-32 bg-surface-dim">
 <div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
 <div class="text-center mb-12 md:mb-20">
@@ -244,32 +309,32 @@
 </div>
 </section>
 
-<!-- Section avec texte "Transformez votre secteur" et machine à écrire -->
+<!-- Secteurs d'activité -->
 <section class="py-16 md:py-32 bg-surface">
 <div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
-<h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-2 transform-title">Transformez votre secteur</h2>
-<div class="typewriter-container text-2xl sm:text-3xl md:text-5xl font-extrabold mb-8 md:mb-16 text-black bg-primary inline-block px-2">
+<h2 class="text-3xl md:text-5xl font-extrabold mb-2 transform-title">Transformez votre secteur</h2>
+<div class="text-3xl md:text-5xl font-extrabold mb-8 md:mb-16 text-black bg-primary inline-block px-2">
   <span id="typewriter-text"></span><span class="typewriter-cursor"></span>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-  <div class="sector-card p-4 md:p-8 rounded-xl group cursor-pointer">
-    <div class="w-full h-40 md:h-48 bg-white/10 rounded-lg mb-4 md:mb-6 overflow-hidden">
+  <div class="sector-card p-4 md:p-8 rounded-xl group transition-all cursor-pointer">
+    <div class="w-full h-40 md:h-48 bg-white/10 rounded-lg mb-4 md:mb-6 flex items-center justify-center overflow-hidden">
       <img src="images/illustation1.png" alt="Illustration secteur" class="sector-img">
     </div>
     <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-4">Entreprises &amp; bureaux</h3>
     <p class="text-xs md:text-sm mb-4 md:mb-6 leading-relaxed opacity-90">Gérez les entrées de vos collaborateurs, visiteurs et prestataires. Plus de registre papier, tout est dématérialisé et sécurisé.</p>
     <a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all text-sm" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
   </div>
-  <div class="sector-card p-4 md:p-8 rounded-xl group cursor-pointer">
-    <div class="w-full h-40 md:h-48 bg-white/10 rounded-lg mb-4 md:mb-6 overflow-hidden">
+  <div class="sector-card p-4 md:p-8 rounded-xl group transition-all cursor-pointer">
+    <div class="w-full h-40 md:h-48 bg-white/10 rounded-lg mb-4 md:mb-6 flex items-center justify-center overflow-hidden">
       <img src="images/l.jpg" alt="Illustration résidence" class="sector-img">
     </div>
     <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-4">Résidences &amp; immeubles</h3>
     <p class="text-xs md:text-sm mb-4 md:mb-6 leading-relaxed opacity-90">Contrôle d’accès pour copropriétés, livreurs et prestataires. Historique consultable par le syndic.</p>
     <a class="text-primary font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all text-sm" href="#">En savoir plus <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></a>
   </div>
-  <div class="sector-card p-4 md:p-8 rounded-xl group cursor-pointer">
-    <div class="w-full h-40 md:h-48 bg-white/10 rounded-lg mb-4 md:mb-6 overflow-hidden">
+  <div class="sector-card p-4 md:p-8 rounded-xl group transition-all cursor-pointer">
+    <div class="w-full h-40 md:h-48 bg-white/10 rounded-lg mb-4 md:mb-6 flex items-center justify-center overflow-hidden">
       <img src="images/g.png" alt="Illustration santé" class="sector-img">
     </div>
     <h3 class="text-xl md:text-2xl font-bold mb-2 md:mb-4">Santé &amp; cliniques</h3>
@@ -280,17 +345,19 @@
 </div>
 </section>
 
+<!-- CTA final -->
 <section class="py-16 md:py-32 bg-primary">
 <div class="max-w-container-max mx-auto px-4 md:px-margin-desktop text-center">
 <h2 class="text-2xl md:text-6xl font-black text-black mb-6 md:mb-8">Prêt à passer au 100% numérique ?</h2>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
-  <button class="bg-black text-white font-bold px-6 md:px-10 py-3 md:py-5 rounded-lg hover:scale-105 transition-all text-sm md:text-base">Créer un compte</button>
+  <button class="bg-black text-white font-bold px-6 md:px-10 py-3 md:py-5 rounded-lg hover:scale-105 transition-transform text-sm md:text-base">Créer un compte</button>
   <button class="bg-white/20 text-black font-bold px-6 md:px-10 py-3 md:py-5 rounded-lg hover:bg-white/30 transition-all border border-black/10 text-sm md:text-base">Voir une vidéo</button>
 </div>
 </div>
 </section>
 </main>
 
+<!-- Footer responsive -->
 <footer class="bg-surface-dim pt-12 md:pt-20 pb-8 md:pb-10 border-t border-white/5">
 <div class="max-w-container-max mx-auto px-4 md:px-margin-desktop">
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-gutter mb-12 md:mb-20">
@@ -311,7 +378,7 @@
 </footer>
 
 <script>
-  // Machine à écrire
+  // Machine à écrire responsive
   const textElement = document.getElementById('typewriter-text');
   const fullText = "Simplifiez l'accueil.";
   let index = 0;
@@ -328,8 +395,8 @@
     backdrop.classList.toggle('open');
     document.body.classList.toggle('overflow-hidden');
   }
-  if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
-  if (backdrop) backdrop.addEventListener('click', toggleMenu);
+  menuBtn.addEventListener('click', toggleMenu);
+  backdrop.addEventListener('click', toggleMenu);
 
   // Thème
   const themeToggle = document.getElementById('theme-toggle');
@@ -348,3 +415,4 @@
 </script>
 </body>
 </html>
+```
