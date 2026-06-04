@@ -5,246 +5,148 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Inscription | Registre+</title>
-<!-- Favicon (logo dans l'onglet) -->
 <link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
-<!-- Tailwind CSS v3 -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Google Fonts: Hanken Grotesk -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            'primary': '#00fa6c',
-            'surface': '#111410',
-            'surface-dim': '#0b0f0b',
-            'surface-container': '#191d18',
-            'on-surface': '#e2e3dd',
-            'on-surface-variant': '#c2c9bd',
-          },
-          fontFamily: {
-            sans: ['Hanken Grotesk', 'sans-serif'],
-          },
-          maxWidth: {
-            'container-max': '1280px',
-          },
-          spacing: {
-            'margin-desktop': '5%',
-          },
-          gap: {
-            'gutter': '24px',
-          }
+          colors: { 'primary': '#00fa6c' },
+          fontFamily: { sans: ['Hanken Grotesk', 'sans-serif'] },
         }
       }
     }
   </script>
 <style>
-    /* Styles globaux */
-    * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
-    body {
-      background-color: #111410;
-      color: #e2e3dd;
-      font-family: 'Hanken Grotesk', sans-serif;
-    }
-    .glass-card {
-      background: rgba(25, 29, 24, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .custom-input {
-      background-color: transparent !important;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.2s ease;
-    }
-    .custom-input:focus {
-      border-color: #00fa6c;
-      box-shadow: 0 0 0 1px #00fa6c;
-      outline: none;
-      background-color: transparent !important;
-    }
-    .custom-input:hover {
-      border-color: rgba(0, 250, 108, 0.5);
-    }
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus,
-    input:-webkit-autofill:active {
+    body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
+    .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .custom-input { background-color: transparent !important; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.2s ease; }
+    .custom-input:focus { border-color: #00fa6c; box-shadow: 0 0 0 1px #00fa6c; outline: none; background-color: transparent !important; }
+    .custom-input:hover { border-color: rgba(0, 250, 108, 0.5); }
+    .error-border { border-color: #ef4444 !important; }
+    .error-message { color: #ef4444; font-size: 0.75rem; margin-top: 0.25rem; display: flex; align-items: center; gap: 4px; }
+    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
       -webkit-box-shadow: 0 0 0 30px #111410 inset !important;
       -webkit-text-fill-color: #e2e3dd !important;
-      caret-color: #e2e3dd;
-      transition: background-color 5000s ease-in-out 0s;
     }
-    /* Mode clair */
-    html.light body {
-      background-color: #f9f9f9;
-      color: #1a1c1c;
-    }
-    html.light .glass-card {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid #e2e5f1;
-      backdrop-filter: blur(12px);
-    }
-    html.light .custom-input {
-      background-color: #ffffff !important;
-      border-color: #e2e5f1;
-      color: #1a1c1c;
-    }
-    html.light .custom-input:focus {
-      border-color: #00fa6c;
-      box-shadow: 0 0 0 1px #00fa6c;
-    }
-    html.light .custom-input::placeholder {
-      color: #9ca3af;
-    }
-    html.light .custom-input:hover {
-      border-color: rgba(0, 250, 108, 0.5);
-    }
-    html.light input:-webkit-autofill,
-    html.light input:-webkit-autofill:hover,
-    html.light input:-webkit-autofill:focus,
-    html.light input:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
-      -webkit-text-fill-color: #1a1c1c !important;
-    }
-    html.light .border-white\/10 {
-      border-color: #e2e5f1;
-    }
-    html.light .border-white\/5 {
-      border-color: #e2e5f1;
-    }
-    html.light .text-on-surface-variant {
-      color: #46464e;
-    }
-    html.light .text-white {
-      color: #1a1c1c;
-    }
-    html.light .bg-surface\/80 {
-      background-color: rgba(255, 255, 255, 0.8);
-    }
-    html.light .hover\:bg-white\/5:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-    html.light .material-symbols-outlined {
-      color: #4b5563;
-    }
-    html.light .glass-card .material-symbols-outlined {
-      color: #6b7280;
-    }
-    html.light button .material-symbols-outlined {
-      color: currentColor;
-    }
-    html.light .shadow-lg.shadow-primary\/20 {
-      box-shadow: 0 10px 15px -3px rgba(0, 250, 108, 0.1), 0 4px 6px -2px rgba(0, 250, 108, 0.05);
-    }
-    /* Ajustement logo mode clair (filtre inversé optionnel si logo sombre) */
-    html.light .logo-theme {
-      filter: invert(1);
-    }
-    ::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-    }
+    html.light body { background-color: #f9f9f9; color: #1a1c1c; }
+    html.light .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid #e2e5f1; }
+    html.light .custom-input { background-color: #ffffff !important; border-color: #e2e5f1; color: #1a1c1c; }
+    html.light .custom-input:focus { border-color: #00fa6c; }
+    html.light input:-webkit-autofill { -webkit-box-shadow: 0 0 0 30px #ffffff inset !important; -webkit-text-fill-color: #1a1c1c !important; }
+    html.light .logo-theme { filter: invert(1); }
+    html.light .text-on-surface-variant { color: #46464e; }
+    html.light .border-white\/10 { border-color: #e2e5f1; }
   </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
-<!-- Barre de navigation avec logo réduit (h-3) et bouton thème -->
-<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
-<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto w-full">
-<div class="flex items-center gap-8">
-<a class="flex items-center" href="#">
-<img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/>
-</a>
-</div>
-<div class="flex items-center gap-4">
-<button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5 transition-all">
-<span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span>
-</button>
-</div>
-</div>
+
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/5">
+  <div class="flex justify-between items-center px-5 md:px-margin-desktop py-4 max-w-container-max mx-auto w-full">
+    <a href="#"><img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/></a>
+    <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5 transition-all">
+      <span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span>
+    </button>
+  </div>
 </nav>
-<!-- Zone d'inscription centrée -->
+
 <main class="flex-grow flex items-center justify-center pt-32 pb-20 px-4">
-<div class="w-full max-w-md">
-<div class="glass-card rounded-2xl p-8 md:p-10 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,250,108,0.1)]">
-<div class="text-center mb-8">
-<h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Créer un compte</h1>
-<p class="text-on-surface-variant text-sm">Rejoignez l’accueil numérique sans papier</p>
-</div>
-<form action="#" class="space-y-6" id="registerForm" method="POST">
-<!-- Nom complet -->
-<div class="space-y-2">
-<label class="block text-sm font-medium text-on-surface-variant" for="full_name">Nom complet</label>
-<div class="relative">
-<input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="full_name" name="full_name" placeholder="Jean Dupont" type="text"/>
-<span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-xl">person</span>
-</div>
-</div>
-<!-- Email professionnel -->
-<div class="space-y-2">
-<label class="block text-sm font-medium text-on-surface-variant" for="email">Email professionnel</label>
-<div class="relative">
-<input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="email" name="email" placeholder="vous@entreprise.com" type="email"/>
-<span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-xl">mail</span>
-</div>
-</div>
-<!-- Mot de passe -->
-<div class="space-y-2">
-<label class="block text-sm font-medium text-on-surface-variant" for="password">Mot de passe</label>
-<div class="relative">
-<input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="password" name="password" placeholder="Créez un mot de passe" type="password"/>
-<button class="absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-white transition-colors" onclick="togglePassword()" type="button">
-<span class="material-symbols-outlined text-xl" id="eyeIcon">visibility</span>
-</button>
-</div>
-</div>
-<button class="w-full bg-primary text-black font-bold text-base py-3.5 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20" type="submit">S'INSCRIRE</button>
-</form>
-<div class="relative my-8">
-<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/10"></div></div>
-<div class="relative flex justify-center text-xs"><span class="bg-transparent px-2 text-on-surface-variant">OU</span></div>
-</div>
-<button class="w-full flex items-center justify-center gap-3 border border-white/10 hover:border-primary/50 text-white font-medium text-sm py-3.5 rounded-xl hover:bg-white/5 transition-all" type="button" id="googleSignupBtn">
-<svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-</svg>
-<span>S'inscrire avec Google</span>
-</button>
-<div class="text-center mt-8">
-<p class="text-sm text-on-surface-variant">Vous avez déjà un compte ? <a class="text-primary font-semibold hover:underline ml-1" href="#">Se connecter</a></p>
-</div>
-</div>
-<p class="text-center text-xs text-on-surface-variant/50 mt-6">Conforme RGPD – Données hébergées en France</p>
-</div>
+  <div class="w-full max-w-md">
+    <div class="glass-card rounded-2xl p-8 md:p-10">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Créer un compte</h1>
+        <p class="text-on-surface-variant text-sm">Rejoignez l’accueil numérique sans papier</p>
+      </div>
+
+      <div id="global-error" class="hidden mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm text-center"></div>
+      <div id="global-success" class="hidden mb-4 p-3 rounded-lg bg-primary/10 border border-primary/30 text-primary text-sm text-center"></div>
+
+      <form id="registerForm" method="POST">
+        <div class="space-y-2 mb-4">
+          <label class="block text-sm font-medium text-on-surface-variant" for="full_name">Nom complet</label>
+          <div class="relative">
+            <input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="full_name" name="full_name" placeholder="Jean Dupont" type="text"/>
+            <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-xl">person</span>
+          </div>
+          <div class="error-message hidden" id="error-full_name"></div>
+        </div>
+
+        <div class="space-y-2 mb-4">
+          <label class="block text-sm font-medium text-on-surface-variant" for="email">Email professionnel</label>
+          <div class="relative">
+            <input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="email" name="email" placeholder="vous@entreprise.com" type="email"/>
+            <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-xl">mail</span>
+          </div>
+          <div class="error-message hidden" id="error-email"></div>
+        </div>
+
+        <div class="space-y-2 mb-4">
+          <label class="block text-sm font-medium text-on-surface-variant" for="password">Mot de passe</label>
+          <div class="relative">
+            <input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="password" name="password" placeholder="8+ caractères, 1 majuscule, 1 chiffre" type="password"/>
+            <button type="button" class="absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-white transition-colors" onclick="togglePassword('password', 'eyeIcon')">
+              <span class="material-symbols-outlined text-xl" id="eyeIcon">visibility</span>
+            </button>
+          </div>
+          <div class="error-message hidden" id="error-password"></div>
+        </div>
+
+        <div class="space-y-2 mb-6">
+          <label class="block text-sm font-medium text-on-surface-variant" for="password_confirm">Confirmer le mot de passe</label>
+          <div class="relative">
+            <input class="w-full custom-input rounded-xl py-3.5 px-5 text-white placeholder:text-on-surface-variant/50 focus:outline-none" id="password_confirm" name="password_confirm" placeholder="Répétez le mot de passe" type="password"/>
+            <button type="button" class="absolute right-5 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-white transition-colors" onclick="togglePassword('password_confirm', 'eyeIconConfirm')">
+              <span class="material-symbols-outlined text-xl" id="eyeIconConfirm">visibility</span>
+            </button>
+          </div>
+          <div class="error-message hidden" id="error-password_confirm"></div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="w-full bg-primary text-black font-bold text-base py-3.5 rounded-xl hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-xl">app_registration</span>
+          <span>S'INSCRIRE</span>
+        </button>
+      </form>
+
+      <div class="relative my-8">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/10"></div></div>
+        <div class="relative flex justify-center text-xs"><span class="bg-transparent px-2 text-on-surface-variant">OU</span></div>
+      </div>
+
+      <button id="googleSignupBtn" class="w-full flex items-center justify-center gap-3 border border-white/10 hover:border-primary/50 text-white font-medium text-sm py-3.5 rounded-xl hover:bg-white/5 transition-all">
+        <svg class="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        <span>S'inscrire avec Google</span>
+      </button>
+
+      <div class="text-center mt-8">
+        <p class="text-sm text-on-surface-variant">Vous avez déjà un compte ? <a class="text-primary font-semibold hover:underline ml-1" href="#" id="loginLink">Se connecter</a></p>
+      </div>
+    </div>
+    <p class="text-center text-xs text-on-surface-variant/50 mt-6">Conforme RGPD – Données hébergées en France</p>
+  </div>
 </main>
-<!-- Pied de page avec logo réduit (h-3) -->
+
 <footer class="border-t border-white/5 py-8 mt-auto">
-<div class="max-w-container-max mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4">
-<div class="flex items-center gap-3">
-<img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/>
-<p class="text-on-surface-variant text-xs">© 2024 Registre+, Inc. Tous droits réservés.</p>
-</div>
-<div class="flex gap-6 text-xs text-on-surface-variant">
-<a class="hover:text-primary transition-colors" href="#">Confidentialité</a>
-<a class="hover:text-primary transition-colors" href="#">Conditions</a>
-<a class="hover:text-primary transition-colors" href="#">Sécurité</a>
-</div>
-</div>
+  <div class="max-w-container-max mx-auto px-5 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="flex items-center gap-3"><img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/><p class="text-on-surface-variant text-xs">© 2024 Registre+, Inc.</p></div>
+    <div class="flex gap-6 text-xs text-on-surface-variant"><a class="hover:text-primary" href="#">Confidentialité</a><a class="hover:text-primary" href="#">Conditions</a><a class="hover:text-primary" href="#">Sécurité</a></div>
+  </div>
 </footer>
 
 <script>
-    // Fonction pour afficher/masquer le mot de passe
-    function togglePassword() {
-      const pwd = document.getElementById('password');
-      const eye = document.getElementById('eyeIcon');
+    // ==================== AUCUNE POPUP, AUCUNE ALERT ====================
+    const API_BASE_URL = window.location.origin;
+    const REGISTER_ENDPOINT = `${API_BASE_URL}/api/register`;
+    const GOOGLE_OAUTH_URL = `${API_BASE_URL}/auth/google/redirect`;
+
+    function togglePassword(inputId, iconId) {
+      const pwd = document.getElementById(inputId);
+      const eye = document.getElementById(iconId);
       if (pwd.type === 'password') {
         pwd.type = 'text';
         eye.textContent = 'visibility_off';
@@ -254,52 +156,188 @@
       }
     }
 
-    // Gestion du thème clair/sombre
+    function showError(fieldId, message) {
+      const errorDiv = document.getElementById(`error-${fieldId}`);
+      const input = document.getElementById(fieldId);
+      if (errorDiv) {
+        errorDiv.innerHTML = `<span class="material-symbols-outlined text-xs">error</span> ${message}`;
+        errorDiv.classList.remove('hidden');
+      }
+      if (input) input.classList.add('error-border');
+    }
+
+    function hideError(fieldId) {
+      const errorDiv = document.getElementById(`error-${fieldId}`);
+      const input = document.getElementById(fieldId);
+      if (errorDiv) errorDiv.classList.add('hidden');
+      if (input) input.classList.remove('error-border');
+    }
+
+    function clearAllErrors() {
+      ['full_name', 'email', 'password', 'password_confirm'].forEach(f => hideError(f));
+      document.getElementById('global-error')?.classList.add('hidden');
+      document.getElementById('global-success')?.classList.add('hidden');
+    }
+
+    function validateFullName(name) {
+      if (!name || name.trim().length < 2) return "Le nom complet doit contenir au moins 2 caractères.";
+      if (name.trim().length > 100) return "Nom trop long (max 100 caractères).";
+      return null;
+    }
+
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+      if (!email) return "L'email est requis.";
+      if (!emailRegex.test(email)) return "Format d'email invalide (ex: nom@domaine.com).";
+      if (email.length > 255) return "Email trop long.";
+      return null;
+    }
+
+    function validatePassword(password) {
+      if (!password) return "Le mot de passe est requis.";
+      if (password.length < 8) return "8 caractères minimum.";
+      if (!/[A-Z]/.test(password)) return "Doit contenir au moins une majuscule.";
+      if (!/[0-9]/.test(password)) return "Doit contenir au moins un chiffre.";
+      if (!/[a-z]/.test(password)) return "Doit contenir au moins une minuscule.";
+      return null;
+    }
+
+    function validatePasswordConfirm(password, confirm) {
+      if (password !== confirm) return "Les mots de passe ne correspondent pas.";
+      return null;
+    }
+
+    function validateForm(data) {
+      let isValid = true;
+      clearAllErrors();
+      const nameError = validateFullName(data.full_name);
+      if (nameError) { showError('full_name', nameError); isValid = false; }
+      const emailError = validateEmail(data.email);
+      if (emailError) { showError('email', emailError); isValid = false; }
+      const pwdError = validatePassword(data.password);
+      if (pwdError) { showError('password', pwdError); isValid = false; }
+      const confirmError = validatePasswordConfirm(data.password, data.password_confirm);
+      if (confirmError) { showError('password_confirm', confirmError); isValid = false; }
+      return isValid;
+    }
+
+    async function submitRegistration(formData) {
+      const submitBtn = document.getElementById('submitBtn');
+      const originalContent = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<svg class="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> INSCRIPTION...`;
+      
+      try {
+        const response = await fetch(REGISTER_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            full_name: formData.full_name.trim(),
+            email: formData.email.trim().toLowerCase(),
+            password: formData.password,
+            password_confirmation: formData.password_confirm
+          })
+        });
+        const result = await response.json();
+        if (response.ok) {
+          if (result.token) localStorage.setItem('auth_token', result.token);
+          if (result.user) localStorage.setItem('user', JSON.stringify(result.user));
+          const successDiv = document.getElementById('global-success');
+          successDiv.innerHTML = result.message || 'Inscription réussie ! Redirection...';
+          successDiv.classList.remove('hidden');
+          setTimeout(() => { window.location.href = '/dashboard.html'; }, 1500);
+        } else {
+          const errorDiv = document.getElementById('global-error');
+          if (result.errors) {
+            if (result.errors.email) errorDiv.innerHTML = result.errors.email[0];
+            else if (result.errors.full_name) errorDiv.innerHTML = result.errors.full_name[0];
+            else if (result.errors.password) errorDiv.innerHTML = result.errors.password[0];
+            else errorDiv.innerHTML = result.message || "Erreur lors de l'inscription.";
+          } else {
+            errorDiv.innerHTML = result.message || "Une erreur est survenue.";
+          }
+          errorDiv.classList.remove('hidden');
+          if (result.errors) {
+            if (result.errors.email) showError('email', result.errors.email[0]);
+            if (result.errors.full_name) showError('full_name', result.errors.full_name[0]);
+            if (result.errors.password) showError('password', result.errors.password[0]);
+          }
+        }
+      } catch (error) {
+        document.getElementById('global-error').innerHTML = "Impossible de contacter le serveur. Vérifiez votre connexion.";
+        document.getElementById('global-error').classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalContent;
+      }
+    }
+
+    // Événements
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const full_name = document.getElementById('full_name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const password_confirm = document.getElementById('password_confirm').value;
+      const formData = { full_name, email, password, password_confirm };
+      if (validateForm(formData)) await submitRegistration(formData);
+    });
+
+    document.getElementById('full_name').addEventListener('input', function() {
+      const error = validateFullName(this.value);
+      error ? showError('full_name', error) : hideError('full_name');
+    });
+    document.getElementById('email').addEventListener('input', function() {
+      const error = validateEmail(this.value);
+      error ? showError('email', error) : hideError('email');
+    });
+    document.getElementById('password').addEventListener('input', function() {
+      const error = validatePassword(this.value);
+      error ? showError('password', error) : hideError('password');
+      const confirm = document.getElementById('password_confirm').value;
+      if (confirm) {
+        const confirmError = validatePasswordConfirm(this.value, confirm);
+        confirmError ? showError('password_confirm', confirmError) : hideError('password_confirm');
+      }
+    });
+    document.getElementById('password_confirm').addEventListener('input', function() {
+      const pwd = document.getElementById('password').value;
+      const error = validatePasswordConfirm(pwd, this.value);
+      error ? showError('password_confirm', error) : hideError('password_confirm');
+    });
+
+    // Google : redirection silencieuse (même onglet) – pas d'alert
+    document.getElementById('googleSignupBtn').addEventListener('click', () => {
+      window.location.href = GOOGLE_OAUTH_URL;
+    });
+
+    document.getElementById('loginLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/login.html';
+    });
+
+    // Thème
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
     const html = document.documentElement;
-    
-    // Charger le thème sauvegardé
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
-      html.classList.remove('dark');
-      html.classList.add('light');
+      html.classList.remove('dark'); html.classList.add('light');
       themeIcon.textContent = 'light_mode';
     } else {
-      html.classList.remove('light');
-      html.classList.add('dark');
+      html.classList.remove('light'); html.classList.add('dark');
       themeIcon.textContent = 'dark_mode';
     }
-    
-    // Basculer au clic
     themeToggle.addEventListener('click', () => {
       if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        html.classList.add('light');
+        html.classList.remove('dark'); html.classList.add('light');
         localStorage.setItem('theme', 'light');
         themeIcon.textContent = 'light_mode';
       } else {
-        html.classList.remove('light');
-        html.classList.add('dark');
+        html.classList.remove('light'); html.classList.add('dark');
         localStorage.setItem('theme', 'dark');
         themeIcon.textContent = 'dark_mode';
       }
-    });
-
-    // Simulation d'inscription
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const btn = this.querySelector('button[type="submit"]');
-      const original = btn.textContent;
-      btn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> INSCRIPTION EN COURS...</span>';
-      setTimeout(() => {
-        btn.textContent = original;
-        alert('Inscription simulée. Redirection vers le tableau de bord.');
-      }, 1500);
-    });
-
-    document.getElementById('googleSignupBtn').addEventListener('click', function() {
-      alert('Inscription avec Google (simulation)');
     });
   </script>
 </body>
