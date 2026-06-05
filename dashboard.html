@@ -23,6 +23,7 @@
     }
   </script>
 <style>
+    /* (tous les styles sont identiques à la version précédente – gardez-les) */
     * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
     body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
     .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
@@ -266,7 +267,7 @@
           <div class="glass-card rounded-xl overflow-x-auto">
             <table class="w-full min-w-[600px] text-left">
               <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
-              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td><tr></tbody>
+              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
             </table>
           </div>
         </section>
@@ -527,7 +528,7 @@
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN DEFINITIF SANS CHAMP SEXE ====================
+    // ==================== SCAN – ENVOI AVEC VALEUR PAR DÉFAUT POUR SEXE ====================
     let videoStream = null;
     const video = document.getElementById('video-preview');
     const canvas = document.getElementById('snapshot-canvas');
@@ -617,7 +618,13 @@
           throw new Error('Impossible d\'extraire les informations. Vérifiez la lisibilité de la pièce.');
         }
 
-        // Construction du payload SANS JAMAIS INCLURE "sexe"
+        // Construction du payload avec une valeur par défaut pour sexe
+        // L'API accepte uniquement 'M' ou 'F'. Si la donnée OCR n'est pas valide, on force 'M'.
+        let sexeValue = 'M'; // valeur par défaut
+        if (infos.sexe === 'M' || infos.sexe === 'F') {
+          sexeValue = infos.sexe;
+        }
+
         const visitorPayload = {
           nom: infos.nom?.trim() || 'Inconnu',
           prenom: infos.prenom?.trim() || 'Inconnu',
@@ -625,16 +632,15 @@
           typePiece: infos.typePiece || 'CNI',
           dateNaissance: infos.dateNaissance || null,
           lieuNaissance: infos.lieuNaissance?.trim() || '',
+          sexe: sexeValue,          // toujours 'M' ou 'F'
           taille: infos.taille ? parseInt(infos.taille, 10) : null,
           dateDelivrance: infos.dateDelivrance || null,
           dateExpiration: infos.dateExpiration || null,
           centreEnregistrement: infos.centreEnregistrement?.trim() || '',
           adresseDomicile: infos.adresseDomicile?.trim() || ''
         };
-        // Suppression garantie de toute propriété sexe
-        delete visitorPayload.sexe;
 
-        console.log('📦 Payload final (sans sexe) :', visitorPayload);
+        console.log('📦 Payload (sexe forcé) :', visitorPayload);
 
         const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
           method: 'POST',
