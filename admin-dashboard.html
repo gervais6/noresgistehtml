@@ -2,18 +2,15 @@
 <html class="dark" lang="fr">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Registre+ | Tableau de bord</title>
-<!-- Favicon -->
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Registre+ | Administration</title>
 <link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
-<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
     tailwind.config = {
       darkMode: 'class',
@@ -21,81 +18,38 @@
         extend: {
           colors: { 'primary': '#00fa6c' },
           fontFamily: { sans: ['Hanken Grotesk', 'sans-serif'] },
-          maxWidth: { 'container-max': '1280px' },
-          spacing: { 'margin-desktop': '5%' },
-          gap: { 'gutter': '24px' }
         }
       }
     }
   </script>
 <style>
-    /* Transitions globales */
     * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
-    body {
-      background-color: #111410;
-      color: #e2e3dd;
-      font-family: 'Hanken Grotesk', sans-serif;
-    }
-    /* Dark mode (par défaut) */
-    .glass-card {
-      background: rgba(25, 29, 24, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .stat-card {
-      background: rgba(25, 29, 24, 0.8);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
+    body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
+    .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .stat-card { background: rgba(25, 29, 24, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.05); }
     .bg-surface-container { background-color: #191d18; }
     .bg-surface-dim\/80 { background-color: rgba(11, 15, 11, 0.8); }
-    input, select {
-      background-color: #191d18;
-      border-color: rgba(255, 255, 255, 0.1);
-      color: #e2e3dd;
-    }
+    input, select { background-color: #191d18; border-color: rgba(255, 255, 255, 0.1); color: #e2e3dd; }
     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #00fa6c; border-radius: 10px; }
     .content-section { display: none; }
     .content-section.active { display: block; }
-    .nav-active {
-      color: #00fa6c !important;
-      background-color: rgba(0, 250, 108, 0.1);
-      border-left: 3px solid #00fa6c;
-    }
-    .stat-card:hover, .glass-card:hover { transform: translateY(-2px); }
-    .table-row-hover:hover { background-color: rgba(0, 250, 108, 0.05); }
-    input:focus {
-      outline: none;
-      border-color: #00fa6c;
-      box-shadow: 0 0 0 1px #00fa6c;
-    }
-    /* Light mode */
-    html.light body {
-      background-color: #f9f9f9;
-      color: #1a1c1c;
-    }
-    html.light .glass-card {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid #e2e5f1;
-    }
-    html.light .stat-card {
-      background: #ffffff;
-      border: 1px solid #e2e5f1;
-    }
+    .nav-active { color: #00fa6c !important; background-color: rgba(0, 250, 108, 0.1); border-left: 3px solid #00fa6c; }
+    .table-row-hover:active { background-color: rgba(0, 250, 108, 0.05); }
+    input:focus { outline: none; border-color: #00fa6c; box-shadow: 0 0 0 1px #00fa6c; }
+    
+    /* Light theme */
+    html.light body { background-color: #f9f9f9; color: #1a1c1c; }
+    html.light .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid #e2e5f1; }
+    html.light .stat-card { background: #ffffff; border: 1px solid #e2e5f1; }
     html.light .bg-surface-container { background-color: #ffffff; }
     html.light .bg-surface-dim\/80 { background-color: rgba(248, 249, 250, 0.9); }
     html.light .border-white\/5, html.light .border-white\/10 { border-color: #e2e5f1; }
     html.light .text-on-surface-variant { color: #46464e; }
     html.light .text-white { color: #1a1c1c; }
     html.light .bg-surface\/80 { background-color: rgba(255, 255, 255, 0.8); }
-    html.light input, html.light select {
-      background-color: #ffffff;
-      border-color: #e2e5f1;
-      color: #1a1c1c;
-    }
-    html.light input::placeholder { color: #9ca3af; }
+    html.light input, html.light select { background-color: #ffffff; border-color: #e2e5f1; color: #1a1c1c; }
     html.light .bg-black\/40 { background-color: #f3f4f6; }
     html.light .bg-red-500\/20 { background-color: #fee2e2; }
     html.light .bg-yellow-500\/20 { background-color: #fef3c7; }
@@ -104,475 +58,453 @@
     html.light .text-red-400 { color: #dc2626; }
     html.light .text-yellow-400 { color: #d97706; }
     html.light .bg-surface-container\/50 { background-color: #f9fafb; }
-    html.light .bg-surface-container\/30 { background-color: #f3f4f6; }
-    /* Logo adaptatif */
     html.light .logo-theme { filter: invert(1); }
-    html.light .material-symbols-outlined { color: #4b5563; }
-    html.light button .material-symbols-outlined { color: currentColor; }
 
-    /* Modal styles */
+    /* Modales */
     .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.2s ease, visibility 0.2s ease;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000;
+      opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease;
     }
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
     .modal-content {
-      background-color: #191d18;
-      border-radius: 1rem;
-      max-width: 500px;
-      width: 90%;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      transform: scale(0.95);
-      transition: transform 0.2s ease;
+      background-color: #191d18; border-radius: 1rem; max-width: 500px; width: 90%;
+      border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transform: scale(0.95); transition: transform 0.2s ease;
     }
-    .modal-overlay.active .modal-content {
-      transform: scale(1);
+    .modal-overlay.active .modal-content { transform: scale(1); }
+    html.light .modal-content { background-color: #ffffff; border: 1px solid #e2e5f1; }
+    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 1.5rem; text-align: center; }
+    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+    .detail-row { display: flex; margin-bottom: 1rem; text-align: left; }
+    .detail-label { width: 100px; font-weight: 600; color: #a1a3a8; }
+    .detail-value { flex: 1; color: #e2e3dd; word-break: break-word; }
+    #video-preview { width: 100%; border-radius: 1rem; background: #000; transform: scaleX(-1); margin-bottom: 1rem; }
+    button:active { transform: scale(0.97); }
+    .action-buttons { display: flex; gap: 0.75rem; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
+    .ocr-loading { font-size: 0.85rem; margin-top: 0.5rem; color: #00fa6c; }
+
+    /* Sidebar mobile */
+    .mobile-sidebar-open { overflow: hidden; }
+    @media (max-width: 768px) {
+      .sidebar-desktop { transform: translateX(-100%); transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); position: fixed; z-index: 60; }
+      .sidebar-desktop.open { transform: translateX(0); }
+      .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; backdrop-filter: blur(2px); }
+      .sidebar-backdrop.open { display: block; }
+      .main-content { margin-left: 0 !important; }
+      .stat-card { padding: 1rem; }
+      .glass-card { border-radius: 1rem; }
+      .modal-content { width: 95%; margin: 1rem; }
+      .action-buttons button { flex: 1; justify-content: center; }
     }
-    html.light .modal-content {
-      background-color: #ffffff;
-      border: 1px solid #e2e5f1;
-    }
-    .modal-header {
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    html.light .modal-header {
-      border-bottom-color: #e2e5f1;
-    }
-    .modal-body {
-      padding: 1.5rem;
-    }
-    .modal-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: flex-end;
-    }
-    html.light .modal-footer {
-      border-top-color: #e2e5f1;
-    }
-    .detail-row {
-      display: flex;
-      margin-bottom: 1rem;
-    }
-    .detail-label {
-      width: 100px;
-      font-weight: 600;
-      color: #a1a3a8;
-    }
-    .detail-value {
-      flex: 1;
-      color: #e2e3dd;
-    }
-    html.light .detail-label {
-      color: #6b7280;
-    }
-    html.light .detail-value {
-      color: #1f2937;
+    @media (min-width: 769px) {
+      .mobile-menu-btn { display: none; }
+      .sidebar-desktop { transform: none !important; position: fixed; }
+      .sidebar-backdrop { display: none !important; }
     }
   </style>
 </head>
 <body class="antialiased font-sans">
-<!-- Barre latérale -->
-<aside class="fixed left-0 top-0 h-screen w-64 bg-surface-dim/80 backdrop-blur-md border-r border-white/5 flex flex-col z-50">
-  <div class="px-6 py-8">
-    <img alt="Registre+" class="h-3 w-auto mb-2 logo-theme" src="images/noregis.svg"/>
-  </div>
-  <nav class="flex-1 px-3 space-y-1" id="main-nav">
-    <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all nav-active" data-section="dashboard" href="#">
-      <span class="material-symbols-outlined mr-3 text-xl">dashboard</span> Tableau de bord
-    </a>
-    <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="documents" href="#">
-      <span class="material-symbols-outlined mr-3 text-xl">description</span> Historiques
-    </a>
-    <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="settings" href="#">
-      <span class="material-symbols-outlined mr-3 text-xl">settings</span> Paramètres
-    </a>
-  </nav>
-  <div class="p-4 mt-auto border-t border-white/5">
-    <div class="space-y-1">
-      <a class="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" href="#">
-        <span class="material-symbols-outlined mr-3 text-xl">help</span> Assistance
-      </a>
-      <a class="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" href="#">
-        <span class="material-symbols-outlined mr-3 text-xl">logout</span> Déconnexion
-      </a>
-    </div>
-  </div>
-</aside>
-<!-- Corps principal -->
-<div class="ml-64 min-h-screen flex flex-col">
-  <!-- En-tête -->
-  <header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-white/5 px-margin-desktop h-16 flex justify-between items-center">
-    <div class="flex items-center space-x-6">
-      <span class="text-xl font-bold text-white" id="page-title">Tableau de bord</span>
-      <div class="relative hidden md:block">
-        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
-        <input class="bg-surface-container border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:border-primary focus:ring-0 transition-all" placeholder="Rechercher..." type="text"/>
-      </div>
-    </div>
-    <div class="flex items-center space-x-4">
-      <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5 transition-all">
-        <span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span>
-      </button>
-      <button class="p-2 rounded-full hover:bg-white/5 transition-all relative">
-        <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
-        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full"></span>
-      </button>
-      <button class="p-2 rounded-full hover:bg-white/5 transition-all">
-        <span class="material-symbols-outlined text-on-surface-variant">history</span>
-      </button>
-      <div class="flex items-center space-x-3 pl-4 border-l border-white/10">
-        <div class="text-right">
-          <p class="text-sm font-semibold text-white">Alex Sterling</p>
-          <p class="text-xs text-on-surface-variant">Directeur</p>
-        </div>
-        <img alt="Photo de profil" class="w-9 h-9 rounded-full border border-primary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
-      </div>
-    </div>
-  </header>
-  <!-- Main -->
-  <main class="flex-1 p-6 overflow-y-auto custom-scrollbar">
-    <div class="max-w-7xl mx-auto">
-      <!-- Section Dashboard -->
-      <section class="content-section active space-y-6" id="dashboard">
-        <div class="flex flex-wrap justify-between items-end gap-4 mb-6">
-          <div><h2 class="text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-sm">Gérez les enregistrements et badges numériques</p></div>
-          <div class="flex gap-3">
-            <button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm font-medium hover:bg-white/5 transition-all"><span class="material-symbols-outlined text-lg">filter_list</span> Filtres</button>
-            <button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm font-medium hover:bg-white/5 transition-all"><span class="material-symbols-outlined text-lg">download</span> Exporter CSV</button>
-          </div>
-        </div>
-        
-        <!-- Cartes statistiques -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="stat-card rounded-xl p-6">
-            <div class="flex justify-between items-start mb-4">
-              <div class="p-2 rounded-lg bg-primary/10">
-                <span class="material-symbols-outlined text-primary">how_to_reg</span>
-              </div>
-              <span class="text-xs text-on-surface-variant">+12% vs mois dernier</span>
-            </div>
-            <p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Total Entrées</p>
-            <h3 class="text-3xl font-bold text-white">1 284</h3>
-          </div>
-          <div class="stat-card rounded-xl p-6">
-            <div class="flex justify-between items-start mb-4">
-              <div class="p-2 rounded-lg bg-primary/10">
-                <span class="material-symbols-outlined text-primary">people</span>
-              </div>
-              <span class="text-xs text-primary">Actuellement</span>
-            </div>
-            <p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Actuellement</p>
-            <h3 class="text-3xl font-bold text-white">24</h3>
-          </div>
-          <div class="stat-card rounded-xl p-6">
-            <div class="flex justify-between items-start mb-4">
-              <div class="p-2 rounded-lg bg-primary/10">
-                <span class="material-symbols-outlined text-primary">exit_to_app</span>
-              </div>
-              <span class="text-xs text-on-surface-variant">+9% vs hier</span>
-            </div>
-            <p class="text-on-surface-variant text-xs uppercase tracking-wider mb-1">Sorties</p>
-            <h3 class="text-3xl font-bold text-white">1 260</h3>
-          </div>
-        </div>
+  <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 
-        <div class="glass-card rounded-xl overflow-hidden">
-          <div class="px-6 py-4 border-b border-white/5 flex flex-wrap justify-between items-center gap-3">
-            <div class="flex gap-4"><button class="text-sm font-semibold text-primary border-b-2 border-primary pb-1">Tous</button><button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Visiteurs</button><button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Prestataires</button><button class="text-sm text-on-surface-variant hover:text-white transition-colors pb-1">Livreurs</button></div>
-            <div class="text-xs text-on-surface-variant">1-10 sur 1 284</div>
+  <aside id="mainSidebar" class="sidebar-desktop fixed left-0 top-0 h-screen w-64 bg-surface-dim/80 backdrop-blur-md border-r border-white/5 flex flex-col z-50 transition-transform">
+    <div class="px-6 py-8 flex items-center justify-between">
+      <img alt="Registre+" class="h-3 w-auto logo-theme" src="images/noregis.svg"/>
+      <button id="closeSidebarBtn" class="mobile-menu-btn text-white/70 hover:text-white md:hidden"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <nav class="flex-1 px-3 space-y-1">
+      <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all nav-active" data-section="dashboard" href="#"><span class="material-symbols-outlined mr-3 text-xl">dashboard</span> Supervison</a>
+      <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="agents" href="#"><span class="material-symbols-outlined mr-3 text-xl">group</span> Agents</a>
+      <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="documents" href="#"><span class="material-symbols-outlined mr-3 text-xl">description</span> Historique</a>
+      <a class="nav-link flex items-center px-3 py-3 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all" data-section="settings" href="#"><span class="material-symbols-outlined mr-3 text-xl">settings</span> Paramètres</a>
+    </nav>
+    <div class="p-4 mt-auto border-t border-white/5">
+      <a id="logoutBtn" class="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:text-white hover:bg-white/5 transition-all cursor-pointer"><span class="material-symbols-outlined mr-3 text-xl">logout</span> Déconnexion</a>
+    </div>
+  </aside>
+
+  <div class="main-content ml-0 md:ml-64 min-h-screen flex flex-col">
+    <header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-white/5 px-4 md:px-6 h-16 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <button id="openSidebarBtn" class="mobile-menu-btn p-2 rounded-full hover:bg-white/5 transition-all md:hidden"><span class="material-symbols-outlined text-on-surface-variant">menu</span></button>
+        <span class="text-xl font-bold text-white" id="page-title">Supervision</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5"><span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span></button>
+        <div class="flex items-center gap-2 pl-2 border-l border-white/10">
+          <div class="text-right hidden xs:block"><p class="text-sm font-semibold text-white" id="userName">Admin</p><p class="text-xs text-on-surface-variant" id="userRole"></p></div>
+          <img class="w-9 h-9 rounded-full border border-primary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 p-3 md:p-6 overflow-y-auto custom-scrollbar">
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Supervision (dashboard) -->
+        <section class="content-section active space-y-5 md:space-y-6" id="dashboard">
+          <div class="flex flex-wrap justify-between items-end gap-4 mb-4">
+            <div><h2 class="text-xl md:text-2xl font-bold text-white">Supervision & Statistiques</h2><p class="text-on-surface-variant text-xs md:text-sm">Consultez les indicateurs d'accès en temps réel</p></div>
+            <div class="flex gap-2">
+              <button id="refreshStatsBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-white/10 text-xs md:text-sm font-medium hover:bg-white/5"><span class="material-symbols-outlined text-base md:text-lg">refresh</span> <span class="hidden sm:inline">Actualiser</span></button>
+            </div>
           </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left">
+          <!-- 3 cartes seulement : Total visites, Sur site, Heure de pointe -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
+            <div class="stat-card rounded-xl p-4 md:p-6"><div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">how_to_reg</span></div><span class="text-[10px] md:text-xs text-on-surface-variant">Depuis lancement</span></div><p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Total visites</p><h3 class="text-2xl md:text-3xl font-bold text-white" id="statTotal">0</h3></div>
+            <div class="stat-card rounded-xl p-4 md:p-6"><div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">people</span></div><span class="text-[10px] md:text-xs text-primary">Actuellement</span></div><p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Sur site</p><h3 class="text-2xl md:text-3xl font-bold text-white" id="statActive">0</h3></div>
+            <div class="stat-card rounded-xl p-4 md:p-6"><div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">schedule</span></div><span class="text-[10px] md:text-xs text-on-surface-variant">30 derniers jours</span></div><p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Heure de pointe</p><h3 class="text-2xl md:text-3xl font-bold text-white" id="statPeakHour">—</h3></div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="glass-card rounded-xl lg:col-span-2 p-5">
+              <div><h3 class="text-lg font-bold text-white">Courbe d'affluence (aujourd'hui)</h3><p class="text-xs text-on-surface-variant">Volume des entrées cumulées par tranches de 2 heures</p></div>
+              <div id="chartContainer" class="relative w-full h-64">
+                <svg viewBox="0 0 600 220" class="w-full h-full overflow-visible">
+                  <defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00fa6c" stop-opacity="0.25"/><stop offset="100%" stop-color="#00fa6c" stop-opacity="0"/></linearGradient></defs>
+                  <g id="chartGrid"></g><path id="chartArea" fill="url(#chartGrad)" stroke="none"/><path id="chartLine" fill="none" stroke="#00fa6c" stroke-width="2.5" stroke-linecap="round"/><g id="chartPoints"></g><g id="chartLabels"></g>
+                </svg>
+              </div>
+            </div>
+            <div class="glass-card rounded-xl p-5">
+              <div><h3 class="text-lg font-bold text-white">Départements populaires</h3><p class="text-xs text-on-surface-variant">Top 5 des destinations fréquentées</p></div>
+              <div id="departmentsList" class="space-y-3 mt-2"><div class="text-center py-4 text-on-surface-variant">Chargement...</div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section Agents (gestion des utilisateurs) -->
+        <section class="content-section space-y-5 md:space-y-6" id="agents">
+          <div class="flex flex-wrap justify-between items-center gap-3">
+            <div><h2 class="text-xl md:text-2xl font-bold text-white">Gestion des agents</h2><p class="text-on-surface-variant text-xs md:text-sm">Liste des utilisateurs, gestion des rôles et statuts</p></div>
+            <button id="createUserBtn" class="bg-primary text-black font-bold px-4 py-2 rounded-xl text-sm flex items-center gap-2"><span class="material-symbols-outlined text-lg">person_add</span> Nouvel agent</button>
+          </div>
+          <div class="glass-card rounded-xl overflow-x-auto">
+            <table class="w-full min-w-[800px] text-left">
               <thead class="bg-surface-container/50 border-b border-white/5">
-                <tr>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Date</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Visiteur</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Type</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-right">Pièce</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
-                </tr>
+                <th class="px-4 py-3 text-xs font-semibold">Nom</th>
+                <th class="px-4 py-3 text-xs font-semibold">Email</th>
+                <th class="px-4 py-3 text-xs font-semibold">Rôle</th>
+                <th class="px-4 py-3 text-xs font-semibold">Statut</th>
+                <th class="px-4 py-3 text-xs font-semibold text-center">Actions</th>
               </thead>
-              <tbody class="divide-y divide-white/5">
-                <tr class="table-row-hover" data-date="24 oct. 2023" data-visitor="Amazon Logistics" data-type="Livreur" data-piece="#B-9921" data-status="Sorti" data-status-class="bg-primary/10 text-primary border-primary/20">
-                  <td class="px-6 py-4 text-sm">24 oct. 2023</td>
-                  <td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">AM</div><span class="font-medium">Amazon Logistics</span></div></td>
-                  <td class="px-6 py-4 text-on-surface-variant text-sm">Livreur</td>
-                  <td class="px-6 py-4 text-right font-mono text-sm">#B-9921</td>
-                  <td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">Sorti</span></td>
-                  <td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-                <tr class="table-row-hover" data-date="24 oct. 2023" data-visitor="Sarah Lefèvre" data-type="Visiteuse" data-piece="#V-4502" data-status="En cours" data-status-class="bg-primary/10 text-primary border-primary/20">
-                  <td class="px-6 py-4 text-sm">24 oct. 2023</td>
-                  <td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">SL</div><span class="font-medium">Sarah Lefèvre</span></div></td>
-                  <td class="px-6 py-4 text-on-surface-variant text-sm">Visiteuse</td>
-                  <td class="px-6 py-4 text-right font-mono text-sm">#V-4502</td>
-                  <td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">En cours</span></td>
-                  <td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-                <tr class="table-row-hover" data-date="23 oct. 2023" data-visitor="Anthony Dubois" data-type="Prestataire" data-piece="#P-67721" data-status="En attente" data-status-class="bg-yellow-500/20 text-yellow-400 border-yellow-500/20">
-                  <td class="px-6 py-4 text-sm">23 oct. 2023</td>
-                  <td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">AD</div><span class="font-medium">Anthony Dubois</span></div></td>
-                  <td class="px-6 py-4 text-on-surface-variant text-sm">Prestataire</td>
-                  <td class="px-6 py-4 text-right font-mono text-sm">#P-67721</td>
-                  <td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/20">En attente</span></td>
-                  <td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-                <tr class="table-row-hover" data-date="23 oct. 2023" data-visitor="Stripe Terminal" data-type="Technicien" data-piece="#T-3420" data-status="Révision" data-status-class="bg-red-500/20 text-red-400 border-red-500/20">
-                  <td class="px-6 py-4 text-sm">23 oct. 2023</td>
-                  <td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">ST</div><span class="font-medium">Stripe Terminal</span></div></td>
-                  <td class="px-6 py-4 text-on-surface-variant text-sm">Technicien</td>
-                  <td class="px-6 py-4 text-right font-mono text-sm">#T-3420</td>
-                  <td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-500/20 text-red-400 border border-red-500/20">Révision</span></td>
-                  <td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-                <tr class="table-row-hover" data-date="22 oct. 2023" data-visitor="Google France" data-type="Visiteur" data-piece="#G-8400" data-status="Sorti" data-status-class="bg-primary/10 text-primary border-primary/20">
-                  <td class="px-6 py-4 text-sm">22 oct. 2023</td>
-                  <td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">GO</div><span class="font-medium">Google France</span></div></td>
-                  <td class="px-6 py-4 text-on-surface-variant text-sm">Visiteur</td>
-                  <td class="px-6 py-4 text-right font-mono text-sm">#G-8400</td>
-                  <td class="px-6 py-4"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">Sorti</span></td>
-                  <td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-              </tbody>
+              <tbody id="usersTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
             </table>
           </div>
-          <div class="px-6 py-4 border-t border-white/5 flex justify-between items-center">
-            <button class="text-sm text-on-surface-variant hover:text-primary flex items-center gap-1"><span class="material-symbols-outlined text-lg">chevron_left</span> Précédent</button>
-            <div class="flex gap-1"><button class="w-8 h-8 rounded bg-primary/20 text-primary text-sm font-bold">1</button><button class="w-8 h-8 rounded hover:bg-white/5 text-sm">2</button><button class="w-8 h-8 rounded hover:bg-white/5 text-sm">3</button><span class="px-2">...</span><button class="w-8 h-8 rounded hover:bg-white/5 text-sm">12</button></div>
-            <button class="text-sm text-on-surface-variant hover:text-primary flex items-center gap-1">Suivant <span class="material-symbols-outlined text-lg">chevron_right</span></button>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Section Historiques (Pièce + boutons Voir/Supprimer) -->
-      <section class="content-section space-y-6" id="documents">
-        <div class="flex justify-between items-center mb-6"><div><h2 class="text-2xl font-bold text-white">Mes historiques</h2><p class="text-on-surface-variant text-sm">Gérez vos justificatifs et badges générés</p></div><button class="bg-primary text-black font-bold px-5 py-2 rounded-xl flex items-center gap-2 hover:brightness-110 transition-all"><span class="material-symbols-outlined text-lg">upload</span> Nouveau dépôt</button></div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"><div class="glass-card p-6 rounded-xl"><p class="text-xs uppercase text-on-surface-variant tracking-wider">En attente</p><h3 class="text-3xl font-bold text-white mt-2">12</h3></div><div class="glass-card p-6 rounded-xl"><p class="text-xs uppercase text-on-surface-variant tracking-wider">Vérifiés</p><h3 class="text-3xl font-bold text-primary mt-2">842</h3></div><div class="glass-card p-6 rounded-xl"><p class="text-xs uppercase text-on-surface-variant tracking-wider">Anomalies</p><h3 class="text-3xl font-bold text-red-400 mt-2">3</h3></div></div>
-        <div class="glass-card rounded-xl overflow-hidden">
-          <div class="px-6 py-3 border-b border-white/5 flex gap-4"><button class="text-sm font-bold text-primary border-b-2 border-primary pb-1">Tous</button><button class="text-sm text-on-surface-variant hover:text-white pb-1">Non traités</button></div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left">
-              <thead class="bg-surface-container/50 border-b border-white/5">
-                <tr>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Nom</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Date</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Visiteur</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Pièce</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase">Statut</th>
-                  <th class="px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-white/5">
-                <tr class="table-row-hover" data-date="24 oct. 2023" data-visitor="Amazon Logistics" data-type="Justificatif" data-piece="#B-9921" data-status="VÉRIFIÉ" data-status-class="bg-primary/10 text-primary">
-                  <td class="px-6 py-3 text-sm font-medium">Entrepôt_Oct.pdf</td>
-                  <td class="px-6 py-3 text-on-surface-variant text-sm">24 oct. 2023</td>
-                  <td class="px-6 py-3">Amazon Logistics</td>
-                  <td class="px-6 py-3 font-mono text-sm">#B-9921</td>
-                  <td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-primary/10 text-primary">VÉRIFIÉ</span></td>
-                  <td class="px-6 py-3 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-                <tr class="table-row-hover" data-date="23 oct. 2023" data-visitor="The Capital Grille" data-type="Justificatif" data-piece="#V-8912" data-status="EN ATTENTE" data-status-class="bg-yellow-500/20 text-yellow-400">
-                  <td class="px-6 py-3 text-sm font-medium">Dinner_Receipt.jpg</td>
-                  <td class="px-6 py-3 text-on-surface-variant text-sm">23 oct. 2023</td>
-                  <td class="px-6 py-3">The Capital Grille</td>
-                  <td class="px-6 py-3 font-mono text-sm">#V-8912</td>
-                  <td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400">EN ATTENTE</span></td>
-                  <td class="px-6 py-3 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-                <tr class="table-row-hover" data-date="22 oct. 2023" data-visitor="Figma Inc." data-type="Justificatif" data-piece="#F-3200" data-status="VÉRIFIÉ" data-status-class="bg-primary/10 text-primary">
-                  <td class="px-6 py-3 text-sm font-medium">SaaS_License.pdf</td>
-                  <td class="px-6 py-3 text-on-surface-variant text-sm">22 oct. 2023</td>
-                  <td class="px-6 py-3">Figma Inc.</td>
-                  <td class="px-6 py-3 font-mono text-sm">#F-3200</td>
-                  <td class="px-6 py-3"><span class="px-2 py-1 rounded-full text-xs bg-primary/10 text-primary">VÉRIFIÉ</span></td>
-                  <td class="px-6 py-3 text-center"><div class="flex items-center justify-center gap-4"><button class="view-btn text-primary hover:text-white transition-colors" title="Voir"><span class="material-symbols-outlined text-xl">visibility</span></button><button class="delete-btn text-red-400 hover:text-red-300 transition-colors" title="Supprimer"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
-                </tr>
-              </tbody>
+        <!-- Section Historique -->
+        <section class="content-section space-y-5 md:space-y-6" id="documents">
+          <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p></div>
+          <div class="glass-card rounded-xl overflow-x-auto">
+            <table class="w-full min-w-[600px] text-left">
+              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
+              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
             </table>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Section Paramètres -->
-      <section class="content-section space-y-6" id="settings">
-        <div><h2 class="text-2xl font-bold text-white">Paramètres</h2><p class="text-on-surface-variant text-sm">Gérez votre profil et la sécurité</p></div>
-        <div class="max-w-3xl glass-card rounded-xl overflow-hidden">
-          <div class="p-6 border-b border-white/5"><h3 class="text-lg font-bold mb-6">Profil de l'organisation</h3>
-            <div class="space-y-6"><div class="flex items-center gap-6 pb-6 border-b border-white/5"><img alt="Logo" class="w-16 h-16 rounded-xl border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/><div><button class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer logo</button><button class="text-red-400 text-sm font-bold">Supprimer</button></div></div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label class="block text-xs font-semibold mb-2">Nom de l'entreprise</label><input class="w-full bg-surface-container border border-white/10 rounded-lg p-3 text-sm focus:border-primary focus:ring-0" type="text" value="Sterling &amp; Associés"/></div><div><label class="block text-xs font-semibold mb-2">Devise</label><select class="w-full bg-surface-container border border-white/10 rounded-lg p-3 text-sm focus:border-primary focus:ring-0"><option>USD - Dollar américain</option><option>EUR - Euro</option></select></div><div class="md:col-span-2"><label class="block text-xs font-semibold mb-2">Email de facturation</label><input class="w-full bg-surface-container border border-white/10 rounded-lg p-3 text-sm focus:border-primary focus:ring-0" type="email" value="facturation@sterling-assoc.com"/></div></div></div>
+        <!-- Section Paramètres -->
+        <section class="content-section space-y-6" id="settings">
+          <div><h2 class="text-2xl font-bold text-white">Paramètres</h2><p class="text-on-surface-variant text-sm">Gérez votre profil et la sécurité</p></div>
+          <div class="max-w-3xl glass-card rounded-xl">
+            <div class="p-5 md:p-6">
+              <h3 class="text-lg font-bold mb-4">Photo de profil</h3>
+              <div class="flex flex-wrap items-center gap-4 pb-5 border-b border-white/5">
+                <img class="w-14 h-14 rounded-xl border" id="profileImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+                <div><button id="changePhotoBtn" class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer photo</button><button id="removePhotoBtn" class="text-red-400 text-sm font-bold">Supprimer</button></div>
+              </div>
+            </div>
+            <div class="p-5 md:p-6 border-b border-white/5">
+              <h3 class="text-lg font-bold mb-4">Informations générales</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div><label class="block text-xs font-semibold mb-1">Nom</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profileNom"/></div>
+                <div><label class="block text-xs font-semibold mb-1">Prénom</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profilePrenom"/></div>
+                <div><label class="block text-xs font-semibold mb-1">Email</label><input class="w-full border rounded-lg p-3 text-sm" type="email" id="profileEmail" disabled/></div>
+                <div><label class="block text-xs font-semibold mb-1">Téléphone</label><input class="w-full border rounded-lg p-3 text-sm" type="tel" id="profileTelephone"/></div>
+                <div><label class="block text-xs font-semibold mb-1">Département</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profileDepartement"/></div>
+                <div><label class="block text-xs font-semibold mb-1">Poste</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profilePoste"/></div>
+                <div><label class="block text-xs font-semibold mb-1">Niveau d'accréditation</label><select class="w-full border rounded-lg p-3 text-sm" id="profileAccreditation"><option value="">Sélectionner</option><option value="Niveau 1">Niveau 1</option><option value="Niveau 2">Niveau 2</option><option value="Niveau 3 - Admin">Niveau 3 - Admin</option></select></div>
+                <div><label class="block text-xs font-semibold mb-1">Date d'arrivée</label><input class="w-full border rounded-lg p-3 text-sm" type="date" id="profileDateArrivee"/></div>
+              </div>
+            </div>
+            <div class="p-5 md:p-6 border-b border-white/5">
+              <h3 class="text-lg font-bold mb-4">Sécurité</h3>
+              <div class="space-y-3">
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Authentification à deux facteurs (2FA)</p><p class="text-xs">Renforce la sécurité de votre compte</p></div><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="twoFactorToggle" class="sr-only peer"><div class="w-11 h-6 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label></div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">SSO (Okta / Google)</p><p class="text-xs">Connectez-vous avec votre compte entreprise</p></div><button id="configureSSOBtn" class="text-primary text-sm border-b border-primary">Configurer</button></div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Sessions actives</p><p class="text-xs">Gérez vos appareils connectés</p></div><button id="manageSessionsBtn" class="text-primary text-sm border-b border-primary">Voir</button></div>
+              </div>
+            </div>
+            <div class="p-5 bg-surface-container/30 text-right"><button id="saveSettingsBtn" class="bg-primary text-black font-bold px-6 py-2.5 rounded-lg">Enregistrer les modifications</button></div>
           </div>
-          <div class="p-6"><h3 class="text-lg font-bold mb-6">Sécurité</h3>
-            <div class="space-y-4"><div class="flex justify-between items-center p-4 bg-surface-container/50 rounded-lg border border-white/5"><div><p class="font-semibold">Authentification à deux facteurs</p><p class="text-xs text-on-surface-variant">Obligatoire pour les admins</p></div><div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer"><div class="absolute right-1 top-1 w-4 h-4 bg-black rounded-full"></div></div></div>
-            <div class="flex justify-between items-center p-4 bg-surface-container/50 rounded-lg border border-white/5"><div><p class="font-semibold">Intégration SSO</p><p class="text-xs text-on-surface-variant">Connecté via Okta</p></div><button class="text-primary text-sm font-bold border-b border-primary">Configurer</button></div></div>
-          </div>
-          <div class="p-6 bg-surface-container/30 border-t border-white/5 text-right"><button class="bg-primary text-black font-bold px-8 py-3 rounded-lg hover:brightness-110">Enregistrer</button></div>
-        </div>
-      </section>
-    </div>
-  </main>
-</div>
-
-<!-- MODAL DÉTAILS -->
-<div id="detailModal" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3 class="text-lg font-bold text-white dark:text-white">Détails de la pièce</h3>
-      <button id="closeModalBtn" class="text-on-surface-variant hover:text-white transition-colors">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="detail-row"><div class="detail-label">Date :</div><div class="detail-value" id="modalDate">-</div></div>
-      <div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor">-</div></div>
-      <div class="detail-row"><div class="detail-label">Type :</div><div class="detail-value" id="modalType">-</div></div>
-      <div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece">-</div></div>
-      <div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus">-</div></div>
-    </div>
-    <div class="modal-footer">
-      <button id="closeModalFooterBtn" class="px-4 py-2 bg-primary/20 text-primary rounded-lg hover:bg-primary/30 transition-colors">Fermer</button>
-    </div>
+        </section>
+      </div>
+    </main>
   </div>
-</div>
 
-<!-- Bouton flottant -->
-<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-black rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform z-50">
-  <span class="material-symbols-outlined text-3xl">add</span>
-</button>
+  <!-- Modales -->
+  <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div></div><div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
+  <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
+  <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
+  <div id="createUserModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Créer un agent</h3><button class="closeCreateModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="space-y-3"><input type="text" id="newUserNom" placeholder="Nom" class="w-full border rounded-lg p-2"><input type="text" id="newUserPrenom" placeholder="Prénom" class="w-full border rounded-lg p-2"><input type="email" id="newUserEmail" placeholder="Email" class="w-full border rounded-lg p-2"><input type="password" id="newUserPassword" placeholder="Mot de passe" class="w-full border rounded-lg p-2"><select id="newUserRole" class="w-full border rounded-lg p-2"><option value="AGENT">Agent</option><option value="ADMIN">Administrateur</option></select></div></div><div class="modal-footer"><button id="confirmCreateUserBtn" class="px-4 py-2 bg-primary text-black rounded-lg">Créer</button><button class="closeCreateModalBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Annuler</button></div></div></div>
 
-<script>
-    // Navigation SPA
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('.content-section');
-    const pageTitle = document.getElementById('page-title');
-    const sectionTitles = { dashboard: 'Tableau de bord', documents: 'Historiques', settings: 'Paramètres' };
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.dataset.section;
-        navLinks.forEach(l => l.classList.remove('nav-active'));
-        link.classList.add('nav-active');
-        sections.forEach(section => {
-          section.classList.remove('active');
-          if (section.id === target) section.classList.add('active');
-        });
-        pageTitle.innerText = sectionTitles[target] || 'Registre+';
+  <script>
+    // ==================== CONFIGURATION API ====================
+    const API_BASE = 'https://noregisbackend.onrender.com/api';
+    const token = localStorage.getItem('auth_token');
+    if (!token) window.location.href = '/login.html';
+
+    let visits = [];
+    let users = [];
+    let currentUser = null;
+    let autoRefreshInterval = null;
+
+    async function apiFetch(endpoint, options = {}) {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
+        ...options,
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, ...options.headers }
       });
-    });
-    // Thème clair/sombre
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const html = document.documentElement;
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') { html.classList.remove('dark'); html.classList.add('light'); themeIcon.textContent = 'light_mode'; }
-    else { html.classList.remove('light'); html.classList.add('dark'); themeIcon.textContent = 'dark_mode'; }
-    themeToggle.addEventListener('click', () => {
-      if (html.classList.contains('dark')) {
-        html.classList.remove('dark'); html.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode';
-      } else {
-        html.classList.remove('light'); html.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode';
+      if (res.status === 401) { localStorage.clear(); window.location.href = '/login.html'; throw new Error('Session expirée'); }
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || 'Erreur API');
+      return data;
+    }
+
+    function showSuccess(msg) { document.getElementById('successMsg').innerText = msg; document.getElementById('successModal').classList.add('active'); }
+    function showError(msg) { document.getElementById('errorMsg').innerText = msg; document.getElementById('errorModal').classList.add('active'); }
+
+    // ==================== STATISTIQUES (dashboard) ====================
+    function isOnSite(v) {
+      const s = String(v.statut || '').toLowerCase();
+      return (s === 'present' || s === 'en-cours' || s === 'en cours' || s === 'on-site')
+          || (!v.heureSortie && s !== 'sorti' && s !== 'sortis' && s !== 'exited');
+    }
+    function isVehicle(v) {
+      const t = v.type || v.visiteur?.type || v.visiteurId?.type || v.visitor?.type;
+      return String(t || '').toLowerCase() === 'vehicule';
+    }
+    function computeStats(visitsArray) {
+      const todayStr = new Date().toDateString();
+      const total = visitsArray.length;
+      const today = visitsArray.filter(v => v.createdAt && new Date(v.createdAt).toDateString() === todayStr).length;
+      const active = visitsArray.filter(v => isOnSite(v)).length;
+      // vehicles n'est plus utilisé dans l'affichage
+      const vehicles = visitsArray.filter(v => isVehicle(v)).length;
+      const oneWeekAgo = new Date(); oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      const twoWeeksAgo = new Date(); twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+      const thisWeek = visitsArray.filter(v => v.createdAt && new Date(v.createdAt) >= oneWeekAgo).length;
+      const lastWeek = visitsArray.filter(v => v.createdAt && new Date(v.createdAt) >= twoWeeksAgo && new Date(v.createdAt) < oneWeekAgo).length;
+      let weekEvolution = 0;
+      if (lastWeek === 0) weekEvolution = thisWeek > 0 ? 100 : 0;
+      else weekEvolution = Math.round(((thisWeek - lastWeek) / lastWeek) * 100);
+      const thirtyDaysAgo = new Date(); thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const recent = visitsArray.filter(v => v.createdAt && new Date(v.createdAt) >= thirtyDaysAgo);
+      const hoursCount = Array(24).fill(0);
+      recent.forEach(v => { if (v.createdAt) { const h = new Date(v.createdAt).getHours(); hoursCount[h]++; } });
+      const slots = [8,10,12,14,16,18,20];
+      let peakSlot = null, maxSlotVisits = 0;
+      slots.forEach(h => { const count = (hoursCount[h] || 0) + (hoursCount[h+1] || 0); if (count > maxSlotVisits) { maxSlotVisits = count; peakSlot = h; } });
+      if (peakSlot === null && recent.length > 0) {
+        let peakH = 0, maxH = 0;
+        hoursCount.forEach((c, h) => { if (c > maxH) { maxH = c; peakH = h; } });
+        peakSlot = peakH;
       }
-    });
-    // Hover cartes
-    document.querySelectorAll('.stat-card, .glass-card').forEach(card => {
-      card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-2px)');
-      card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
-    });
-    // Focus recherche
-    const search = document.querySelector('input[type="text"]');
-    if (search) {
-      search.addEventListener('focus', () => search.parentElement.classList.add('ring-1', 'ring-primary'));
-      search.addEventListener('blur', () => search.parentElement.classList.remove('ring-1', 'ring-primary'));
+      const peakHour = (peakSlot !== null && maxSlotVisits > 0) ? `${String(peakSlot).padStart(2,'0')}:00 – ${String(peakSlot+2).padStart(2,'0')}:00` : '—';
+      const todayVisits = visitsArray.filter(v => v.createdAt && new Date(v.createdAt).toDateString() === todayStr);
+      const todayHours = Array(24).fill(0);
+      todayVisits.forEach(v => { if (v.createdAt) { const h = new Date(v.createdAt).getHours(); todayHours[h]++; } });
+      const chartSlots = [8,10,12,14,16,18,20];
+      const chartData = chartSlots.map(h => ({ label: `${h}h`, val: (todayHours[h] || 0) + (todayHours[h+1] || 0) }));
+      const depts = {};
+      visitsArray.forEach(v => { const d = v.departement || v.visiteur?.departement || v.visiteurId?.departement || 'Visiteur'; depts[d] = (depts[d] || 0) + 1; });
+      const departments = Object.entries(depts).map(([n,c]) => ({ name: n, count: c })).sort((a,b) => b.count - a.count).slice(0,5);
+      return { total, active, peakHour, chartData, departments };
     }
 
-    // MODAL LOGIC (commune)
-    const modal = document.getElementById('detailModal');
-    const closeModalBtns = [document.getElementById('closeModalBtn'), document.getElementById('closeModalFooterBtn')];
-    function openModal(data) {
-      document.getElementById('modalDate').innerText = data.date;
-      document.getElementById('modalVisitor').innerText = data.visitor;
-      document.getElementById('modalType').innerText = data.type || 'Document';
-      document.getElementById('modalPiece').innerText = data.piece;
-      document.getElementById('modalStatus').innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${data.statusClass}">${data.status}</span>`;
-      modal.classList.add('active');
-    }
-    function closeModal() { modal.classList.remove('active'); }
-    closeModalBtns.forEach(btn => { if (btn) btn.addEventListener('click', closeModal); });
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-    // Attacher événements Voir et Supprimer pour toutes les lignes (dashboard et historiques)
-    function attachRowEvents(container) {
-      const rows = container.querySelectorAll('tbody tr');
-      rows.forEach(row => {
-        if (row.dataset.eventsAttached === 'true') return;
-        row.dataset.eventsAttached = 'true';
-        
-        const viewBtn = row.querySelector('.view-btn');
-        const deleteBtn = row.querySelector('.delete-btn');
-        const date = row.getAttribute('data-date');
-        const visitor = row.getAttribute('data-visitor');
-        const piece = row.getAttribute('data-piece');
-        let type = row.getAttribute('data-type');
-        let status = row.getAttribute('data-status');
-        let statusClass = row.getAttribute('data-status-class');
-        
-        // Fallback si attributs manquants (cas improbable)
-        if (!type) type = row.querySelector('td:nth-child(3)') ? row.querySelector('td:nth-child(3)').innerText : 'Document';
-        if (!status) {
-          const statusSpan = row.querySelector('td:nth-last-child(2) span');
-          if (statusSpan) status = statusSpan.innerText.trim();
-          else status = 'Inconnu';
-        }
-        if (!statusClass) {
-          if (status === 'VÉRIFIÉ' || status === 'Sorti' || status === 'En cours') statusClass = 'bg-primary/10 text-primary';
-          else if (status === 'EN ATTENTE' || status === 'En attente') statusClass = 'bg-yellow-500/20 text-yellow-400';
-          else if (status === 'Révision') statusClass = 'bg-red-500/20 text-red-400';
-          else statusClass = 'bg-primary/10 text-primary';
-        }
-        
-        if (viewBtn) {
-          viewBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openModal({ date, visitor, type, piece, status, statusClass });
-          });
-        }
-        if (deleteBtn) {
-          deleteBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (confirm('Supprimer cette pièce ?')) {
-              row.remove();
-            }
-          });
-        }
-        row.addEventListener('click', (e) => {
-          if (e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
-          openModal({ date, visitor, type, piece, status, statusClass });
-        });
+    function renderChart(chartData) {
+      if (!chartData.length) return;
+      const width = 600, height = 220;
+      const padding = { left: 40, right: 20, top: 20, bottom: 30 };
+      const graphWidth = width - padding.left - padding.right;
+      const graphHeight = height - padding.top - padding.bottom;
+      const maxVal = Math.max(...chartData.map(d => d.val), 3);
+      const points = chartData.map((d, i) => {
+        const x = padding.left + (i / (chartData.length-1)) * graphWidth;
+        const y = padding.top + graphHeight - (d.val / maxVal) * graphHeight;
+        return { x, y, label: d.label, val: d.val };
       });
+      let linePath = `M ${points[0].x} ${points[0].y}`;
+      for (let i=1; i<points.length; i++) linePath += ` L ${points[i].x} ${points[i].y}`;
+      let areaPath = linePath + ` L ${points[points.length-1].x} ${padding.top+graphHeight} L ${points[0].x} ${padding.top+graphHeight} Z`;
+      document.getElementById('chartLine').setAttribute('d', linePath);
+      document.getElementById('chartArea').setAttribute('d', areaPath);
+      const pointsGroup = document.getElementById('chartPoints'); pointsGroup.innerHTML = '';
+      points.forEach(p => { const c = document.createElementNS('http://www.w3.org/2000/svg','circle'); c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', '4'); c.setAttribute('fill', '#00fa6c'); c.setAttribute('stroke', '#111410'); c.setAttribute('stroke-width', '2'); pointsGroup.appendChild(c); });
+      const labelsGroup = document.getElementById('chartLabels'); labelsGroup.innerHTML = '';
+      points.forEach(p => { const t = document.createElementNS('http://www.w3.org/2000/svg','text'); t.setAttribute('x', p.x); t.setAttribute('y', padding.top+graphHeight+15); t.setAttribute('text-anchor', 'middle'); t.setAttribute('fill', '#a1a3a8'); t.setAttribute('font-size', '9'); t.textContent = p.label; labelsGroup.appendChild(t); });
+      const gridGroup = document.getElementById('chartGrid'); gridGroup.innerHTML = '';
+      for (let i=0; i<=4; i++) { const y = padding.top + (i/4)*graphHeight; const l = document.createElementNS('http://www.w3.org/2000/svg','line'); l.setAttribute('x1', padding.left); l.setAttribute('y1', y); l.setAttribute('x2', width-padding.right); l.setAttribute('y2', y); l.setAttribute('stroke', '#2a2e2a'); l.setAttribute('stroke-dasharray', '3 3'); gridGroup.appendChild(l); }
     }
-    attachRowEvents(document.getElementById('dashboard'));
-    attachRowEvents(document.getElementById('documents'));
+
+    // ==================== GESTION DES AGENTS ====================
+    async function loadUsers() {
+      try {
+        const data = await apiFetch('/auth/users');
+        users = data.utilisateurs || [];
+        renderUsersTable();
+      } catch(err) { showError(err.message); }
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+      if (users.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="text-center py-6">Aucun utilisateur trouvé</td></tr>'; return; }
+      for (const u of users) {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td class="px-4 py-3">${escapeHtml(u.nom)} ${escapeHtml(u.prenom||'')}</td>
+          <td class="px-4 py-3">${escapeHtml(u.email)}</td>
+          <td class="px-4 py-3"><select class="role-select bg-surface-container border border-white/10 rounded-lg px-2 py-1 text-xs" data-id="${u._id}" ${u._id === currentUser?._id ? 'disabled' : ''}><option value="AGENT" ${u.role === 'AGENT' ? 'selected' : ''}>Agent</option><option value="ADMIN" ${u.role === 'ADMIN' ? 'selected' : ''}>Admin</option></select></td>
+          <td class="px-4 py-3"><span class="toggle-actif cursor-pointer px-2 py-1 rounded-full text-xs ${u.isActif ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-400'}" data-id="${u._id}" data-actif="${u.isActif}">${u.isActif ? 'Actif' : 'Inactif'}</span></td>
+          <td class="px-4 py-3 text-center"><button class="delete-user text-red-400" data-id="${u._id}" ${u._id === currentUser?._id ? 'disabled' : ''}><span class="material-symbols-outlined text-xl">delete</span></button></td>
+        `;
+      }
+      document.querySelectorAll('.role-select').forEach(sel => sel.addEventListener('change', async (e) => { await updateUserRole(sel.dataset.id, sel.value); }));
+      document.querySelectorAll('.toggle-actif').forEach(btn => btn.addEventListener('click', async () => { await toggleUserActif(btn.dataset.id, btn.dataset.actif === 'true'); }));
+      document.querySelectorAll('.delete-user').forEach(btn => btn.addEventListener('click', async () => { if (confirm('Supprimer définitivement cet utilisateur ?')) await deleteUser(btn.dataset.id); }));
+    }
+
+    async function updateUserRole(userId, newRole) {
+      try { await apiFetch(`/auth/users/${userId}`, { method: 'PUT', body: JSON.stringify({ role: newRole }) }); showSuccess('Rôle mis à jour'); await loadUsers(); } catch(err) { showError(err.message); }
+    }
+    async function toggleUserActif(userId, currentStatus) {
+      try { await apiFetch(`/auth/users/${userId}/toggle`, { method: 'PUT' }); showSuccess(`Utilisateur ${currentStatus ? 'désactivé' : 'activé'}`); await loadUsers(); } catch(err) { showError(err.message); }
+    }
+    async function deleteUser(userId) {
+      try { await apiFetch(`/auth/users/${userId}`, { method: 'DELETE' }); showSuccess('Utilisateur supprimé'); await loadUsers(); } catch(err) { showError(err.message); }
+    }
+    async function createUser(nom, prenom, email, password, role) {
+      try { await apiFetch('/auth/register', { method: 'POST', body: JSON.stringify({ nom, prenom, email, motDePasse: password, role }) }); showSuccess('Utilisateur créé'); document.getElementById('createUserModal').classList.remove('active'); await loadUsers(); } catch(err) { showError(err.message); }
+    }
+
+    // ==================== AUTRES CHARGEMENTS ====================
+    async function loadHistory() {
+      try {
+        const data = await apiFetch('/visites?limit=200');
+        const history = data.visites || [];
+        const tbody = document.getElementById('historyTableBody');
+        tbody.innerHTML = '';
+        for (const v of history) {
+          const vis = v.visiteurId || {};
+          const row = tbody.insertRow();
+          row.innerHTML = `<td class="px-4 py-3">${escapeHtml(vis.prenom||'')} ${escapeHtml(vis.nom||'')}</td><td class="px-4 py-3 font-mono">${escapeHtml(vis.numeroPiece||'-')}</td><td class="px-4 py-3">${new Date(v.heureEntree).toLocaleString()}</td><td class="px-4 py-3">${v.heureSortie ? new Date(v.heureSortie).toLocaleString() : '-'}</td><td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span></td>`;
+        }
+      } catch(err) { showError(err.message); }
+    }
+
+    async function loadProfile() {
+      try {
+        const data = await apiFetch('/auth/profil');
+        const user = data.utilisateur;
+        currentUser = user;
+        document.getElementById('userName').innerText = `${user.prenom || ''} ${user.nom || ''}`;
+        document.getElementById('userRole').innerText = user.role;
+        document.getElementById('profileNom').value = user.nom || '';
+        document.getElementById('profilePrenom').value = user.prenom || '';
+        document.getElementById('profileEmail').value = user.email || '';
+        document.getElementById('profileTelephone').value = user.telephone || '';
+        document.getElementById('profileDepartement').value = user.departement || '';
+        document.getElementById('profilePoste').value = user.poste || '';
+        document.getElementById('profileAccreditation').value = user.niveauAccreditation || '';
+        if (user.dateArrivee) document.getElementById('profileDateArrivee').value = new Date(user.dateArrivee).toISOString().slice(0,10);
+        if (user.twoFactorEnabled) document.getElementById('twoFactorToggle').checked = true;
+      } catch(err) { showError(err.message); }
+    }
+
+    async function saveProfile() {
+      try {
+        const payload = {
+          nom: document.getElementById('profileNom').value,
+          prenom: document.getElementById('profilePrenom').value,
+          telephone: document.getElementById('profileTelephone').value,
+          departement: document.getElementById('profileDepartement').value,
+          poste: document.getElementById('profilePoste').value,
+          niveauAccreditation: document.getElementById('profileAccreditation').value,
+          dateArrivee: document.getElementById('profileDateArrivee').value || null
+        };
+        await apiFetch('/auth/profil', { method: 'PUT', body: JSON.stringify(payload) });
+        showSuccess('Profil mis à jour');
+        loadProfile();
+      } catch(err) { showError(err.message); }
+    }
+
+    async function loadAllData() {
+      try {
+        const data = await apiFetch('/visites?limit=500');
+        visits = data.visites || [];
+        const stats = computeStats(visits);
+        document.getElementById('statTotal').innerText = stats.total;
+        document.getElementById('statActive').innerText = stats.active;
+        document.getElementById('statPeakHour').innerText = stats.peakHour;
+        renderChart(stats.chartData);
+        const deptDiv = document.getElementById('departmentsList');
+        if (stats.departments.length === 0) deptDiv.innerHTML = '<div class="text-center py-2 text-on-surface-variant">Aucune donnée</div>';
+        else {
+          const max = stats.departments[0].count;
+          deptDiv.innerHTML = stats.departments.map(d => `<div class="space-y-1"><div class="flex justify-between text-xs"><span class="font-medium truncate max-w-[150px]">${escapeHtml(d.name)}</span><span>${d.count} visite(s)</span></div><div class="h-2 bg-surface-container rounded-full overflow-hidden"><div class="h-full bg-primary rounded-full" style="width: ${Math.round((d.count/max)*100)}%"></div></div></div>`).join('');
+        }
+        await loadHistory();
+        await loadUsers();
+      } catch(err) { console.warn(err); }
+    }
+
+    function escapeHtml(str) { return str ? String(str).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]) : ''; }
+
+    // ==================== ÉVÉNEMENTS ====================
+    document.getElementById('refreshStatsBtn')?.addEventListener('click', () => loadAllData());
+    document.getElementById('saveSettingsBtn')?.addEventListener('click', saveProfile);
+    document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.clear(); window.location.href='/login.html'; });
+    document.getElementById('createUserBtn')?.addEventListener('click', () => document.getElementById('createUserModal').classList.add('active'));
+    document.getElementById('confirmCreateUserBtn')?.addEventListener('click', () => {
+      const nom = document.getElementById('newUserNom').value;
+      const prenom = document.getElementById('newUserPrenom').value;
+      const email = document.getElementById('newUserEmail').value;
+      const pwd = document.getElementById('newUserPassword').value;
+      const role = document.getElementById('newUserRole').value;
+      if (!nom || !email || !pwd) { showError('Nom, email et mot de passe requis'); return; }
+      createUser(nom, prenom, email, pwd, role);
+    });
+    document.querySelectorAll('.closeCreateModalBtn').forEach(btn => btn.addEventListener('click', () => document.getElementById('createUserModal').classList.remove('active')));
+    document.getElementById('changePhotoBtn')?.addEventListener('click', () => showError("Fonctionnalité à venir"));
+    document.getElementById('removePhotoBtn')?.addEventListener('click', () => showError("Fonctionnalité à venir"));
+    document.getElementById('configureSSOBtn')?.addEventListener('click', () => showError("Configuration SSO à venir"));
+    document.getElementById('manageSessionsBtn')?.addEventListener('click', () => showError("Gestion des sessions à venir"));
+    document.querySelectorAll('.closeModalBtn').forEach(btn => btn.addEventListener('click', () => document.getElementById('detailModal').classList.remove('active')));
+    document.querySelector('.closeSuccessBtn')?.addEventListener('click', () => document.getElementById('successModal').classList.remove('active'));
+    document.querySelector('.closeErrorBtn')?.addEventListener('click', () => document.getElementById('errorModal').classList.remove('active'));
+
+    // Actualisation automatique
+    function startAutoRefresh() { if (autoRefreshInterval) clearInterval(autoRefreshInterval); autoRefreshInterval = setInterval(loadAllData, 15000); }
+    function stopAutoRefresh() { if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; } }
+
+    // Sidebar et thème
+    const sidebar = document.getElementById('mainSidebar'), backdrop = document.getElementById('sidebarBackdrop');
+    document.getElementById('openSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.add('open'); backdrop.classList.add('open'); document.body.classList.add('mobile-sidebar-open'); });
+    document.getElementById('closeSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
+    backdrop?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
+    const themeToggle = document.getElementById('theme-toggle'), themeIcon = document.getElementById('theme-icon'), htmlEl = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') { htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); themeIcon.textContent = 'light_mode'; } else { htmlEl.classList.remove('light'); htmlEl.classList.add('dark'); themeIcon.textContent = 'dark_mode'; }
+    themeToggle.addEventListener('click', () => {
+      if (htmlEl.classList.contains('dark')) { htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode'; }
+      else { htmlEl.classList.remove('light'); htmlEl.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode'; }
+    });
+    const navLinks = document.querySelectorAll('.nav-link'), sections = document.querySelectorAll('.content-section'), pageTitleSpan = document.getElementById('page-title');
+    navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); const target = link.dataset.section; navLinks.forEach(l=>l.classList.remove('nav-active')); link.classList.add('nav-active'); sections.forEach(s=>s.classList.remove('active')); document.getElementById(target)?.classList.add('active'); pageTitleSpan.innerText = target==='dashboard'?'Supervision':target==='agents'?'Agents':target==='documents'?'Historique':'Paramètres'; if(window.innerWidth<769){ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); } }));
+
+    loadAllData();
+    startAutoRefresh();
+    window.addEventListener('beforeunload', stopAutoRefresh);
   </script>
 </body>
 </html>

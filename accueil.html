@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html class="dark" lang="fr">
 <head>
@@ -176,8 +175,8 @@
       <span class="material-symbols-outlined text-on-surface-variant">menu</span>
     </button>
     <div class="hidden sm:flex items-center gap-3">
-      <a href="login.html" class="text-sm font-semibold text-white hover:opacity-80 transition-colors">Connexion</a>
-      <a href="register.html" class="bg-primary text-black font-bold text-sm px-5 py-2 rounded hover:scale-105 transition-all">S'inscrire</a>
+      <!-- Lien "Se connecter" vers login.html -->
+      <a href="login.html" class="bg-primary text-black font-bold text-sm px-5 py-2 rounded hover:scale-105 transition-all">Se connecter</a>
     </div>
   </div>
 </div>
@@ -191,8 +190,8 @@
   <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Tarifs</a>
   <a class="text-md font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Démo</a>
   <hr class="border-white/10 my-2">
-  <a href="login.html" class="w-full text-left text-md font-semibold text-white hover:opacity-80 transition-colors">Connexion</a>
-  <a href="register.html" class="w-full bg-primary text-black font-bold text-md py-2 rounded text-center hover:scale-105 transition-all">S'inscrire</a>
+  <!-- Lien "Se connecter" vers login.html -->
+  <a href="login.html" class="w-full bg-primary text-black font-bold text-md py-2 rounded text-center hover:scale-105 transition-all">Se connecter</a>
 </div>
 </nav>
 
@@ -207,7 +206,7 @@
     Scannez les pièces d’identité, générez des badges, et gérez vos flux d’accès en toute conformité RGPD.
   </p>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
-  <a href="register.html" class="w-full sm:w-auto bg-primary text-black font-bold px-6 md:px-8 py-3 md:py-4 rounded hover:shadow-[0_0_20px_rgba(0,250,108,0.3)] transition-all text-sm md:text-base text-center">S'inscrire</a>
+  <a href="login.html" class="w-full sm:w-auto bg-primary text-black font-bold px-6 md:px-8 py-3 md:py-4 rounded hover:shadow-[0_0_20px_rgba(0,250,108,0.3)] transition-all text-sm md:text-base text-center">Se connecter</a>
   <button class="w-full sm:w-auto border border-white/20 text-gray-900 dark:text-white font-bold px-6 md:px-8 py-3 md:py-4 rounded hover:bg-white/5 transition-all text-sm md:text-base">Voir une vidéo</button>
 </div>
 </div>
@@ -352,7 +351,7 @@
 <div class="max-w-container-max mx-auto px-4 md:px-margin-desktop text-center">
 <h2 class="text-2xl md:text-6xl font-black text-black mb-6 md:mb-8">Prêt à passer au 100% numérique ?</h2>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
-  <a href="register.html" class="bg-black text-white font-bold px-6 md:px-10 py-3 md:py-5 rounded-lg hover:scale-105 transition-transform text-sm md:text-base text-center">Créer un compte</a>
+  <a href="login.html" class="bg-black text-white font-bold px-6 md:px-10 py-3 md:py-5 rounded-lg hover:scale-105 transition-transform text-sm md:text-base text-center">Se connecter</a>
   <button class="bg-white/20 text-black font-bold px-6 md:px-10 py-3 md:py-5 rounded-lg hover:bg-white/30 transition-all border border-black/10 text-sm md:text-base">Voir une vidéo</button>
 </div>
 </div>
@@ -380,40 +379,57 @@
 </footer>
 
 <script>
-  // Machine à écrire responsive
-  const textElement = document.getElementById('typewriter-text');
-  const fullText = "Simplifiez l'accueil.";
-  let index = 0;
-  function typeNextLetter() { if (index < fullText.length) { textElement.textContent += fullText.charAt(index); index++; setTimeout(typeNextLetter, 80); } }
-  textElement.textContent = "";
-  typeNextLetter();
-
-  // Menu mobile
-  const menuBtn = document.getElementById('menuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const backdrop = document.getElementById('menuBackdrop');
-  function toggleMenu() {
-    mobileMenu.classList.toggle('open');
-    backdrop.classList.toggle('open');
-    document.body.classList.toggle('overflow-hidden');
-  }
-  menuBtn.addEventListener('click', toggleMenu);
-  backdrop.addEventListener('click', toggleMenu);
-
-  // Thème
-  const themeToggle = document.getElementById('theme-toggle');
-  const themeIcon = document.getElementById('theme-icon');
-  const html = document.documentElement;
-  const saved = localStorage.getItem('theme');
-  if (saved === 'light') { html.classList.remove('dark'); html.classList.add('light'); themeIcon.textContent = 'light_mode'; }
-  else { html.classList.remove('light'); html.classList.add('dark'); themeIcon.textContent = 'dark_mode'; }
-  themeToggle.addEventListener('click', () => {
-    if (html.classList.contains('dark')) {
-      html.classList.remove('dark'); html.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode';
-    } else {
-      html.classList.remove('light'); html.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode';
+    // ==================== VÉRIFICATION DE SESSION ====================
+    // Si l'utilisateur est déjà connecté, on le redirige vers son tableau de bord
+    const authToken = localStorage.getItem('auth_token');
+    if (authToken) {
+      const userData = localStorage.getItem('user');
+      let dashboardUrl = '/dashboard.html';
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          const role = user.role;
+          if (role === 'admin') dashboardUrl = '/dashboard-admin.html';
+          else if (role === 'agent') dashboardUrl = '/dashboard-agent.html';
+        } catch(e) { /* fallback */ }
+      }
+      window.location.replace(dashboardUrl);
     }
-  });
+
+    // Machine à écrire responsive
+    const textElement = document.getElementById('typewriter-text');
+    const fullText = "Simplifiez l'accueil.";
+    let index = 0;
+    function typeNextLetter() { if (index < fullText.length) { textElement.textContent += fullText.charAt(index); index++; setTimeout(typeNextLetter, 80); } }
+    textElement.textContent = "";
+    typeNextLetter();
+
+    // Menu mobile
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('menuBackdrop');
+    function toggleMenu() {
+      mobileMenu.classList.toggle('open');
+      backdrop.classList.toggle('open');
+      document.body.classList.toggle('overflow-hidden');
+    }
+    menuBtn.addEventListener('click', toggleMenu);
+    backdrop.addEventListener('click', toggleMenu);
+
+    // Thème
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') { html.classList.remove('dark'); html.classList.add('light'); themeIcon.textContent = 'light_mode'; }
+    else { html.classList.remove('light'); html.classList.add('dark'); themeIcon.textContent = 'dark_mode'; }
+    themeToggle.addEventListener('click', () => {
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark'); html.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode';
+      } else {
+        html.classList.remove('light'); html.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode';
+      }
+    });
 </script>
 </body>
 </html>
