@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>Registre+ | Tableau de bord</title>
+<title>Registre+ | Agent – Scan & badge</title>
 <link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -39,7 +39,6 @@
     .table-row-hover:active { background-color: rgba(0, 250, 108, 0.05); }
     input:focus { outline: none; border-color: #00fa6c; box-shadow: 0 0 0 1px #00fa6c; }
     
-    /* Light theme */
     html.light body { background-color: #f9f9f9; color: #1a1c1c; }
     html.light .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid #e2e5f1; }
     html.light .stat-card { background: #ffffff; border: 1px solid #e2e5f1; }
@@ -60,7 +59,6 @@
     html.light .bg-surface-container\/50 { background-color: #f9fafb; }
     html.light .logo-theme { filter: invert(1); }
 
-    /* Modales */
     .modal-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000;
@@ -80,12 +78,86 @@
     .detail-row { display: flex; margin-bottom: 1rem; text-align: left; }
     .detail-label { width: 100px; font-weight: 600; color: #a1a3a8; }
     .detail-value { flex: 1; color: #e2e3dd; word-break: break-word; }
-    #video-preview { width: 100%; border-radius: 1rem; background: #000; transform: scaleX(-1); margin-bottom: 1rem; }
-    button:active { transform: scale(0.97); }
-    .action-buttons { display: flex; gap: 0.75rem; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
-    .ocr-loading { font-size: 0.85rem; margin-top: 0.5rem; color: #00fa6c; }
+    
+    #scanModal.modal-overlay.active .modal-content {
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      border-radius: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      background-color: #000;
+    }
+    #scanModal .modal-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    #video-preview {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+      margin-bottom: 0;
+      transform: scaleX(-1);
+    }
+    #scanModal .modal-header {
+      background-color: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+      border: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    #scanModal .modal-header h3 { color: white; }
+    #scanModal .action-buttons {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      background: transparent;
+      justify-content: center;
+      z-index: 20;
+    }
+    #scanModal .action-buttons button {
+      background-color: #00fa6c;
+      color: black;
+      border: none;
+      font-weight: bold;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .feedback-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .feedback-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .feedback-icon { font-size: 6rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
 
-    /* Sidebar mobile */
     .mobile-sidebar-open { overflow: hidden; }
     @media (max-width: 768px) {
       .sidebar-desktop { transform: translateX(-100%); transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); position: fixed; z-index: 60; }
@@ -95,8 +167,8 @@
       .main-content { margin-left: 0 !important; }
       .stat-card { padding: 1rem; }
       .glass-card { border-radius: 1rem; }
-      .modal-content { width: 95%; margin: 1rem; }
       .action-buttons button { flex: 1; justify-content: center; }
+      #scanModal .action-buttons button { padding: 10px 20px; font-size: 1rem; }
     }
     @media (min-width: 769px) {
       .mobile-menu-btn { display: none; }
@@ -133,18 +205,16 @@
         <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5"><span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span></button>
         <div class="flex items-center gap-2 pl-2 border-l border-white/10">
           <div class="text-right hidden xs:block"><p class="text-sm font-semibold text-white" id="userName">Agent</p><p class="text-xs text-on-surface-variant" id="userRole"></p></div>
-          <img class="w-9 h-9 rounded-full border border-primary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+          <img class="w-9 h-9 rounded-full border border-primary/30" id="profileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
         </div>
       </div>
     </header>
 
     <main class="flex-1 p-3 md:p-6 overflow-y-auto custom-scrollbar">
       <div class="max-w-7xl mx-auto">
-        <!-- Section Dashboard -->
         <section class="content-section active space-y-5 md:space-y-6" id="dashboard">
           <div class="flex flex-wrap justify-between items-end gap-4 mb-4">
-            <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Gérez les enregistrements et badges numériques</p></div>
-            <!-- Plus aucun bouton d'actualisation -->
+            <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Badgez les entrées / sorties</p></div>
             <div class="flex gap-2">
               <button id="exportCsvBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-white/10 text-xs md:text-sm font-medium hover:bg-white/5"><span class="material-symbols-outlined text-base md:text-lg">download</span> <span class="hidden sm:inline">Exporter CSV</span></button>
             </div>
@@ -191,18 +261,16 @@
           </div>
         </section>
 
-        <!-- Section Historiques (sans bouton Actualiser) -->
         <section class="content-section space-y-5 md:space-y-6" id="documents">
           <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p></div>
           <div class="glass-card rounded-xl overflow-x-auto">
             <table class="w-full min-w-[600px] text-left">
               <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
-              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
+              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td><tr></tbody>
             </table>
           </div>
         </section>
 
-        <!-- Section Paramètres (complète) -->
         <section class="content-section space-y-6" id="settings">
           <div><h2 class="text-2xl font-bold text-white">Paramètres</h2><p class="text-on-surface-variant text-sm">Gérez votre profil et la sécurité</p></div>
           <div class="max-w-3xl glass-card rounded-xl">
@@ -245,13 +313,32 @@
   <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div></div><div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
-  <div id="scanModal" class="modal-overlay"><div class="modal-content max-w-lg"><div class="modal-header"><h3 class="text-lg font-bold">Scanner une carte d'identité</h3><button id="closeScanBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body"><video id="video-preview" autoplay playsinline muted></video><canvas id="snapshot-canvas" style="display:none;"></canvas><div id="ocrStatus" class="ocr-loading"></div><div class="action-buttons"><button id="scanTriggerBtn" class="px-5 py-2 bg-primary text-black rounded-lg font-bold flex items-center gap-2"><span class="material-symbols-outlined">camera</span> Scanner</button><button id="flashToggleBtn" class="px-4 py-2 bg-white/10 rounded-lg flex items-center gap-2"><span class="material-symbols-outlined">flashlight_on</span> Flash</button></div></div><div class="modal-footer"><button id="stopScanBtn" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
+
+  <div id="scanModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="text-lg font-bold text-white">Scanner une pièce d'identité</h3>
+        <button id="closeScanBtn"><span class="material-symbols-outlined text-white">close</span></button>
+      </div>
+      <div class="modal-body">
+        <video id="video-preview" autoplay playsinline muted></video>
+        <canvas id="snapshot-canvas" style="display:none;"></canvas>
+        <div class="action-buttons">
+          <button id="scanTriggerBtn">Scanner</button>
+        </div>
+        <div id="feedbackOverlay" class="feedback-overlay">
+          <div id="feedbackIcon" class="feedback-icon"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <button id="scanFloatingBtn" class="fixed bottom-5 right-5 md:bottom-8 md:right-8 w-14 h-14 bg-primary text-black rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-all z-50"><span class="material-symbols-outlined text-3xl">badge</span></button>
 
   <script>
-    // ==================== CONFIGURATION API ====================
+    // ==================== CONFIGURATION ====================
     const API_BASE = 'https://noregisbackend.onrender.com/api';
-    const token = localStorage.getItem('auth_token');
+    let token = localStorage.getItem('auth_token');
     if (!token) window.location.href = '/login.html';
 
     let currentUser = null;
@@ -260,7 +347,6 @@
     let rowsPerPage = 10;
     let currentTypeFilter = 'all';
     let currentStatusFilter = 'all';
-    let searchQuery = '';
     let autoRefreshInterval = null;
 
     async function apiFetch(endpoint, options = {}) {
@@ -268,7 +354,11 @@
         ...options,
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, ...options.headers }
       });
-      if (res.status === 401) { localStorage.clear(); window.location.href = '/login.html'; throw new Error('Session expirée'); }
+      if (res.status === 401 || res.status === 403) {
+        localStorage.clear();
+        window.location.href = '/login.html';
+        throw new Error('Session expirée');
+      }
       const data = await res.json();
       if (!data.success) throw new Error(data.message || 'Erreur API');
       return data;
@@ -277,7 +367,6 @@
     function showSuccess(msg) { document.getElementById('successMsg').innerText = msg; document.getElementById('successModal').classList.add('active'); }
     function showError(msg) { document.getElementById('errorMsg').innerText = msg; document.getElementById('errorModal').classList.add('active'); }
 
-    // ==================== CHARGEMENT DES DONNÉES ====================
     async function loadAllData() {
       try {
         const data = await apiFetch('/visites?limit=500');
@@ -293,8 +382,7 @@
       const total = allVisits.length;
       const present = allVisits.filter(v => {
         const s = String(v.statut || '').toLowerCase();
-        return (s === 'present' || s === 'en-cours' || s === 'en cours' || s === 'on-site')
-            || (!v.heureSortie && s !== 'sorti' && s !== 'sortis');
+        return (s === 'present' || s === 'en-cours' || s === 'en cours' || s === 'on-site') || (!v.heureSortie && s !== 'sorti' && s !== 'sortis');
       }).length;
       const sortis = allVisits.filter(v => {
         const s = String(v.statut || '').toLowerCase();
@@ -312,20 +400,12 @@
       if (currentStatusFilter === 'present') {
         filtered = filtered.filter(v => {
           const s = String(v.statut || '').toLowerCase();
-          return (s === 'present' || s === 'en-cours' || s === 'en cours' || s === 'on-site')
-              || (!v.heureSortie && s !== 'sorti' && s !== 'sortis');
+          return (s === 'present' || s === 'en-cours' || s === 'en cours' || s === 'on-site') || (!v.heureSortie && s !== 'sorti' && s !== 'sortis');
         });
       } else if (currentStatusFilter === 'sorti') {
         filtered = filtered.filter(v => {
           const s = String(v.statut || '').toLowerCase();
           return s === 'sorti' || s === 'sortis' || s === 'exited' || s === 'terminé' || v.heureSortie;
-        });
-      }
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        filtered = filtered.filter(v => {
-          const vis = v.visiteurId || {};
-          return (vis.nom?.toLowerCase().includes(q) || vis.prenom?.toLowerCase().includes(q) || vis.numeroPiece?.toLowerCase().includes(q) || v.service?.toLowerCase().includes(q));
         });
       }
       return filtered;
@@ -447,58 +527,173 @@
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN & OCR ====================
-    let videoStream = null, torchEnabled = false;
-    const video = document.getElementById('video-preview'), canvas = document.getElementById('snapshot-canvas'), ctx = canvas.getContext('2d');
+    // ==================== SCAN DEFINITIF SANS CHAMP SEXE ====================
+    let videoStream = null;
+    const video = document.getElementById('video-preview');
+    const canvas = document.getElementById('snapshot-canvas');
+    const ctx = canvas.getContext('2d');
     const scanModal = document.getElementById('scanModal');
     let isProcessing = false;
 
-    async function stopCamera() { if(videoStream){ videoStream.getTracks().forEach(t=>t.stop()); videoStream=null; } if(video) video.srcObject=null; }
-    async function initCameraPreview() { await stopCamera(); try{ const stream=await navigator.mediaDevices.getUserMedia({ video:{ facingMode:"environment" } }); videoStream=stream; video.srcObject=stream; await video.play(); return true; }catch(e){ showError("Caméra indisponible"); return false; } }
-    async function captureAndOCR() {
-      if(isProcessing) return; isProcessing=true; const btn=document.getElementById('scanTriggerBtn'); btn.disabled=true;
-      document.getElementById('ocrStatus').innerText="Capture...";
-      canvas.width=video.videoWidth; canvas.height=video.videoHeight; ctx.drawImage(video,0,0);
-      const imgData=canvas.toDataURL('image/jpeg',0.9);
-      document.getElementById('ocrStatus').innerText="OCR en cours...";
-      try{
-        const { data:{ text } } = await Tesseract.recognize(imgData,'fra+eng');
-        if(!text || text.trim().length<10) throw new Error("Non détecté");
-        const lines = text.split('\n');
-        let nom = "", prenom = "", numeroPiece = "";
-        for(let line of lines){
-          if(line.toLowerCase().includes('nom')) nom = line.split(':')[1]?.trim() || "";
-          if(line.toLowerCase().includes('prénom')) prenom = line.split(':')[1]?.trim() || "";
-          let match = line.match(/\b(\d{10,})\b/);
-          if(match) numeroPiece = match[1];
-        }
-        if(!numeroPiece) numeroPiece = "SCAN"+Date.now();
-        const createRes = await fetch(`${API_BASE}/visiteurs`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ nom: nom || "Scan", prenom: prenom || "Auto", numeroPiece, typePiece: "CNI" })
-        });
-        const visiteurData = await createRes.json();
-        if(!visiteurData.success) throw new Error(visiteurData.message);
-        const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
-        await apiFetch('/visites/entree', { method: 'POST', body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan carte" }) });
-        await stopCamera(); scanModal.classList.remove('active'); showSuccess("Visiteur enregistré et entrée validée");
-        await loadAllData();
-      } catch(err){ showError("Échec lecture carte : "+err.message); } finally{ isProcessing=false; btn.disabled=false; document.getElementById('ocrStatus').innerText=""; }
+    async function stopCamera() {
+      if (videoStream) {
+        videoStream.getTracks().forEach(t => t.stop());
+        videoStream = null;
+      }
+      if (video) video.srcObject = null;
     }
-    async function openScanModal(){ scanModal.classList.add('active'); const ok=await initCameraPreview(); if(!ok) scanModal.classList.remove('active'); }
-    async function closeScanModalAndStop(){ await stopCamera(); scanModal.classList.remove('active'); }
 
-    // ==================== ÉVÉNEMENTS ====================
+    async function initCameraPreview() {
+      await stopCamera();
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        videoStream = stream;
+        video.srcObject = stream;
+        await video.play();
+        return true;
+      } catch (e) {
+        showError("Caméra indisponible");
+        return false;
+      }
+    }
+
+    function showFeedbackIcon(success) {
+      return new Promise((resolve) => {
+        const overlay = document.getElementById('feedbackOverlay');
+        const iconDiv = document.getElementById('feedbackIcon');
+        if (success) {
+          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#00fa6c;">check_circle</span>';
+        } else {
+          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#ff4444;">cancel</span>';
+        }
+        overlay.classList.add('active');
+        setTimeout(() => {
+          overlay.classList.remove('active');
+          resolve();
+        }, 1800);
+      });
+    }
+
+    async function captureAndSendToBackend() {
+      if (isProcessing) return;
+      isProcessing = true;
+      const btn = document.getElementById('scanTriggerBtn');
+      btn.disabled = true;
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0);
+      
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+      const formData = new FormData();
+      formData.append('image', blob, 'scan.jpg');
+
+      try {
+        const tokenActual = localStorage.getItem('auth_token');
+        if (!tokenActual) throw new Error('Vous êtes déconnecté. Veuillez vous reconnecter.');
+
+        const response = await fetch(`${API_BASE}/scan`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${tokenActual}` },
+          body: formData
+        });
+
+        if (response.status === 401 || response.status === 403) {
+          localStorage.clear();
+          showError('Session expirée ou accès interdit. Redirection...');
+          setTimeout(() => window.location.href = '/login.html', 2000);
+          return;
+        }
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `Erreur HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const infos = data.infosExtraites || {};
+
+        if (!infos.numeroPiece && (!infos.nom || !infos.prenom)) {
+          throw new Error('Impossible d\'extraire les informations. Vérifiez la lisibilité de la pièce.');
+        }
+
+        // Construction du payload SANS JAMAIS INCLURE "sexe"
+        const visitorPayload = {
+          nom: infos.nom?.trim() || 'Inconnu',
+          prenom: infos.prenom?.trim() || 'Inconnu',
+          numeroPiece: infos.numeroPiece ? infos.numeroPiece.replace(/\s/g, '') : `SCAN_${Date.now()}`,
+          typePiece: infos.typePiece || 'CNI',
+          dateNaissance: infos.dateNaissance || null,
+          lieuNaissance: infos.lieuNaissance?.trim() || '',
+          taille: infos.taille ? parseInt(infos.taille, 10) : null,
+          dateDelivrance: infos.dateDelivrance || null,
+          dateExpiration: infos.dateExpiration || null,
+          centreEnregistrement: infos.centreEnregistrement?.trim() || '',
+          adresseDomicile: infos.adresseDomicile?.trim() || ''
+        };
+        // Suppression garantie de toute propriété sexe
+        delete visitorPayload.sexe;
+
+        console.log('📦 Payload final (sans sexe) :', visitorPayload);
+
+        const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
+          body: JSON.stringify(visitorPayload)
+        });
+
+        if (visiteurRes.status === 401 || visiteurRes.status === 403) {
+          localStorage.clear();
+          showError('Session expirée. Veuillez vous reconnecter.');
+          setTimeout(() => window.location.href = '/login.html', 2000);
+          return;
+        }
+
+        const visiteurData = await visiteurRes.json();
+        if (!visiteurData.success) throw new Error(visiteurData.message);
+        const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
+
+        await apiFetch('/visites/entree', {
+          method: 'POST',
+          body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan automatique" })
+        });
+
+        await showFeedbackIcon(true);
+        await loadAllData();
+        await closeScanModalAndStop();
+      } catch (err) {
+        console.error(err);
+        await showFeedbackIcon(false);
+        showError(err.message);
+      } finally {
+        isProcessing = false;
+        btn.disabled = false;
+      }
+    }
+
+    async function openScanModal() {
+      scanModal.classList.add('active');
+      const ok = await initCameraPreview();
+      if (!ok) scanModal.classList.remove('active');
+    }
+
+    async function closeScanModalAndStop() {
+      await stopCamera();
+      scanModal.classList.remove('active');
+      const btn = document.getElementById('scanTriggerBtn');
+      if (btn) btn.disabled = false;
+    }
+
+    // Événements
     document.getElementById('scanFloatingBtn')?.addEventListener('click', openScanModal);
+    document.getElementById('scanTriggerBtn')?.addEventListener('click', captureAndSendToBackend);
     document.getElementById('closeScanBtn')?.addEventListener('click', closeScanModalAndStop);
-    document.getElementById('stopScanBtn')?.addEventListener('click', closeScanModalAndStop);
-    document.getElementById('scanTriggerBtn')?.addEventListener('click', captureAndOCR);
+
     document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
       let csv = "Visiteur,Pièce,Entrée,Sortie,Statut\n";
       allVisits.forEach(v => { const vis = v.visiteurId||{}; csv+=`"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie?new Date(v.heureSortie).toLocaleString():''},${v.statut}\n`; });
       const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="visites.csv"; a.click();
     });
-    document.getElementById('globalSearch')?.addEventListener('input', (e) => { searchQuery = e.target.value; currentPage=1; renderDashboard(); });
     document.getElementById('statusFilter')?.addEventListener('change', (e) => { currentStatusFilter = e.target.value; currentPage=1; renderDashboard(); });
     document.querySelectorAll('.filter-type-btn').forEach(btn => btn.addEventListener('click', function() {
       currentTypeFilter = this.dataset.type;
@@ -519,21 +714,10 @@
     document.querySelector('.closeSuccessBtn')?.addEventListener('click', () => document.getElementById('successModal').classList.remove('active'));
     document.querySelector('.closeErrorBtn')?.addEventListener('click', () => document.getElementById('errorModal').classList.remove('active'));
 
-    // ==================== ACTUALISATION AUTOMATIQUE ====================
-    function startAutoRefresh() {
-      if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-      autoRefreshInterval = setInterval(() => {
-        loadAllData();
-      }, 15000);
-    }
-    function stopAutoRefresh() {
-      if (autoRefreshInterval) {
-        clearInterval(autoRefreshInterval);
-        autoRefreshInterval = null;
-      }
-    }
+    function startAutoRefresh() { if (autoRefreshInterval) clearInterval(autoRefreshInterval); autoRefreshInterval = setInterval(() => { loadAllData(); }, 15000); }
+    function stopAutoRefresh() { if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; } }
+    window.addEventListener('beforeunload', () => { stopAutoRefresh(); });
 
-    // Sidebar & thème
     const sidebar = document.getElementById('mainSidebar'), backdrop = document.getElementById('sidebarBackdrop');
     document.getElementById('openSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.add('open'); backdrop.classList.add('open'); document.body.classList.add('mobile-sidebar-open'); });
     document.getElementById('closeSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
@@ -549,10 +733,8 @@
     const navLinks = document.querySelectorAll('.nav-link'), sections = document.querySelectorAll('.content-section'), pageTitleSpan = document.getElementById('page-title');
     navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); const target = link.dataset.section; navLinks.forEach(l=>l.classList.remove('nav-active')); link.classList.add('nav-active'); sections.forEach(s=>s.classList.remove('active')); document.getElementById(target)?.classList.add('active'); pageTitleSpan.innerText = target==='dashboard'?'Tableau de bord':target==='documents'?'Historiques':'Paramètres'; if(window.innerWidth<769){ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); } }));
 
-    // Lancement
     loadAllData();
     startAutoRefresh();
-    window.addEventListener('beforeunload', () => { stopAutoRefresh(); });
   </script>
 </body>
 </html>
