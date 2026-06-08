@@ -211,6 +211,7 @@
 
     <main class="flex-1 p-3 md:p-6 overflow-y-auto custom-scrollbar">
       <div class="max-w-7xl mx-auto">
+        <!-- Section Dashboard (identique) -->
         <section class="content-section active space-y-5 md:space-y-6" id="dashboard">
           <div class="flex flex-wrap justify-between items-end gap-4 mb-4">
             <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Badgez les entrées / sorties</p></div>
@@ -260,6 +261,7 @@
           </div>
         </section>
 
+        <!-- Section Historiques -->
         <section class="content-section space-y-5 md:space-y-6" id="documents">
           <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p></div>
           <div class="glass-card rounded-xl overflow-x-auto">
@@ -270,6 +272,7 @@
           </div>
         </section>
 
+        <!-- Section Paramètres -->
         <section class="content-section space-y-6" id="settings">
           <div><h2 class="text-2xl font-bold text-white">Paramètres</h2><p class="text-on-surface-variant text-sm">Gérez votre profil et la sécurité</p></div>
           <div class="max-w-3xl glass-card rounded-xl">
@@ -308,7 +311,7 @@
     </main>
   </div>
 
-  <!-- MODALE DÉTAILS VISITE + SUPPRESSION VISITEUR -->
+  <!-- MODALES -->
   <div id="detailModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
@@ -333,11 +336,9 @@
     </div>
   </div>
 
-  <!-- MODALES SUCCÈS / ERREUR -->
   <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
 
-  <!-- MODALE SCAN -->
   <div id="scanModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
@@ -377,7 +378,6 @@
     let scanMode = 'recto';      // 'recto' ou 'verso'
     let pendingVisitorId = null; // ID du visiteur créé après le recto
 
-    // ==================== FONCTIONS EXISTANTES (inchangées) ====================
     async function apiFetch(endpoint, options = {}) {
       const res = await fetch(`${API_BASE}${endpoint}`, {
         ...options,
@@ -552,7 +552,6 @@
       } catch(err) { showError(err.message); }
     }
 
-    // ==================== SUPPRESSION VISITEUR ====================
     async function deleteVisitor(visitorId) {
       if (!visitorId || visitorId === 'inconnu') {
         showError("Aucun identifiant de visiteur valide.");
@@ -574,7 +573,6 @@
     function openDetailModal(visite) {
       const vis = visite.visiteurId || {};
       const visitorId = vis._id;
-
       document.getElementById('modalVisitor').innerText = `${vis.prenom || ''} ${vis.nom || ''}`;
       document.getElementById('modalPiece').innerText = vis.numeroPiece || '-';
       document.getElementById('modalService').innerText = visite.service || '-';
@@ -582,18 +580,13 @@
       document.getElementById('modalExit').innerText = visite.heureSortie ? new Date(visite.heureSortie).toLocaleString() : 'Non sorti';
       document.getElementById('modalStatus').innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${visite.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${visite.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span>`;
       document.getElementById('modalVisitorId').innerText = visitorId || 'inconnu';
-
       const deleteBtn = document.getElementById('deleteVisitorBtn');
-      if (deleteBtn && visitorId) {
-        deleteBtn.setAttribute('data-visitor-id', visitorId);
-      } else if (deleteBtn) {
-        deleteBtn.setAttribute('data-visitor-id', '');
-      }
-
+      if (deleteBtn && visitorId) deleteBtn.setAttribute('data-visitor-id', visitorId);
+      else if (deleteBtn) deleteBtn.setAttribute('data-visitor-id', '');
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN DOUBLE (recto puis verso) ====================
+    // ==================== SCAN DOUBLE (recto + verso) ====================
     let videoStream = null;
     const video = document.getElementById('video-preview');
     const canvas = document.getElementById('snapshot-canvas');
@@ -627,16 +620,10 @@
       return new Promise((resolve) => {
         const overlay = document.getElementById('feedbackOverlay');
         const iconDiv = document.getElementById('feedbackIcon');
-        if (success) {
-          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#00fa6c;">check_circle</span>';
-        } else {
-          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#ff4444;">cancel</span>';
-        }
+        if (success) iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#00fa6c;">check_circle</span>';
+        else iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#ff4444;">cancel</span>';
         overlay.classList.add('active');
-        setTimeout(() => {
-          overlay.classList.remove('active');
-          resolve();
-        }, 1800);
+        setTimeout(() => { overlay.classList.remove('active'); resolve(); }, 1800);
       });
     }
 
@@ -649,47 +636,74 @@
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       ctx.drawImage(video, 0, 0);
-      
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
       const formData = new FormData();
       formData.append('image', blob, 'scan.jpg');
 
       try {
         const tokenActual = localStorage.getItem('auth_token');
-        if (!tokenActual) throw new Error('Vous êtes déconnecté.');
+        if (!tokenActual) throw new Error('Déconnecté');
 
-        const response = await fetch(`${API_BASE}/scan`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${tokenActual}` },
-          body: formData
-        });
+        if (scanMode === 'verso') {
+          // --- SCAN VERSO (recherche du NIN) ---
+          const response = await fetch(`${API_BASE}/scan?mode=verso`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${tokenActual}` },
+            body: formData
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.message || 'Erreur scan verso');
+          const nin = data.nin;
+          if (!nin) throw new Error('NIN non trouvé');
+          if (!pendingVisitorId) throw new Error('Aucun visiteur en attente');
 
-        if (response.status === 401 || response.status === 403) {
-          localStorage.clear();
-          showError('Session expirée. Veuillez vous reconnecter.');
-          setTimeout(() => window.location.href = '/login.html', 2000);
-          return;
-        }
+          // Mise à jour du visiteur avec le NIN
+          const updateRes = await fetch(`${API_BASE}/visiteurs/${pendingVisitorId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
+            body: JSON.stringify({ nin })
+          });
+          const updateData = await updateRes.json();
+          if (!updateData.success) throw new Error(updateData.message);
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.message || `Erreur HTTP ${response.status}`);
-        }
+          // Enregistrement de l'entrée
+          await apiFetch('/visites/entree', {
+            method: 'POST',
+            body: JSON.stringify({
+              visiteurId: pendingVisitorId,
+              personneVisitee: currentUser?.nom || "Agent",
+              service: "Accueil",
+              motif: "Scan complet recto+verso"
+            })
+          });
 
-        const data = await response.json();
-        let infos = data.infosExtraites || {};
-        const ocrText = data.ocr_text || '';
+          await showFeedbackIcon(true);
+          await loadAllData();
+          await closeScanModalAndStop();
+          showSuccess('Visiteur enregistré avec succès !');
+          // Réinitialisation
+          scanMode = 'recto';
+          pendingVisitorId = null;
+          document.querySelector('#scanModal .modal-header h3').innerText = 'Scanner une pièce d\'identité (recto)';
+          btn.innerText = 'Scanner (recto)';
+        } 
+        else {
+          // --- SCAN RECTO (toutes les infos) ---
+          const response = await fetch(`${API_BASE}/scan?mode=recto`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${tokenActual}` },
+            body: formData
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.message || 'Erreur scan recto');
 
-        if (scanMode === 'recto') {
-          // ---- RECTO : extraire nom, prénom, numéro pièce ----
+          let infos = data.infosExtraites || {};
           let nom = (infos.nom || '').trim();
           let prenom = (infos.prenom || '').trim();
           let numeroPiece = (infos.numeroPiece || '').replace(/\s/g, '');
-
           if (!nom || !prenom || !numeroPiece) {
-            throw new Error('Recto illisible : nom, prénom ou numéro de pièce manquant. Veuillez bien cadrer la carte.');
+            throw new Error('Recto illisible : nom, prénom ou numéro de pièce manquant.');
           }
-
           let sexe = (infos.sexe || '').trim().toUpperCase();
           let taille = infos.taille ? parseInt(infos.taille, 10) : null;
           if (taille !== null && (taille < 50 || taille > 300)) taille = null;
@@ -716,63 +730,17 @@
           if (!visiteurData.success) throw new Error(visiteurData.message);
           pendingVisitorId = visiteurData.id || visiteurData.visiteur?._id;
 
-          // Passer en mode verso
           scanMode = 'verso';
           document.querySelector('#scanModal .modal-header h3').innerText = 'Scanner le verso (NIN)';
           btn.innerText = 'Scanner le verso';
           await showFeedbackIcon(true);
           showSuccess('Recto enregistré ! Scannez maintenant le verso pour le NIN.');
-          // Ne pas fermer la modale
-        } 
-        else if (scanMode === 'verso') {
-          // ---- VERSO : extraire le NIN ----
-          const textUpper = ocrText.toUpperCase();
-          let nin = null;
-          // Recherche de NIN (13 chiffres, adaptez si nécessaire)
-          let match = textUpper.match(/\bNIN\s*[:\-]?\s*(\d{13})\b/i);
-          if (!match) match = textUpper.match(/\b(\d{13})\b/);
-          if (match) nin = match[1];
-          else throw new Error('Aucun NIN (13 chiffres) trouvé sur le verso. Veuillez repositionner la carte.');
-
-          if (!pendingVisitorId) throw new Error('Aucun visiteur en attente. Veuillez recommencer le scan recto.');
-
-          // Mise à jour du visiteur avec le NIN
-          const updateRes = await fetch(`${API_BASE}/visiteurs/${pendingVisitorId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
-            body: JSON.stringify({ nin })
-          });
-          const updateData = await updateRes.json();
-          if (!updateData.success) throw new Error(updateData.message);
-
-          // Enregistrement de l'entrée
-          await apiFetch('/visites/entree', {
-            method: 'POST',
-            body: JSON.stringify({ 
-              visiteurId: pendingVisitorId, 
-              personneVisitee: currentUser?.nom || "Agent", 
-              service: "Accueil", 
-              motif: "Scan complet recto+verso" 
-            })
-          });
-
-          await showFeedbackIcon(true);
-          await loadAllData();
-          await closeScanModalAndStop();
-          showSuccess('Visiteur enregistré avec succès !');
-          // Réinitialiser pour le prochain scan
-          scanMode = 'recto';
-          pendingVisitorId = null;
-          document.querySelector('#scanModal .modal-header h3').innerText = 'Scanner une pièce d\'identité (recto)';
-          btn.innerText = 'Scanner (recto)';
         }
       } catch (err) {
         console.error("❌ Erreur scan :", err);
         await showFeedbackIcon(false);
-        let userMessage = err.message;
-        if (err.message.includes('OCR')) userMessage = "Impossible de lire la carte. Assurez-vous qu'elle est bien éclairée.";
-        else if (err.message.includes('NIN')) userMessage = "Impossible de lire le NIN. Vérifiez que le verso est bien cadré et lisible.";
-        showError(userMessage);
+        showError(err.message);
+        if (scanMode !== 'verso') { scanMode = 'recto'; pendingVisitorId = null; }
       } finally {
         isProcessing = false;
         btn.disabled = false;
@@ -780,13 +748,10 @@
     }
 
     async function openScanModal() {
-      // Réinitialiser l'état
       scanMode = 'recto';
       pendingVisitorId = null;
-      const titleEl = document.querySelector('#scanModal .modal-header h3');
-      if (titleEl) titleEl.innerText = 'Scanner une pièce d\'identité (recto)';
-      const btn = document.getElementById('scanTriggerBtn');
-      if (btn) btn.innerText = 'Scanner (recto)';
+      document.querySelector('#scanModal .modal-header h3').innerText = 'Scanner une pièce d\'identité (recto)';
+      document.getElementById('scanTriggerBtn').innerText = 'Scanner (recto)';
       scanModalEl.classList.add('active');
       const ok = await initCameraPreview();
       if (!ok) scanModalEl.classList.remove('active');
@@ -795,13 +760,10 @@
     async function closeScanModalAndStop() {
       await stopCamera();
       scanModalEl.classList.remove('active');
-      const btn = document.getElementById('scanTriggerBtn');
-      if (btn) btn.disabled = false;
-      // Remettre l'état par défaut
       scanMode = 'recto';
       pendingVisitorId = null;
-      const titleEl = document.querySelector('#scanModal .modal-header h3');
-      if (titleEl) titleEl.innerText = 'Scanner une pièce d\'identité (recto)';
+      document.querySelector('#scanModal .modal-header h3').innerText = 'Scanner une pièce d\'identité (recto)';
+      const btn = document.getElementById('scanTriggerBtn');
       if (btn) btn.innerText = 'Scanner (recto)';
     }
 
@@ -837,17 +799,15 @@
 
     document.getElementById('deleteVisitorBtn')?.addEventListener('click', (e) => {
       const visitorId = e.currentTarget.getAttribute('data-visitor-id');
-      if (visitorId && visitorId !== 'inconnu') {
-        deleteVisitor(visitorId);
-      } else {
-        showError("Impossible de supprimer : visiteur introuvable.");
-      }
+      if (visitorId && visitorId !== 'inconnu') deleteVisitor(visitorId);
+      else showError("Impossible de supprimer : visiteur introuvable.");
     });
 
     function startAutoRefresh() { if (autoRefreshInterval) clearInterval(autoRefreshInterval); autoRefreshInterval = setInterval(() => { loadAllData(); }, 15000); }
-    function stopAutoRefresh() { if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; } }
-    window.addEventListener('beforeunload', () => { stopAutoRefresh(); });
+    function stopAutoRefresh() { if (autoRefreshInterval) clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
+    window.addEventListener('beforeunload', () => stopAutoRefresh());
 
+    // Sidebar et thème (inchangés)
     const sidebar = document.getElementById('mainSidebar'), backdrop = document.getElementById('sidebarBackdrop');
     document.getElementById('openSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.add('open'); backdrop.classList.add('open'); document.body.classList.add('mobile-sidebar-open'); });
     document.getElementById('closeSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
