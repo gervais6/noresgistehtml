@@ -231,7 +231,7 @@
         <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5"><span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span></button>
         <div class="flex items-center gap-2 pl-2 border-l border-white/10">
           <div class="text-right hidden xs:block"><p class="text-sm font-semibold text-white" id="userName">Agent</p><p class="text-xs text-on-surface-variant" id="userRole"></p></div>
-          <img class="w-9 h-9 rounded-full border border-primary/30" id="profileAvatar" src="images/default-avatar.png"/>
+          <img class="w-9 h-9 rounded-full border border-primary/30" id="profileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
         </div>
       </div>
     </header>
@@ -303,7 +303,7 @@
             <div class="p-5 md:p-6">
               <h3 class="text-lg font-bold mb-4">Photo de profil</h3>
               <div class="flex flex-wrap items-center gap-4 pb-5 border-b border-white/5">
-                <img class="w-14 h-14 rounded-xl border" id="profileImage" src="images/default-avatar.png"/>
+                <img class="w-14 h-14 rounded-xl border" id="profileImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
                 <div><button id="changePhotoBtn" class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer photo</button><button id="removePhotoBtn" class="text-red-400 text-sm font-bold">Supprimer</button></div>
               </div>
             </div>
@@ -382,7 +382,7 @@
     let autoRefreshInterval = null;
 
     // Variables pour le scan recto-verso
-    let rectoData = null;
+    let rectoData = null;      // données extraites du recto
     let currentSide = 'recto'; // 'recto' ou 'verso'
     let videoStream = null;
     let isProcessing = false;
@@ -592,7 +592,7 @@
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN RECTO-VERSO ====================
+    // ==================== SCAN RECTO-VERSO (Sans regex front) ====================
     async function stopCamera() {
       if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
       if (video) video.srcObject = null;
@@ -617,131 +617,109 @@
       });
     }
 
-    // Extraction du recto (champs classiques)
-    function extraireInfosRecto(ocrText) {
-      const infos = {};
-      const lignes = ocrText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      // Nom
-      let match = ocrText.match(/Nom[\s:]+([A-Za-zÀ-ÿ\-]+)/i);
-      infos.nom = match ? match[1] : null;
-      // Prénom
-      match = ocrText.match(/Prénom(?:s)?[\s:]+([A-Za-zÀ-ÿ\-]+)/i);
-      infos.prenom = match ? match[1] : null;
-      // Date de naissance
-      match = ocrText.match(/\b(\d{2}\/\d{2}\/\d{4})\b/);
-      if (match) infos.dateNaissance = match[1];
-      // Sexe
-      match = ocrText.match(/\b([MF])\b/);
-      if (match) infos.sexe = match[1];
-      // Taille
-      match = ocrText.match(/(\d{2,3})\s*cm/i);
-      if (match) infos.taille = parseInt(match[1], 10);
-      // Numéro de pièce (si présent sur recto)
-      match = ocrText.match(/\b(\d{10,})\b/);
-      if (match) infos.numeroPieceRecto = match[1];
-      return infos;
-    }
-
-    // Extraction du verso : uniquement le NIN
-    function extraireNIN(ocrText) {
-      // Cherche "NIN" suivi de chiffres (avec ou sans espaces)
-      let match = ocrText.match(/NIN\s+([\d\s]+)/i);
-      if (match) {
-        let nin = match[1].replace(/\s/g, '');
-        if (nin.length > 5) return nin;
+    // Envoie l'image au backend /api/scan et retourne les infos extraites
+    async function scanImage(blob) {
+      const formData = new FormData();
+      formData.append('image', blob, 'scan.jpg');
+      const tokenActual = localStorage.getItem('auth_token');
+      const response = await fetch(`${API_BASE}/scan`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${tokenActual}` },
+        body: formData
+      });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Erreur HTTP ${response.status}`);
       }
-      // Parfois écrit "N I N" ou "N.I.N."
-      match = ocrText.match(/N[.\s]*I[.\s]*N[.\s]*([\d\s]+)/i);
-      if (match) {
-        let nin = match[1].replace(/\s/g, '');
-        if (nin.length > 5) return nin;
-      }
-      // Recherche d'un long nombre (13 à 15 chiffres) qui pourrait être le NIN
-      match = ocrText.match(/\b(\d{13,15})\b/);
-      if (match) return match[1];
-      return null;
+      const data = await response.json();
+      return data.infosExtraites || {};
     }
 
     async function captureAndProcess() {
       if (isProcessing) return;
       isProcessing = true;
       scanTriggerBtn.disabled = true;
-      nextSideBtn.disabled = true;
+      if (nextSideBtn) nextSideBtn.disabled = true;
 
       // Prendre une photo
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       ctx.drawImage(video, 0, 0);
-      const imgData = canvas.toDataURL('image/jpeg', 0.9);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
 
       try {
-        // OCR via Tesseract
-        const { data: { text } } = await Tesseract.recognize(imgData, 'fra+eng');
-        if (!text || text.trim().length < 10) throw new Error("Texte non détecté");
-
+        const infos = await scanImage(blob);
+        
         if (currentSide === 'recto') {
-          const infos = extraireInfosRecto(text);
-          if (!infos.nom && !infos.prenom) throw new Error("Nom/prénom non trouvés sur le recto");
+          // Stocker les infos du recto
           rectoData = infos;
+          if (!rectoData.nom && !rectoData.prenom) throw new Error("Aucun nom/prénom détecté sur le recto");
           await showFeedbackIcon(true);
           // Passer au verso
           currentSide = 'verso';
           stepRecto.classList.remove('active');
           stepVerso.classList.add('active');
+          nextSideBtn.style.display = 'block';
+          nextSideBtn.disabled = false;
           scanTriggerBtn.disabled = false;
-          nextSideBtn.style.display = 'none';
-          // Réinitialiser le message
         } else { // verso
-          const nin = extraireNIN(text);
-          if (!nin) throw new Error("NIN non trouvé sur le verso");
-          rectoData.nin = nin; // on ajoute le NIN aux données
+          // Extraire le NIN des infos retournées par le backend
+          let nin = infos.numeroPiece || infos.nin || null;
+          if (!nin) throw new Error("Aucun NIN détecté sur le verso");
+          rectoData.numeroPiece = nin;  // on remplace le numéro de pièce par le NIN
           await showFeedbackIcon(true);
-          // Fusionner et envoyer
-          await finaliserVisiteurAvecNIN();
+          // Fusionner et créer le visiteur
+          await finaliserVisiteur();
         }
       } catch (err) {
         console.error(err);
         await showFeedbackIcon(false);
         showError(`Erreur scan ${currentSide} : ${err.message}`);
       } finally {
-        isProcessing = false;
-        scanTriggerBtn.disabled = false;
         if (currentSide === 'recto') {
-          nextSideBtn.style.display = 'block';
-          nextSideBtn.disabled = false;
+          // on réactive le bouton scanner pour le verso après avoir cliqué sur "passer"
+          // mais on ne le fait pas ici, on attend que l'utilisateur clique sur "passer"
+          // Cependant le bouton scanner a été désactivé, on le réactive seulement pour le verso après nextSide
+          // On va le réactiver dans le click de nextSide
+        } else {
+          isProcessing = false;
+          scanTriggerBtn.disabled = false;
         }
       }
     }
 
-    async function finaliserVisiteurAvecNIN() {
+    async function finaliserVisiteur() {
       if (!rectoData) return;
-      // Préparer les données pour l'API
-      let numeroPiece = rectoData.nin || rectoData.numeroPieceRecto;
-      if (!numeroPiece) numeroPiece = `TEMP_${Date.now()}`;
-      
-      let dateNaissance = rectoData.dateNaissance ? rectoData.dateNaissance.split('/').reverse().join('-') : null;
-      let taille = rectoData.taille ? parseInt(rectoData.taille) : null;
+      // Préparer le payload pour création visiteur
+      let nom = (rectoData.nom || '').trim();
+      let prenom = (rectoData.prenom || '').trim();
+      let numeroPiece = rectoData.numeroPiece || `TEMP_${Date.now()}`;
+      let sexe = (rectoData.sexe || 'M').toUpperCase();
+      if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
+      let taille = rectoData.taille ? parseInt(rectoData.taille, 10) : null;
       if (taille !== null && (taille < 50 || taille > 300)) taille = null;
-      let sexe = rectoData.sexe === 'M' || rectoData.sexe === 'F' ? rectoData.sexe : 'M';
-
+      let dateNaissance = rectoData.dateNaissance || null;
+      // Conversion si nécessaire
+      if (dateNaissance && typeof dateNaissance === 'string' && dateNaissance.includes('/')) {
+        const parts = dateNaissance.split('/');
+        if (parts.length === 3) dateNaissance = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
       const visitorPayload = {
-        nom: rectoData.nom || "Visiteur",
-        prenom: rectoData.prenom || "Inconnu",
+        nom: nom || "Visiteur",
+        prenom: prenom || "Inconnu",
         numeroPiece: numeroPiece,
-        typePiece: "CNI",
+        typePiece: rectoData.typePiece || 'CNI',
         dateNaissance: dateNaissance,
-        lieuNaissance: "",
+        lieuNaissance: rectoData.lieuNaissance || '',
         sexe: sexe,
         taille: taille,
-        dateDelivrance: null,
-        dateExpiration: null,
-        centreEnregistrement: "",
-        adresseDomicile: ""
+        dateDelivrance: rectoData.dateDelivrance || null,
+        dateExpiration: rectoData.dateExpiration || null,
+        centreEnregistrement: rectoData.centreEnregistrement || '',
+        adresseDomicile: rectoData.adresseDomicile || ''
       };
-
       try {
         const tokenActual = localStorage.getItem('auth_token');
-        // Création du visiteur
         const resVisiteur = await fetch(`${API_BASE}/visiteurs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
@@ -750,13 +728,11 @@
         const visiteurData = await resVisiteur.json();
         if (!visiteurData.success) throw new Error(visiteurData.message);
         const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
-
-        // Enregistrement de l'entrée
+        // Enregistrer l'entrée
         await apiFetch('/visites/entree', {
           method: 'POST',
           body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan recto-verso" })
         });
-
         await showFeedbackIcon(true);
         await closeScanModalAndStop();
         await loadAllData();
@@ -764,16 +740,23 @@
       } catch (err) {
         console.error(err);
         showError(`Erreur enregistrement: ${err.message}`);
+      } finally {
+        resetScanState();
       }
     }
 
-    async function openScanModal() {
+    function resetScanState() {
       rectoData = null;
       currentSide = 'recto';
       stepRecto.classList.add('active');
       stepVerso.classList.remove('active');
       nextSideBtn.style.display = 'none';
       scanTriggerBtn.disabled = false;
+      isProcessing = false;
+    }
+
+    async function openScanModal() {
+      resetScanState();
       scanModal.classList.add('active');
       const ok = await initCameraPreview();
       if (!ok) scanModal.classList.remove('active');
@@ -782,17 +765,14 @@
     async function closeScanModalAndStop() {
       await stopCamera();
       scanModal.classList.remove('active');
-      rectoData = null;
-      currentSide = 'recto';
-      stepRecto.classList.add('active');
-      stepVerso.classList.remove('active');
-      nextSideBtn.style.display = 'none';
+      resetScanState();
     }
 
     // Événements scan
     document.getElementById('scanFloatingBtn')?.addEventListener('click', openScanModal);
     scanTriggerBtn?.addEventListener('click', captureAndProcess);
     nextSideBtn?.addEventListener('click', () => {
+      // Passage au verso : réactiver le scanner
       currentSide = 'verso';
       stepRecto.classList.remove('active');
       stepVerso.classList.add('active');
