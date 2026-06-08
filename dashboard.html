@@ -10,173 +10,267 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: { 'primary': '#00fa6c' },
-          fontFamily: { sans: ['Hanken Grotesk', 'sans-serif'] },
-        }
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: { 'primary': '#00fa6c' },
+        fontFamily: { sans: ['Hanken Grotesk', 'sans-serif'] },
       }
     }
-  </script>
+  }
+</script>
 <style>
-    * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
-    body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
-    .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-    .stat-card { background: rgba(25, 29, 24, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.05); }
-    .bg-surface-container { background-color: #191d18; }
-    .bg-surface-dim\/80 { background-color: rgba(11, 15, 11, 0.8); }
-    input, select { background-color: #191d18; border-color: rgba(255, 255, 255, 0.1); color: #e2e3dd; }
-    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #00fa6c; border-radius: 10px; }
-    .content-section { display: none; }
-    .content-section.active { display: block; }
-    .nav-active { color: #00fa6c !important; background-color: rgba(0, 250, 108, 0.1); border-left: 3px solid #00fa6c; }
-    .table-row-hover:active { background-color: rgba(0, 250, 108, 0.05); }
-    input:focus { outline: none; border-color: #00fa6c; box-shadow: 0 0 0 1px #00fa6c; }
-    
-    html.light body { background-color: #f9f9f9; color: #1a1c1c; }
-    html.light .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid #e2e5f1; }
-    html.light .stat-card { background: #ffffff; border: 1px solid #e2e5f1; }
-    html.light .bg-surface-container { background-color: #ffffff; }
-    html.light .bg-surface-dim\/80 { background-color: rgba(248, 249, 250, 0.9); }
-    html.light .border-white\/5, html.light .border-white\/10 { border-color: #e2e5f1; }
-    html.light .text-on-surface-variant { color: #46464e; }
-    html.light .text-white { color: #1a1c1c; }
-    html.light .bg-surface\/80 { background-color: rgba(255, 255, 255, 0.8); }
-    html.light input, html.light select { background-color: #ffffff; border-color: #e2e5f1; color: #1a1c1c; }
-    html.light .bg-black\/40 { background-color: #f3f4f6; }
-    html.light .bg-red-500\/20 { background-color: #fee2e2; }
-    html.light .bg-yellow-500\/20 { background-color: #fef3c7; }
-    html.light .bg-primary\/10 { background-color: rgba(0, 250, 108, 0.1); }
-    html.light .bg-primary\/20 { background-color: rgba(0, 250, 108, 0.2); }
-    html.light .text-red-400 { color: #dc2626; }
-    html.light .text-yellow-400 { color: #d97706; }
-    html.light .bg-surface-container\/50 { background-color: #f9fafb; }
-    html.light .logo-theme { filter: invert(1); }
+  * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+  body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
+  .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+  .stat-card { background: rgba(25, 29, 24, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.05); }
+  .bg-surface-container { background-color: #191d18; }
+  .bg-surface-dim\/80 { background-color: rgba(11, 15, 11, 0.8); }
+  input, select { background-color: #191d18; border-color: rgba(255, 255, 255, 0.1); color: #e2e3dd; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #00fa6c; border-radius: 10px; }
+  .content-section { display: none; }
+  .content-section.active { display: block; }
+  .nav-active { color: #00fa6c !important; background-color: rgba(0, 250, 108, 0.1); border-left: 3px solid #00fa6c; }
+  .table-row-hover:active { background-color: rgba(0, 250, 108, 0.05); }
+  input:focus { outline: none; border-color: #00fa6c; box-shadow: 0 0 0 1px #00fa6c; }
 
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000;
-      opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease;
-    }
-    .modal-overlay.active { opacity: 1; visibility: visible; }
-    .modal-content {
-      background-color: #191d18; border-radius: 1rem; max-width: 500px; width: 90%;
-      border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      transform: scale(0.95); transition: transform 0.2s ease;
-    }
-    .modal-overlay.active .modal-content { transform: scale(1); }
-    html.light .modal-content { background-color: #ffffff; border: 1px solid #e2e5f1; }
-    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; }
-    .modal-body { padding: 1.5rem; text-align: center; }
-    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
-    .detail-row { display: flex; margin-bottom: 1rem; text-align: left; }
-    .detail-label { width: 100px; font-weight: 600; color: #a1a3a8; }
-    .detail-value { flex: 1; color: #e2e3dd; word-break: break-word; }
-    
-    #scanModal.modal-overlay.active .modal-content {
-      width: 100vw;
-      height: 100vh;
-      max-width: none;
-      border-radius: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      background-color: #000;
-    }
-    #scanModal .modal-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      overflow: hidden;
-      position: relative;
-    }
-    #video-preview {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 0;
-      margin-bottom: 0;
-      /* Suppression du miroir horizontal pour que le texte ne soit pas inversé */
-      /* transform: scaleX(-1); */
-    }
-    #scanModal .modal-header {
-      background-color: rgba(0,0,0,0.7);
-      backdrop-filter: blur(8px);
-      z-index: 10;
-      border: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-    }
-    #scanModal .modal-header h3 { color: white; }
-    #scanModal .action-buttons {
-      position: absolute;
-      bottom: 40px;
-      left: 0;
-      right: 0;
-      background: transparent;
-      justify-content: center;
-      z-index: 20;
-    }
-    #scanModal .action-buttons button {
-      background-color: #00fa6c;
-      color: black;
-      border: none;
-      font-weight: bold;
-      padding: 14px 32px;
-      border-radius: 50px;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      cursor: pointer;
-    }
-    .feedback-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 30;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    .feedback-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    .feedback-icon { font-size: 6rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
+  html.light body { background-color: #f9f9f9; color: #1a1c1c; }
+  html.light .glass-card { background: rgba(255, 255, 255, 0.9); border: 1px solid #e2e5f1; }
+  html.light .stat-card { background: #ffffff; border: 1px solid #e2e5f1; }
+  html.light .bg-surface-container { background-color: #ffffff; }
+  html.light .bg-surface-dim\/80 { background-color: rgba(248, 249, 250, 0.9); }
+  html.light .border-white\/5, html.light .border-white\/10 { border-color: #e2e5f1; }
+  html.light .text-on-surface-variant { color: #46464e; }
+  html.light .text-white { color: #1a1c1c; }
+  html.light .bg-surface\/80 { background-color: rgba(255, 255, 255, 0.8); }
+  html.light input, html.light select { background-color: #ffffff; border-color: #e2e5f1; color: #1a1c1c; }
+  html.light .bg-black\/40 { background-color: #f3f4f6; }
+  html.light .bg-red-500\/20 { background-color: #fee2e2; }
+  html.light .bg-yellow-500\/20 { background-color: #fef3c7; }
+  html.light .bg-primary\/10 { background-color: rgba(0, 250, 108, 0.1); }
+  html.light .bg-primary\/20 { background-color: rgba(0, 250, 108, 0.2); }
+  html.light .text-red-400 { color: #dc2626; }
+  html.light .text-yellow-400 { color: #d97706; }
+  html.light .bg-surface-container\/50 { background-color: #f9fafb; }
+  html.light .logo-theme { filter: invert(1); }
 
-    .mobile-sidebar-open { overflow: hidden; }
-    @media (max-width: 768px) {
-      .sidebar-desktop { transform: translateX(-100%); transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); position: fixed; z-index: 60; }
-      .sidebar-desktop.open { transform: translateX(0); }
-      .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; backdrop-filter: blur(2px); }
-      .sidebar-backdrop.open { display: block; }
-      .main-content { margin-left: 0 !important; }
-      .stat-card { padding: 1rem; }
-      .glass-card { border-radius: 1rem; }
-      .action-buttons button { flex: 1; justify-content: center; }
-      #scanModal .action-buttons button { padding: 10px 20px; font-size: 1rem; }
-    }
-    @media (min-width: 769px) {
-      .mobile-menu-btn { display: none; }
-      .sidebar-desktop { transform: none !important; position: fixed; }
-      .sidebar-backdrop { display: none !important; }
-    }
-  </style>
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+  .modal-overlay.active { opacity: 1; visibility: visible; }
+  .modal-content {
+    background-color: #191d18; border-radius: 1rem; max-width: 500px; width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95); transition: transform 0.2s ease;
+  }
+  .modal-overlay.active .modal-content { transform: scale(1); }
+  html.light .modal-content { background-color: #ffffff; border: 1px solid #e2e5f1; }
+  .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; }
+  .modal-body { padding: 1.5rem; text-align: center; }
+  .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+  .detail-row { display: flex; margin-bottom: 1rem; text-align: left; }
+  .detail-label { width: 100px; font-weight: 600; color: #a1a3a8; }
+  .detail-value { flex: 1; color: #e2e3dd; word-break: break-word; }
+
+  /* ===== SCAN MODAL FULLSCREEN ===== */
+  #scanModal.modal-overlay.active .modal-content {
+    width: 100vw; height: 100vh; max-width: none;
+    border-radius: 0; margin: 0;
+    display: flex; flex-direction: column;
+    background-color: #000;
+  }
+  #scanModal .modal-body {
+    flex: 1; display: flex; flex-direction: column;
+    padding: 0; overflow: hidden; position: relative;
+  }
+  #video-preview {
+    flex: 1; width: 100%; height: 100%;
+    object-fit: cover; border-radius: 0; margin-bottom: 0;
+  }
+  #scanModal .modal-header {
+    background-color: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    z-index: 10; border: none;
+    position: absolute; top: 0; left: 0; right: 0;
+  }
+  #scanModal .modal-header h3 { color: white; font-size: 0.95rem; }
+
+  /* Step indicator */
+  .scan-step-bar {
+    position: absolute;
+    top: 56px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 8px;
+    z-index: 11; padding: 6px 0;
+    background: rgba(0,0,0,0.4);
+  }
+  .step-dot {
+    width: 28px; height: 4px; border-radius: 2px;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.3s ease;
+  }
+  .step-dot.active { background: #00fa6c; }
+
+  /* Scan frame guide */
+  .scan-frame {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(85vw, 360px);
+    aspect-ratio: 85.6 / 54;
+    border: 2px solid rgba(0,250,108,0.6);
+    border-radius: 10px;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.45);
+    z-index: 12;
+    pointer-events: none;
+  }
+  .scan-frame::before, .scan-frame::after,
+  .scan-frame .corner-bl, .scan-frame .corner-br {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: #00fa6c;
+    border-style: solid;
+  }
+  .scan-frame::before  { top: -2px; left: -2px; border-width: 3px 0 0 3px; border-radius: 8px 0 0 0; }
+  .scan-frame::after   { top: -2px; right: -2px; border-width: 3px 3px 0 0; border-radius: 0 8px 0 0; }
+  .scan-frame .corner-bl { bottom: -2px; left: -2px; border-width: 0 0 3px 3px; border-radius: 0 0 0 8px; }
+  .scan-frame .corner-br { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; border-radius: 0 0 8px 0; }
+
+  /* Scan line animation */
+  .scan-line {
+    position: absolute;
+    left: 4px; right: 4px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00fa6c, transparent);
+    top: 10%;
+    animation: scanLine 2s ease-in-out infinite;
+    border-radius: 1px;
+  }
+  @keyframes scanLine {
+    0%   { top: 10%; opacity: 1; }
+    50%  { top: 85%; opacity: 1; }
+    100% { top: 10%; opacity: 1; }
+  }
+
+  /* Hint text */
+  #scanHint {
+    position: absolute;
+    bottom: 130px; left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0 1.5rem;
+    z-index: 20;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  }
+
+  /* Scan trigger button */
+  #scanModal .action-buttons {
+    position: absolute;
+    bottom: 40px; left: 0; right: 0;
+    background: transparent;
+    justify-content: center;
+    z-index: 20;
+    display: flex;
+  }
+  #scanModal .action-buttons button {
+    background-color: #00fa6c;
+    color: black;
+    border: none;
+    font-weight: 700;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 1rem;
+    box-shadow: 0 4px 24px rgba(0,250,108,0.35);
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  #scanModal .action-buttons button:active { transform: scale(0.96); }
+  #scanModal .action-buttons button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Skip verso button */
+  #skipVersoBtn {
+    position: absolute;
+    bottom: 100px; left: 0; right: 0;
+    text-align: center;
+    z-index: 20;
+  }
+  #skipVersoBtn button {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 7px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s;
+  }
+  #skipVersoBtn button:hover { background: rgba(255,255,255,0.2); }
+
+  /* Feedback overlay */
+  .feedback-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 30; opacity: 0; visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  .feedback-overlay.active { opacity: 1; visibility: visible; }
+  .feedback-icon { font-size: 6rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
+
+  /* Processing spinner */
+  #processingOverlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.75);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 35; opacity: 0; visibility: hidden;
+    transition: all 0.2s ease;
+  }
+  #processingOverlay.active { opacity: 1; visibility: visible; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 3px solid rgba(0,250,108,0.2);
+    border-top-color: #00fa6c;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Mobile sidebar */
+  .mobile-sidebar-open { overflow: hidden; }
+  @media (max-width: 768px) {
+    .sidebar-desktop { transform: translateX(-100%); transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1); position: fixed; z-index: 60; }
+    .sidebar-desktop.open { transform: translateX(0); }
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; backdrop-filter: blur(2px); }
+    .sidebar-backdrop.open { display: block; }
+    .main-content { margin-left: 0 !important; }
+    .stat-card { padding: 1rem; }
+    .glass-card { border-radius: 1rem; }
+  }
+  @media (min-width: 769px) {
+    .mobile-menu-btn { display: none; }
+    .sidebar-desktop { transform: none !important; position: fixed; }
+    .sidebar-backdrop { display: none !important; }
+  }
+</style>
 </head>
 <body class="antialiased font-sans">
   <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
@@ -205,7 +299,10 @@
       <div class="flex items-center gap-4">
         <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5"><span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span></button>
         <div class="flex items-center gap-2 pl-2 border-l border-white/10">
-          <div class="text-right hidden xs:block"><p class="text-sm font-semibold text-white" id="userName">Agent</p><p class="text-xs text-on-surface-variant" id="userRole"></p></div>
+          <div class="text-right hidden xs:block">
+            <p class="text-sm font-semibold text-white" id="userName">Agent</p>
+            <p class="text-xs text-on-surface-variant" id="userRole"></p>
+          </div>
           <img class="w-9 h-9 rounded-full border border-primary/30" id="profileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
         </div>
       </div>
@@ -213,17 +310,37 @@
 
     <main class="flex-1 p-3 md:p-6 overflow-y-auto custom-scrollbar">
       <div class="max-w-7xl mx-auto">
+
+        <!-- DASHBOARD -->
         <section class="content-section active space-y-5 md:space-y-6" id="dashboard">
           <div class="flex flex-wrap justify-between items-end gap-4 mb-4">
-            <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Badgez les entrées / sorties</p></div>
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2>
+              <p class="text-on-surface-variant text-xs md:text-sm">Badgez les entrées / sorties</p>
+            </div>
             <div class="flex gap-2">
-              <button id="exportCsvBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-white/10 text-xs md:text-sm font-medium hover:bg-white/5"><span class="material-symbols-outlined text-base md:text-lg">download</span> <span class="hidden sm:inline">Exporter CSV</span></button>
+              <button id="exportCsvBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-white/10 text-xs md:text-sm font-medium hover:bg-white/5">
+                <span class="material-symbols-outlined text-base md:text-lg">download</span>
+                <span class="hidden sm:inline">Exporter CSV</span>
+              </button>
             </div>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-6">
-            <div class="stat-card rounded-xl p-4 md:p-6"><div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">how_to_reg</span></div><span class="text-[10px] md:text-xs text-on-surface-variant">Total global</span></div><p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Total Entrées</p><h3 class="text-2xl md:text-3xl font-bold text-white" id="totalEntries">0</h3></div>
-            <div class="stat-card rounded-xl p-4 md:p-6"><div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">people</span></div><span class="text-[10px] md:text-xs text-primary">Actuellement</span></div><p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Présents</p><h3 class="text-2xl md:text-3xl font-bold text-white" id="currentlyInside">0</h3></div>
-            <div class="stat-card rounded-xl p-4 md:p-6"><div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">exit_to_app</span></div><span class="text-[10px] md:text-xs text-on-surface-variant">Total global</span></div><p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Sorties</p><h3 class="text-2xl md:text-3xl font-bold text-white" id="totalExits">0</h3></div>
+            <div class="stat-card rounded-xl p-4 md:p-6">
+              <div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">how_to_reg</span></div><span class="text-[10px] md:text-xs text-on-surface-variant">Total global</span></div>
+              <p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Total Entrées</p>
+              <h3 class="text-2xl md:text-3xl font-bold text-white" id="totalEntries">0</h3>
+            </div>
+            <div class="stat-card rounded-xl p-4 md:p-6">
+              <div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">people</span></div><span class="text-[10px] md:text-xs text-primary">Actuellement</span></div>
+              <p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Présents</p>
+              <h3 class="text-2xl md:text-3xl font-bold text-white" id="currentlyInside">0</h3>
+            </div>
+            <div class="stat-card rounded-xl p-4 md:p-6">
+              <div class="flex justify-between items-start mb-3"><div class="p-2 rounded-lg bg-primary/10"><span class="material-symbols-outlined text-primary">exit_to_app</span></div><span class="text-[10px] md:text-xs text-on-surface-variant">Total global</span></div>
+              <p class="text-on-surface-variant text-[10px] md:text-xs uppercase tracking-wider mb-1">Sorties</p>
+              <h3 class="text-2xl md:text-3xl font-bold text-white" id="totalExits">0</h3>
+            </div>
           </div>
           <div class="glass-card rounded-xl overflow-hidden">
             <div class="px-4 md:px-6 py-3 border-b border-white/5 flex flex-wrap justify-between items-center gap-2">
@@ -247,11 +364,12 @@
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Heure entrée</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Visiteur</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider hidden sm:table-cell">Pièce</th>
+                  <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider hidden md:table-cell">NIN</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Service</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
                 </thead>
-                <tbody id="dashboardTableBody"><tr><td colspan="6" class="text-center py-6">Chargement...</td></tr></tbody>
+                <tbody id="dashboardTableBody"><tr><td colspan="7" class="text-center py-6">Chargement...</td></tr></tbody>
               </table>
             </div>
             <div class="px-4 md:px-6 py-3 border-t border-white/5 flex justify-between items-center">
@@ -262,16 +380,25 @@
           </div>
         </section>
 
+        <!-- HISTORIQUE -->
         <section class="content-section space-y-5 md:space-y-6" id="documents">
           <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p></div>
           <div class="glass-card rounded-xl overflow-x-auto">
             <table class="w-full min-w-[600px] text-left">
-              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
-              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
+              <thead class="bg-surface-container/50 border-b border-white/5">
+                <th class="px-4 py-3 text-xs">Visiteur</th>
+                <th class="px-4 py-3 text-xs">Pièce</th>
+                <th class="px-4 py-3 text-xs hidden md:table-cell">NIN</th>
+                <th class="px-4 py-3 text-xs">Entrée</th>
+                <th class="px-4 py-3 text-xs">Sortie</th>
+                <th class="px-4 py-3 text-xs">Statut</th>
+              </thead>
+              <tbody id="historyTableBody"><tr><td colspan="6" class="text-center py-6">Chargement...</td></tr></tbody>
             </table>
           </div>
         </section>
 
+        <!-- PARAMÈTRES -->
         <section class="content-section space-y-6" id="settings">
           <div><h2 class="text-2xl font-bold text-white">Paramètres</h2><p class="text-on-surface-variant text-sm">Gérez votre profil et la sécurité</p></div>
           <div class="max-w-3xl glass-card rounded-xl">
@@ -279,7 +406,10 @@
               <h3 class="text-lg font-bold mb-4">Photo de profil</h3>
               <div class="flex flex-wrap items-center gap-4 pb-5 border-b border-white/5">
                 <img class="w-14 h-14 rounded-xl border" id="profileImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
-                <div><button id="changePhotoBtn" class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer photo</button><button id="removePhotoBtn" class="text-red-400 text-sm font-bold">Supprimer</button></div>
+                <div>
+                  <button id="changePhotoBtn" class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer photo</button>
+                  <button id="removePhotoBtn" class="text-red-400 text-sm font-bold">Supprimer</button>
+                </div>
               </div>
             </div>
             <div class="p-5 md:p-6 border-b border-white/5">
@@ -288,45 +418,131 @@
                 <div><label class="block text-xs font-semibold mb-1">Nom</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profileNom" placeholder="Nom"/></div>
                 <div><label class="block text-xs font-semibold mb-1">Prénom</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profilePrenom" placeholder="Prénom"/></div>
                 <div><label class="block text-xs font-semibold mb-1">Email</label><input class="w-full border rounded-lg p-3 text-sm" type="email" id="profileEmail" placeholder="Email" disabled/></div>
-                <div><label class="block text-xs font-semibold mb-1">Téléphone</label><input class="w-full border rounded-lg p-3 text-sm" type="tel" id="profileTelephone" placeholder="+226 XX XX XX XX"/></div>
+                <div><label class="block text-xs font-semibold mb-1">Téléphone</label><input class="w-full border rounded-lg p-3 text-sm" type="tel" id="profileTelephone" placeholder="+221 XX XX XX XX"/></div>
                 <div><label class="block text-xs font-semibold mb-1">Département</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profileDepartement" placeholder="Ex: RH, IT, Logistique"/></div>
                 <div><label class="block text-xs font-semibold mb-1">Poste</label><input class="w-full border rounded-lg p-3 text-sm" type="text" id="profilePoste" placeholder="Ex: Agent de sécurité"/></div>
-                <div><label class="block text-xs font-semibold mb-1">Niveau d'accréditation</label><select class="w-full border rounded-lg p-3 text-sm" id="profileAccreditation"><option value="">Sélectionner</option><option value="Niveau 1">Niveau 1</option><option value="Niveau 2">Niveau 2</option><option value="Niveau 3 - Admin">Niveau 3 - Admin</option></select></div>
+                <div><label class="block text-xs font-semibold mb-1">Niveau d'accréditation</label>
+                  <select class="w-full border rounded-lg p-3 text-sm" id="profileAccreditation">
+                    <option value="">Sélectionner</option>
+                    <option value="Niveau 1">Niveau 1</option>
+                    <option value="Niveau 2">Niveau 2</option>
+                    <option value="Niveau 3 - Admin">Niveau 3 - Admin</option>
+                  </select>
+                </div>
                 <div><label class="block text-xs font-semibold mb-1">Date d'arrivée</label><input class="w-full border rounded-lg p-3 text-sm" type="date" id="profileDateArrivee"/></div>
               </div>
             </div>
             <div class="p-5 md:p-6 border-b border-white/5">
               <h3 class="text-lg font-bold mb-4">Sécurité</h3>
               <div class="space-y-3">
-                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Authentification à deux facteurs (2FA)</p><p class="text-xs">Renforce la sécurité de votre compte</p></div><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="twoFactorToggle" class="sr-only peer"><div class="w-11 h-6 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label></div>
-                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">SSO (Okta / Google)</p><p class="text-xs">Connectez-vous avec votre compte entreprise</p></div><button id="configureSSOBtn" class="text-primary text-sm border-b border-primary">Configurer</button></div>
-                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Sessions actives</p><p class="text-xs">Gérez vos appareils connectés</p></div><button id="manageSessionsBtn" class="text-primary text-sm border-b border-primary">Voir</button></div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg">
+                  <div><p class="font-semibold">Authentification à deux facteurs (2FA)</p><p class="text-xs">Renforce la sécurité de votre compte</p></div>
+                  <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="twoFactorToggle" class="sr-only peer"><div class="w-11 h-6 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label>
+                </div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg">
+                  <div><p class="font-semibold">SSO (Okta / Google)</p><p class="text-xs">Connectez-vous avec votre compte entreprise</p></div>
+                  <button id="configureSSOBtn" class="text-primary text-sm border-b border-primary">Configurer</button>
+                </div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg">
+                  <div><p class="font-semibold">Sessions actives</p><p class="text-xs">Gérez vos appareils connectés</p></div>
+                  <button id="manageSessionsBtn" class="text-primary text-sm border-b border-primary">Voir</button>
+                </div>
               </div>
             </div>
-            <div class="p-5 bg-surface-container/30 text-right"><button id="saveSettingsBtn" class="bg-primary text-black font-bold px-6 py-2.5 rounded-lg hover:brightness-110 transition-all">Enregistrer les modifications</button></div>
+            <div class="p-5 bg-surface-container/30 text-right">
+              <button id="saveSettingsBtn" class="bg-primary text-black font-bold px-6 py-2.5 rounded-lg hover:brightness-110 transition-all">Enregistrer les modifications</button>
+            </div>
           </div>
         </section>
+
       </div>
     </main>
   </div>
 
-  <!-- Modales -->
-  <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div></div><div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
-  <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
-  <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
+  <!-- ===== MODALES ===== -->
+  <!-- Detail modal -->
+  <div id="detailModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div>
+      <div class="modal-body text-left">
+        <div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div>
+        <div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div>
+        <div class="detail-row"><div class="detail-label">NIN :</div><div class="detail-value font-mono" id="modalNin"></div></div>
+        <div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div>
+        <div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div>
+        <div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div>
+        <div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div>
+      </div>
+      <div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div>
+    </div>
+  </div>
 
+  <!-- Success modal -->
+  <div id="successModal" class="modal-overlay">
+    <div class="modal-content max-w-sm">
+      <div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div>
+      <div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div>
+    </div>
+  </div>
+
+  <!-- Error modal -->
+  <div id="errorModal" class="modal-overlay">
+    <div class="modal-content max-w-sm">
+      <div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div>
+      <div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div>
+    </div>
+  </div>
+
+  <!-- ===== SCAN MODAL – RECTO + VERSO ===== -->
   <div id="scanModal" class="modal-overlay">
     <div class="modal-content">
+      <!-- Header -->
       <div class="modal-header">
-        <h3 class="text-lg font-bold text-white">Scanner une pièce d'identité</h3>
+        <h3 class="text-lg font-bold text-white" id="scanModalTitle">Étape 1 / 2 – Recto de la carte</h3>
         <button id="closeScanBtn"><span class="material-symbols-outlined text-white">close</span></button>
       </div>
+
+      <!-- Body -->
       <div class="modal-body">
         <video id="video-preview" autoplay playsinline muted></video>
         <canvas id="snapshot-canvas" style="display:none;"></canvas>
-        <div class="action-buttons">
-          <button id="scanTriggerBtn">Scanner</button>
+
+        <!-- Step dots -->
+        <div class="scan-step-bar">
+          <div class="step-dot active" id="dot1"></div>
+          <div class="step-dot" id="dot2"></div>
         </div>
+
+        <!-- Card frame guide -->
+        <div class="scan-frame">
+          <div class="corner-bl"></div>
+          <div class="corner-br"></div>
+          <div class="scan-line"></div>
+        </div>
+
+        <!-- Hint text -->
+        <div id="scanHint">Centrez le recto de la carte dans le cadre</div>
+
+        <!-- Skip verso -->
+        <div id="skipVersoBtn" style="display:none;">
+          <button id="skipVersoAction">Passer le verso →</button>
+        </div>
+
+        <!-- Scan button -->
+        <div class="action-buttons">
+          <button id="scanTriggerBtn">
+            <span class="material-symbols-outlined" style="font-size:1.2rem;">photo_camera</span>
+            Scanner le Recto
+          </button>
+        </div>
+
+        <!-- Processing overlay -->
+        <div id="processingOverlay">
+          <div class="spinner"></div>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.85rem;" id="processingText">Analyse en cours…</p>
+        </div>
+
+        <!-- Feedback overlay -->
         <div id="feedbackOverlay" class="feedback-overlay">
           <div id="feedbackIcon" class="feedback-icon"></div>
         </div>
@@ -334,10 +550,13 @@
     </div>
   </div>
 
-  <button id="scanFloatingBtn" class="fixed bottom-5 right-5 md:bottom-8 md:right-8 w-14 h-14 bg-primary text-black rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-all z-50"><span class="material-symbols-outlined text-3xl">badge</span></button>
+  <!-- Floating scan button -->
+  <button id="scanFloatingBtn" class="fixed bottom-5 right-5 md:bottom-8 md:right-8 w-14 h-14 bg-primary text-black rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-all z-50">
+    <span class="material-symbols-outlined text-3xl">badge</span>
+  </button>
 
   <script>
-    // ==================== CONFIGURATION ====================
+    // ==================== CONFIG ====================
     const API_BASE = 'https://noregisbackend.onrender.com/api';
     let token = localStorage.getItem('auth_token');
     if (!token) window.location.href = '/login.html';
@@ -345,11 +564,12 @@
     let currentUser = null;
     let allVisits = [];
     let currentPage = 1;
-    let rowsPerPage = 10;
+    const rowsPerPage = 10;
     let currentTypeFilter = 'all';
     let currentStatusFilter = 'all';
     let autoRefreshInterval = null;
 
+    // ==================== API HELPER ====================
     async function apiFetch(endpoint, options = {}) {
       const res = await fetch(`${API_BASE}${endpoint}`, {
         ...options,
@@ -366,8 +586,9 @@
     }
 
     function showSuccess(msg) { document.getElementById('successMsg').innerText = msg; document.getElementById('successModal').classList.add('active'); }
-    function showError(msg) { document.getElementById('errorMsg').innerText = msg; document.getElementById('errorModal').classList.add('active'); }
+    function showError(msg)   { document.getElementById('errorMsg').innerText = msg;   document.getElementById('errorModal').classList.add('active'); }
 
+    // ==================== DATA ====================
     async function loadAllData() {
       try {
         const data = await apiFetch('/visites?limit=500');
@@ -415,50 +636,63 @@
     function renderDashboard() {
       const filtered = getFilteredVisits();
       const totalPages = Math.ceil(filtered.length / rowsPerPage);
-      const start = (currentPage-1)*rowsPerPage;
-      const pageData = filtered.slice(start, start+rowsPerPage);
+      const start = (currentPage - 1) * rowsPerPage;
+      const pageData = filtered.slice(start, start + rowsPerPage);
       const tbody = document.getElementById('dashboardTableBody');
       tbody.innerHTML = '';
       if (pageData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6">Aucune visite trouvée</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center py-6">Aucune visite trouvée</td></tr>';
       } else {
         for (const v of pageData) {
           const vis = v.visiteurId || {};
+          const nin = vis.nin || '-';
           const row = tbody.insertRow();
           row.className = 'table-row-hover';
           row.innerHTML = `
             <td class="px-4 md:px-6 py-3 text-sm">${new Date(v.heureEntree).toLocaleTimeString('fr-FR')}</td>
-            <td class="px-4 md:px-6 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">${(vis.prenom?.[0]||'')+(vis.nom?.[0]||'')}</div><span class="font-medium text-sm">${vis.prenom || ''} ${vis.nom || ''}</span></div></td>
+            <td class="px-4 md:px-6 py-3">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">${(vis.prenom?.[0]||'')+(vis.nom?.[0]||'')}</div>
+                <span class="font-medium text-sm">${vis.prenom || ''} ${vis.nom || ''}</span>
+              </div>
+            </td>
             <td class="px-4 md:px-6 py-3 text-on-surface-variant text-sm hidden sm:table-cell font-mono">${vis.numeroPiece || '-'}</td>
-            <td class="px-4 md:px-6 py-3">${v.service || '-'}</td>
-            <td class="px-4 md:px-6 py-3"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span></td>
-            <td class="px-4 md:px-6 py-3 text-center"><div class="flex gap-3 justify-center"><button class="view-visite-btn text-primary" data-visite='${JSON.stringify(v)}'><span class="material-symbols-outlined text-xl">visibility</span></button>${v.statut === 'EN_COURS' ? `<button class="sortie-btn text-yellow-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">exit_to_app</span></button>` : ''}<button class="delete-visite-btn text-red-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
+            <td class="px-4 md:px-6 py-3 text-on-surface-variant text-sm hidden md:table-cell font-mono">
+              ${nin !== '-' ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary text-xs">${nin}</span>` : '<span class="text-on-surface-variant/40">—</span>'}
+            </td>
+            <td class="px-4 md:px-6 py-3 text-sm">${v.service || '-'}</td>
+            <td class="px-4 md:px-6 py-3">
+              <span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">
+                ${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}
+              </span>
+            </td>
+            <td class="px-4 md:px-6 py-3 text-center">
+              <div class="flex gap-3 justify-center">
+                <button class="view-visite-btn text-primary" data-visite='${JSON.stringify(v)}'><span class="material-symbols-outlined text-xl">visibility</span></button>
+                ${v.statut === 'EN_COURS' ? `<button class="sortie-btn text-yellow-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">exit_to_app</span></button>` : ''}
+                <button class="delete-visite-btn text-red-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">delete</span></button>
+              </div>
+            </td>
           `;
         }
       }
       document.getElementById('totalRows').innerText = filtered.length;
       document.getElementById('rowCounter').innerText = `${start+1}-${Math.min(start+rowsPerPage, filtered.length)}`;
       document.getElementById('paginationInfo').innerText = `Page ${currentPage} / ${totalPages || 1}`;
-      
+
       document.querySelectorAll('.view-visite-btn').forEach(btn => btn.addEventListener('click', () => openDetailModal(JSON.parse(btn.dataset.visite))));
-      document.querySelectorAll('.sortie-btn').forEach(btn => btn.addEventListener('click', async () => { if(confirm('Enregistrer la sortie ?')) await enregistrerSortie(btn.dataset.id); }));
-      document.querySelectorAll('.delete-visite-btn').forEach(btn => btn.addEventListener('click', async () => { if(confirm('Supprimer définitivement cette visite ?')) await deleteVisite(btn.dataset.id); }));
+      document.querySelectorAll('.sortie-btn').forEach(btn => btn.addEventListener('click', async () => { if (confirm('Enregistrer la sortie ?')) await enregistrerSortie(btn.dataset.id); }));
+      document.querySelectorAll('.delete-visite-btn').forEach(btn => btn.addEventListener('click', async () => { if (confirm('Supprimer définitivement cette visite ?')) await deleteVisite(btn.dataset.id); }));
     }
 
     async function enregistrerSortie(visiteId) {
-      try {
-        await apiFetch(`/visites/sortie/${visiteId}`, { method: 'POST' });
-        showSuccess('Sortie enregistrée');
-        await loadAllData();
-      } catch(err) { showError(err.message); }
+      try { await apiFetch(`/visites/sortie/${visiteId}`, { method: 'POST' }); showSuccess('Sortie enregistrée'); await loadAllData(); }
+      catch(err) { showError(err.message); }
     }
 
     async function deleteVisite(visiteId) {
-      try {
-        await apiFetch(`/visites/${visiteId}`, { method: 'DELETE' });
-        showSuccess('Visite supprimée');
-        await loadAllData();
-      } catch(err) { showError(err.message); }
+      try { await apiFetch(`/visites/${visiteId}`, { method: 'DELETE' }); showSuccess('Visite supprimée'); await loadAllData(); }
+      catch(err) { showError(err.message); }
     }
 
     async function loadHistory() {
@@ -469,12 +703,16 @@
         tbody.innerHTML = '';
         for (const v of visits) {
           const vis = v.visiteurId || {};
+          const nin = vis.nin || '-';
           const row = tbody.insertRow();
           row.innerHTML = `
             <td class="px-4 py-3">${vis.prenom || ''} ${vis.nom || ''}</td>
-            <td class="px-4 py-3 font-mono">${vis.numeroPiece || '-'}</td>
-            <td class="px-4 py-3">${new Date(v.heureEntree).toLocaleString()}</td>
-            <td class="px-4 py-3">${v.heureSortie ? new Date(v.heureSortie).toLocaleString() : '-'}</td>
+            <td class="px-4 py-3 font-mono text-sm">${vis.numeroPiece || '-'}</td>
+            <td class="px-4 py-3 font-mono text-sm hidden md:table-cell">
+              ${nin !== '-' ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary/10 text-primary text-xs">${nin}</span>` : '<span class="text-on-surface-variant/40">—</span>'}
+            </td>
+            <td class="px-4 py-3 text-sm">${new Date(v.heureEntree).toLocaleString()}</td>
+            <td class="px-4 py-3 text-sm">${v.heureSortie ? new Date(v.heureSortie).toLocaleString() : '-'}</td>
             <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span></td>
           `;
         }
@@ -521,6 +759,7 @@
       const vis = visite.visiteurId || {};
       document.getElementById('modalVisitor').innerText = `${vis.prenom || ''} ${vis.nom || ''}`;
       document.getElementById('modalPiece').innerText = vis.numeroPiece || '-';
+      document.getElementById('modalNin').innerText = vis.nin || 'Non renseigné';
       document.getElementById('modalService').innerText = visite.service || '-';
       document.getElementById('modalEntry').innerText = new Date(visite.heureEntree).toLocaleString();
       document.getElementById('modalExit').innerText = visite.heureSortie ? new Date(visite.heureSortie).toLocaleString() : 'Non sorti';
@@ -528,51 +767,78 @@
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN – VERSION SANS INVERSION TEXTE ====================
+    // ==================== SCAN – RECTO + VERSO + NIN ====================
     let videoStream = null;
-    const video = document.getElementById('video-preview');
-    const canvas = document.getElementById('snapshot-canvas');
-    const ctx = canvas.getContext('2d');
+    const video   = document.getElementById('video-preview');
+    const canvas  = document.getElementById('snapshot-canvas');
+    const ctx     = canvas.getContext('2d');
     const scanModal = document.getElementById('scanModal');
     let isProcessing = false;
+    let scanStep  = 'recto'; // 'recto' | 'verso'
+    let rectoData = null;    // infos extraites du recto
 
     async function stopCamera() {
-      if (videoStream) {
-        videoStream.getTracks().forEach(t => t.stop());
-        videoStream = null;
-      }
+      if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
       if (video) video.srcObject = null;
     }
 
     async function initCameraPreview() {
       await stopCamera();
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } }
+        });
         videoStream = stream;
         video.srcObject = stream;
         await video.play();
         return true;
       } catch (e) {
-        showError("Caméra indisponible");
+        showError("Caméra indisponible : " + e.message);
         return false;
       }
     }
 
     function showFeedbackIcon(success) {
       return new Promise((resolve) => {
-        const overlay = document.getElementById('feedbackOverlay');
-        const iconDiv = document.getElementById('feedbackIcon');
-        if (success) {
-          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#00fa6c;">check_circle</span>';
-        } else {
-          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#ff4444;">cancel</span>';
-        }
+        const overlay  = document.getElementById('feedbackOverlay');
+        const iconDiv  = document.getElementById('feedbackIcon');
+        iconDiv.innerHTML = success
+          ? '<span class="material-symbols-outlined" style="font-size:6rem;color:#00fa6c;">check_circle</span>'
+          : '<span class="material-symbols-outlined" style="font-size:6rem;color:#ff4444;">cancel</span>';
         overlay.classList.add('active');
-        setTimeout(() => {
-          overlay.classList.remove('active');
-          resolve();
-        }, 1800);
+        setTimeout(() => { overlay.classList.remove('active'); resolve(); }, 1800);
       });
+    }
+
+    function showProcessing(show, text = 'Analyse en cours…') {
+      const el = document.getElementById('processingOverlay');
+      document.getElementById('processingText').innerText = text;
+      el.classList.toggle('active', show);
+    }
+
+    function updateScanUI() {
+      const btn   = document.getElementById('scanTriggerBtn');
+      const title = document.getElementById('scanModalTitle');
+      const hint  = document.getElementById('scanHint');
+      const skip  = document.getElementById('skipVersoBtn');
+      const dot1  = document.getElementById('dot1');
+      const dot2  = document.getElementById('dot2');
+
+      if (scanStep === 'recto') {
+        btn.innerHTML   = '<span class="material-symbols-outlined" style="font-size:1.2rem;">photo_camera</span> Scanner le Recto';
+        title.textContent = 'Étape 1 / 2 – Recto de la carte';
+        hint.textContent  = 'Centrez le recto de la carte dans le cadre';
+        skip.style.display = 'none';
+        dot1.classList.add('active');
+        dot2.classList.remove('active');
+      } else {
+        btn.innerHTML   = '<span class="material-symbols-outlined" style="font-size:1.2rem;">photo_camera</span> Scanner le Verso';
+        title.textContent = 'Étape 2 / 2 – Verso de la carte';
+        hint.textContent  = 'Retournez la carte pour capturer le NIN et le verso';
+        skip.style.display = 'block';
+        dot1.classList.add('active');
+        dot2.classList.add('active');
+      }
     }
 
     async function captureAndSendToBackend() {
@@ -581,17 +847,21 @@
       const btn = document.getElementById('scanTriggerBtn');
       btn.disabled = true;
 
-      canvas.width = video.videoWidth;
+      // Capture frame
+      canvas.width  = video.videoWidth;
       canvas.height = video.videoHeight;
       ctx.drawImage(video, 0, 0);
-      
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92));
       const formData = new FormData();
       formData.append('image', blob, 'scan.jpg');
+      formData.append('side', scanStep);
+
+      showProcessing(true, scanStep === 'recto' ? 'Lecture du recto…' : 'Extraction du NIN…');
 
       try {
         const tokenActual = localStorage.getItem('auth_token');
-        if (!tokenActual) throw new Error('Vous êtes déconnecté. Veuillez vous reconnecter.');
+        if (!tokenActual) throw new Error('Déconnecté. Veuillez vous reconnecter.');
 
         const response = await fetch(`${API_BASE}/scan`, {
           method: 'POST',
@@ -601,97 +871,187 @@
 
         if (response.status === 401 || response.status === 403) {
           localStorage.clear();
-          showError('Session expirée ou accès interdit. Redirection...');
+          showError('Session expirée. Redirection…');
           setTimeout(() => window.location.href = '/login.html', 2000);
           return;
         }
-
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
           throw new Error(errorData.message || `Erreur HTTP ${response.status}`);
         }
 
-        const data = await response.json();
-        let infos = data.infosExtraites || {};
+        const data  = await response.json();
+        const infos = data.infosExtraites || {};
 
-        let nom = (infos.nom || '').trim();
-        let prenom = (infos.prenom || '').trim();
-        let numeroPiece = (infos.numeroPiece || '').replace(/\s/g, '');
-        let sexe = (infos.sexe || '').trim().toUpperCase();
-        let taille = infos.taille ? parseInt(infos.taille, 10) : null;
+        showProcessing(false);
 
-        if (taille !== null && (taille < 50 || taille > 300)) {
-          console.warn(`Taille invalide extraite: ${taille} cm. Valeur ignorée.`);
-          taille = null;
+        // ---- RECTO ----
+        if (scanStep === 'recto') {
+          rectoData = infos;
+          await showFeedbackIcon(true);
+          scanStep = 'verso';
+          updateScanUI();
+
+        // ---- VERSO ----
+        } else {
+          // Fusion recto + verso (verso écrase recto si conflit)
+          const merged = { ...rectoData, ...infos };
+
+          // NIN : chercher dans tous les champs possibles renvoyés par le backend
+          const nin = (
+            infos.nin ||
+            infos.NIN ||
+            infos.numeroIdentification ||
+            infos.identifiantNational ||
+            rectoData?.nin || ''
+          ).toString().replace(/\s/g, '').trim();
+
+          if (nin) merged.nin = nin;
+
+          // Nettoyage & fallbacks
+          let nom          = (merged.nom || '').trim();
+          let prenom       = (merged.prenom || '').trim();
+          let numeroPiece  = (merged.numeroPiece || '').replace(/\s/g, '');
+          let sexe         = (merged.sexe || 'M').trim().toUpperCase();
+          let taille       = merged.taille ? parseInt(merged.taille, 10) : null;
+          if (taille !== null && (taille < 50 || taille > 300)) taille = null;
+          if (!nom && prenom)  nom    = prenom;
+          if (!prenom && nom)  prenom = nom;
+          if (!nom && !prenom) { nom = 'Visiteur'; prenom = 'Inconnu'; }
+          if (!numeroPiece)    numeroPiece = `TEMP_${Date.now()}`;
+          if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
+
+          const visitorPayload = {
+            nom, prenom, numeroPiece,
+            typePiece:            merged.typePiece || 'CNI',
+            dateNaissance:        merged.dateNaissance || null,
+            lieuNaissance:        merged.lieuNaissance || '',
+            sexe, taille,
+            dateDelivrance:       merged.dateDelivrance || null,
+            dateExpiration:       merged.dateExpiration || null,
+            centreEnregistrement: merged.centreEnregistrement || '',
+            adresseDomicile:      merged.adresseDomicile || '',
+            nin:                  merged.nin || ''
+          };
+
+          console.log('📦 Payload final (recto+verso) :', visitorPayload);
+
+          showProcessing(true, 'Enregistrement du visiteur…');
+
+          const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
+            body: JSON.stringify(visitorPayload)
+          });
+
+          if (visiteurRes.status === 401 || visiteurRes.status === 403) {
+            localStorage.clear();
+            showError('Session expirée.');
+            setTimeout(() => window.location.href = '/login.html', 2000);
+            return;
+          }
+
+          const visiteurData = await visiteurRes.json();
+          if (!visiteurData.success) throw new Error(visiteurData.message);
+          const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
+
+          await apiFetch('/visites/entree', {
+            method: 'POST',
+            body: JSON.stringify({
+              visiteurId,
+              personneVisitee: currentUser?.nom || 'Agent',
+              service: 'Accueil',
+              motif: 'Scan automatique'
+            })
+          });
+
+          showProcessing(false);
+          await showFeedbackIcon(true);
+          await loadAllData();
+          await closeScanModalAndStop();
         }
 
-        if (!nom && prenom) nom = prenom;
-        if (!prenom && nom) prenom = nom;
-        if (!nom && !prenom) {
-          nom = "Visiteur";
-          prenom = "Inconnu";
-        }
-        if (!numeroPiece) {
-          numeroPiece = `TEMP_${Date.now()}`;
-        }
+      } catch (err) {
+        showProcessing(false);
+        console.error('❌ Erreur scan :', err);
+        await showFeedbackIcon(false);
+        let msg = err.message;
+        if (msg.includes('validation') || msg.includes('sexe')) msg = "Sexe extrait invalide (M/F attendu).";
+        else if (msg.includes('numéro')) msg = "Numéro de pièce invalide. Réessayez.";
+        else if (msg.includes('taille')) msg = "Taille hors limites. Vérifiez ou saisissez manuellement.";
+        else if (msg.includes('OCR'))   msg = "Impossible de lire la carte. Assurez-vous qu'elle est bien éclairée.";
+        showError(msg);
+      } finally {
+        isProcessing = false;
+        btn.disabled = false;
+      }
+    }
+
+    // Passer le verso (sans NIN) → utilise seulement rectoData
+    async function skipVersoAndFinish() {
+      if (isProcessing) return;
+      isProcessing = true;
+      const btn = document.getElementById('scanTriggerBtn');
+      btn.disabled = true;
+      showProcessing(true, 'Enregistrement sans NIN…');
+
+      try {
+        const tokenActual = localStorage.getItem('auth_token');
+        if (!tokenActual) throw new Error('Déconnecté.');
+
+        const merged = { ...rectoData };
+        let nom          = (merged.nom || '').trim();
+        let prenom       = (merged.prenom || '').trim();
+        let numeroPiece  = (merged.numeroPiece || '').replace(/\s/g, '');
+        let sexe         = (merged.sexe || 'M').trim().toUpperCase();
+        let taille       = merged.taille ? parseInt(merged.taille, 10) : null;
+        if (taille !== null && (taille < 50 || taille > 300)) taille = null;
+        if (!nom && prenom)  nom    = prenom;
+        if (!prenom && nom)  prenom = nom;
+        if (!nom && !prenom) { nom = 'Visiteur'; prenom = 'Inconnu'; }
+        if (!numeroPiece)    numeroPiece = `TEMP_${Date.now()}`;
         if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
 
         const visitorPayload = {
-          nom: nom,
-          prenom: prenom,
-          numeroPiece: numeroPiece,
-          typePiece: infos.typePiece || 'CNI',
-          dateNaissance: infos.dateNaissance || null,
-          lieuNaissance: infos.lieuNaissance || '',
-          sexe: sexe,
-          taille: taille,
-          dateDelivrance: infos.dateDelivrance || null,
-          dateExpiration: infos.dateExpiration || null,
-          centreEnregistrement: infos.centreEnregistrement || '',
-          adresseDomicile: infos.adresseDomicile || ''
+          nom, prenom, numeroPiece,
+          typePiece:            merged.typePiece || 'CNI',
+          dateNaissance:        merged.dateNaissance || null,
+          lieuNaissance:        merged.lieuNaissance || '',
+          sexe, taille,
+          dateDelivrance:       merged.dateDelivrance || null,
+          dateExpiration:       merged.dateExpiration || null,
+          centreEnregistrement: merged.centreEnregistrement || '',
+          adresseDomicile:      merged.adresseDomicile || '',
+          nin: ''
         };
-
-        console.log('📦 Payload final :', visitorPayload);
 
         const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
           body: JSON.stringify(visitorPayload)
         });
-
-        if (visiteurRes.status === 401 || visiteurRes.status === 403) {
-          localStorage.clear();
-          showError('Session expirée. Veuillez vous reconnecter.');
-          setTimeout(() => window.location.href = '/login.html', 2000);
-          return;
-        }
-
         const visiteurData = await visiteurRes.json();
         if (!visiteurData.success) throw new Error(visiteurData.message);
         const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
 
         await apiFetch('/visites/entree', {
           method: 'POST',
-          body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan automatique" })
+          body: JSON.stringify({
+            visiteurId,
+            personneVisitee: currentUser?.nom || 'Agent',
+            service: 'Accueil',
+            motif: 'Scan automatique (recto seulement)'
+          })
         });
 
+        showProcessing(false);
         await showFeedbackIcon(true);
         await loadAllData();
         await closeScanModalAndStop();
       } catch (err) {
-        console.error("❌ Erreur scan :", err);
+        showProcessing(false);
         await showFeedbackIcon(false);
-        let userMessage = err.message;
-        if (err.message.includes('validation') || err.message.includes('sexe')) {
-          userMessage = "Le sexe extrait n'est pas valide (M/F). Contactez l'administrateur.";
-        } else if (err.message.includes('numéro')) {
-          userMessage = "Numéro de pièce invalide ou manquant. Veuillez réessayer.";
-        } else if (err.message.includes('taille')) {
-          userMessage = "La taille extraite est hors limites. Veuillez vérifier ou saisir manuellement.";
-        } else if (err.message.includes('OCR')) {
-          userMessage = "Impossible de lire la carte. Assurez-vous qu'elle est bien éclairée et cadrée.";
-        }
-        showError(userMessage);
+        showError(err.message);
       } finally {
         isProcessing = false;
         btn.disabled = false;
@@ -699,7 +1059,10 @@
     }
 
     async function openScanModal() {
+      scanStep  = 'recto';
+      rectoData = null;
       scanModal.classList.add('active');
+      updateScanUI();
       const ok = await initCameraPreview();
       if (!ok) scanModal.classList.remove('active');
     }
@@ -707,21 +1070,36 @@
     async function closeScanModalAndStop() {
       await stopCamera();
       scanModal.classList.remove('active');
+      scanStep  = 'recto';
+      rectoData = null;
       const btn = document.getElementById('scanTriggerBtn');
-      if (btn) btn.disabled = false;
+      if (btn) { btn.disabled = false; }
+      updateScanUI();
     }
 
-    // Événements
+    // ==================== EVENTS ====================
     document.getElementById('scanFloatingBtn')?.addEventListener('click', openScanModal);
     document.getElementById('scanTriggerBtn')?.addEventListener('click', captureAndSendToBackend);
     document.getElementById('closeScanBtn')?.addEventListener('click', closeScanModalAndStop);
+    document.getElementById('skipVersoAction')?.addEventListener('click', skipVersoAndFinish);
 
     document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
-      let csv = "Visiteur,Pièce,Entrée,Sortie,Statut\n";
-      allVisits.forEach(v => { const vis = v.visiteurId||{}; csv+=`"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie?new Date(v.heureSortie).toLocaleString():''},${v.statut}\n`; });
-      const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="visites.csv"; a.click();
+      let csv = "Visiteur,Pièce,NIN,Entrée,Sortie,Statut\n";
+      allVisits.forEach(v => {
+        const vis = v.visiteurId || {};
+        csv += `"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${vis.nin||''},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie ? new Date(v.heureSortie).toLocaleString() : ''},${v.statut}\n`;
+      });
+      const blob = new Blob([csv], {type: 'text/csv'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'visites.csv';
+      a.click();
     });
-    document.getElementById('statusFilter')?.addEventListener('change', (e) => { currentStatusFilter = e.target.value; currentPage=1; renderDashboard(); });
+
+    document.getElementById('statusFilter')?.addEventListener('change', (e) => {
+      currentStatusFilter = e.target.value; currentPage = 1; renderDashboard();
+    });
+
     document.querySelectorAll('.filter-type-btn').forEach(btn => btn.addEventListener('click', function() {
       currentTypeFilter = this.dataset.type;
       document.querySelectorAll('.filter-type-btn').forEach(b => b.classList.remove('text-primary', 'border-b-2', 'border-primary'));
@@ -729,37 +1107,72 @@
       currentPage = 1;
       renderDashboard();
     }));
-    document.getElementById('prevPageBtn')?.addEventListener('click', () => { if(currentPage>1){ currentPage--; renderDashboard(); } });
-    document.getElementById('nextPageBtn')?.addEventListener('click', () => { const totalPages = Math.ceil(getFilteredVisits().length / rowsPerPage); if(currentPage<totalPages){ currentPage++; renderDashboard(); } });
+
+    document.getElementById('prevPageBtn')?.addEventListener('click', () => {
+      if (currentPage > 1) { currentPage--; renderDashboard(); }
+    });
+    document.getElementById('nextPageBtn')?.addEventListener('click', () => {
+      const totalPages = Math.ceil(getFilteredVisits().length / rowsPerPage);
+      if (currentPage < totalPages) { currentPage++; renderDashboard(); }
+    });
+
     document.getElementById('saveSettingsBtn')?.addEventListener('click', saveProfile);
-    document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.clear(); window.location.href='/login.html'; });
+    document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.clear(); window.location.href = '/login.html'; });
     document.getElementById('changePhotoBtn')?.addEventListener('click', () => showError("Fonctionnalité à venir"));
     document.getElementById('removePhotoBtn')?.addEventListener('click', () => showError("Fonctionnalité à venir"));
     document.getElementById('configureSSOBtn')?.addEventListener('click', () => showError("Configuration SSO à venir"));
     document.getElementById('manageSessionsBtn')?.addEventListener('click', () => showError("Gestion des sessions à venir"));
+
     document.querySelectorAll('.closeModalBtn').forEach(btn => btn.addEventListener('click', () => document.getElementById('detailModal').classList.remove('active')));
     document.querySelector('.closeSuccessBtn')?.addEventListener('click', () => document.getElementById('successModal').classList.remove('active'));
     document.querySelector('.closeErrorBtn')?.addEventListener('click', () => document.getElementById('errorModal').classList.remove('active'));
 
-    function startAutoRefresh() { if (autoRefreshInterval) clearInterval(autoRefreshInterval); autoRefreshInterval = setInterval(() => { loadAllData(); }, 15000); }
+    // ==================== AUTO REFRESH ====================
+    function startAutoRefresh() {
+      if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+      autoRefreshInterval = setInterval(() => loadAllData(), 15000);
+    }
     function stopAutoRefresh() { if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; } }
-    window.addEventListener('beforeunload', () => { stopAutoRefresh(); });
+    window.addEventListener('beforeunload', stopAutoRefresh);
 
-    const sidebar = document.getElementById('mainSidebar'), backdrop = document.getElementById('sidebarBackdrop');
-    document.getElementById('openSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.add('open'); backdrop.classList.add('open'); document.body.classList.add('mobile-sidebar-open'); });
-    document.getElementById('closeSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
-    backdrop?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
-    const themeToggle = document.getElementById('theme-toggle'), themeIcon = document.getElementById('theme-icon'), htmlEl = document.documentElement;
-    const savedTheme = localStorage.getItem('theme');
+    // ==================== SIDEBAR ====================
+    const sidebar  = document.getElementById('mainSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    document.getElementById('openSidebarBtn')?.addEventListener('click', () => { sidebar.classList.add('open'); backdrop.classList.add('open'); document.body.classList.add('mobile-sidebar-open'); });
+    document.getElementById('closeSidebarBtn')?.addEventListener('click', () => { sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
+    backdrop?.addEventListener('click', () => { sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
+
+    // ==================== THEME ====================
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon   = document.getElementById('theme-icon');
+    const htmlEl      = document.documentElement;
+    const savedTheme  = localStorage.getItem('theme');
     if (savedTheme === 'light') { htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); themeIcon.textContent = 'light_mode'; }
     else { htmlEl.classList.remove('light'); htmlEl.classList.add('dark'); themeIcon.textContent = 'dark_mode'; }
     themeToggle.addEventListener('click', () => {
-      if (htmlEl.classList.contains('dark')) { htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode'; }
-      else { htmlEl.classList.remove('light'); htmlEl.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode'; }
+      if (htmlEl.classList.contains('dark')) {
+        htmlEl.classList.replace('dark', 'light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode';
+      } else {
+        htmlEl.classList.replace('light', 'dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode';
+      }
     });
-    const navLinks = document.querySelectorAll('.nav-link'), sections = document.querySelectorAll('.content-section'), pageTitleSpan = document.getElementById('page-title');
-    navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); const target = link.dataset.section; navLinks.forEach(l=>l.classList.remove('nav-active')); link.classList.add('nav-active'); sections.forEach(s=>s.classList.remove('active')); document.getElementById(target)?.classList.add('active'); pageTitleSpan.innerText = target==='dashboard'?'Tableau de bord':target==='documents'?'Historiques':'Paramètres'; if(window.innerWidth<769){ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); } }));
 
+    // ==================== NAV ====================
+    const navLinks       = document.querySelectorAll('.nav-link');
+    const sections       = document.querySelectorAll('.content-section');
+    const pageTitleSpan  = document.getElementById('page-title');
+    navLinks.forEach(link => link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = link.dataset.section;
+      navLinks.forEach(l => l.classList.remove('nav-active'));
+      link.classList.add('nav-active');
+      sections.forEach(s => s.classList.remove('active'));
+      document.getElementById(target)?.classList.add('active');
+      pageTitleSpan.innerText = target === 'dashboard' ? 'Tableau de bord' : target === 'documents' ? 'Historiques' : 'Paramètres';
+      if (window.innerWidth < 769) { sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); }
+    }));
+
+    // ==================== INIT ====================
     loadAllData();
     startAutoRefresh();
   </script>
