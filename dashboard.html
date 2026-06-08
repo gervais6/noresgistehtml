@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>Registre+ | Agent – Scan & badge</title>
+<title>Registre+ | Agent – Scan recto/verso (NIN verso)</title>
 <link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -124,6 +124,8 @@
       background: transparent;
       justify-content: center;
       z-index: 20;
+      display: flex;
+      gap: 15px;
     }
     #scanModal .action-buttons button {
       background-color: #00fa6c;
@@ -135,6 +137,31 @@
       font-size: 1.2rem;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       cursor: pointer;
+    }
+    #nextSideBtn {
+      background-color: rgba(255,255,255,0.2) !important;
+      color: white !important;
+    }
+    .step-indicator {
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      background: rgba(0,0,0,0.6);
+      padding: 8px;
+      z-index: 15;
+    }
+    .step {
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-weight: bold;
+    }
+    .step.active {
+      background-color: #00fa6c;
+      color: black;
     }
     .feedback-overlay {
       position: absolute;
@@ -204,7 +231,7 @@
         <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/5"><span class="material-symbols-outlined text-on-surface-variant" id="theme-icon">dark_mode</span></button>
         <div class="flex items-center gap-2 pl-2 border-l border-white/10">
           <div class="text-right hidden xs:block"><p class="text-sm font-semibold text-white" id="userName">Agent</p><p class="text-xs text-on-surface-variant" id="userRole"></p></div>
-          <img class="w-9 h-9 rounded-full border border-primary/30" id="profileAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+          <img class="w-9 h-9 rounded-full border border-primary/30" id="profileAvatar" src="images/default-avatar.png"/>
         </div>
       </div>
     </header>
@@ -244,12 +271,12 @@
                 <thead class="bg-surface-container/50 border-b border-white/5">
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Heure entrée</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Visiteur</th>
-                  <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider hidden sm:table-cell">Pièce</th>
+                  <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider hidden sm:table-cell">NIN (Pièce)</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Service</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
                 </thead>
-                <tbody id="dashboardTableBody"><tr><td colspan="6" class="text-center py-6">Chargement......</td></tr></tbody>
+                <tbody id="dashboardTableBody"><tr><td colspan="6" class="text-center py-6">Chargement...</td></tr></tbody>
               </table>
             </div>
             <div class="px-4 md:px-6 py-3 border-t border-white/5 flex justify-between items-center">
@@ -264,8 +291,8 @@
           <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p></div>
           <div class="glass-card rounded-xl overflow-x-auto">
             <table class="w-full min-w-[600px] text-left">
-              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
-              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement......</td></tr></tbody>
+              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">NIN</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
+              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
             </table>
           </div>
         </section>
@@ -276,7 +303,7 @@
             <div class="p-5 md:p-6">
               <h3 class="text-lg font-bold mb-4">Photo de profil</h3>
               <div class="flex flex-wrap items-center gap-4 pb-5 border-b border-white/5">
-                <img class="w-14 h-14 rounded-xl border" id="profileImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS1Xw_lSZEYTQYot3088IFIZaXLvRiiAl78S4OruwuTWtrJpSTz8tP6xbskjrQXEZGz8djlHSXnNIh8vvQyljjMwLsj2bZUcNuXJnC48vuHrwdhXdSxIjyWcXmLLounhz_s-PtmovI2U5V0YAAIQiRMZTw-VK88vHAG2KImkHkXs37SBxrgPQvQucp6maj2dtLGVtBAQs8BQec0nwQRS99m38lCdlr9625KtJLlPEuv1HaF1kYfLBFNG6jZ--0hjYFFzEaBYnwsIW-"/>
+                <img class="w-14 h-14 rounded-xl border" id="profileImage" src="images/default-avatar.png"/>
                 <div><button id="changePhotoBtn" class="bg-primary text-black text-sm font-bold px-4 py-2 rounded-lg mr-2">Changer photo</button><button id="removePhotoBtn" class="text-red-400 text-sm font-bold">Supprimer</button></div>
               </div>
             </div>
@@ -308,32 +335,8 @@
     </main>
   </div>
 
-  <!-- MODALE DÉTAILS VISITE + SUPPRESSION VISITEUR -->
-  <div id="detailModal" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="text-lg font-bold text-white">Détails de la visite</h3>
-        <button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button>
-      </div>
-      <div class="modal-body text-left">
-        <div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div>
-        <div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div>
-        <div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div>
-        <div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div>
-        <div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div>
-        <div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div>
-        <div class="detail-row"><div class="detail-label">ID Visiteur :</div><div class="detail-value font-mono text-xs" id="modalVisitorId"></div></div>
-      </div>
-      <div class="modal-footer justify-between flex-wrap">
-        <button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button>
-        <button id="deleteVisitorBtn" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 flex items-center gap-2">
-          <span class="material-symbols-outlined text-base">delete_forever</span> Supprimer le visiteur
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODALES SUCCÈS / ERREUR -->
+  <!-- MODALES -->
+  <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">NIN :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div><div class="detail-row"><div class="detail-label">ID Visiteur :</div><div class="detail-value font-mono text-xs" id="modalVisitorId"></div></div></div><div class="modal-footer justify-between flex-wrap"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button><button id="deleteVisitorBtn" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 flex items-center gap-2"><span class="material-symbols-outlined text-base">delete_forever</span> Supprimer le visiteur</button></div></div></div>
   <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
 
@@ -345,10 +348,15 @@
         <button id="closeScanBtn"><span class="material-symbols-outlined text-white">close</span></button>
       </div>
       <div class="modal-body">
+        <div id="stepIndicator" class="step-indicator">
+          <div id="stepRecto" class="step active">📄 1. Recto</div>
+          <div id="stepVerso" class="step">🔄 2. Verso (NIN)</div>
+        </div>
         <video id="video-preview" autoplay playsinline muted></video>
         <canvas id="snapshot-canvas" style="display:none;"></canvas>
         <div class="action-buttons">
           <button id="scanTriggerBtn">Scanner</button>
+          <button id="nextSideBtn" style="display:none;">Passer au verso →</button>
         </div>
         <div id="feedbackOverlay" class="feedback-overlay">
           <div id="feedbackIcon" class="feedback-icon"></div>
@@ -373,6 +381,23 @@
     let currentStatusFilter = 'all';
     let autoRefreshInterval = null;
 
+    // Variables pour le scan recto-verso
+    let rectoData = null;
+    let currentSide = 'recto'; // 'recto' ou 'verso'
+    let videoStream = null;
+    let isProcessing = false;
+    const video = document.getElementById('video-preview');
+    const canvas = document.getElementById('snapshot-canvas');
+    const ctx = canvas.getContext('2d');
+    const scanModal = document.getElementById('scanModal');
+    const stepRecto = document.getElementById('stepRecto');
+    const stepVerso = document.getElementById('stepVerso');
+    const nextSideBtn = document.getElementById('nextSideBtn');
+    const scanTriggerBtn = document.getElementById('scanTriggerBtn');
+    const feedbackOverlay = document.getElementById('feedbackOverlay');
+    const feedbackIcon = document.getElementById('feedbackIcon');
+
+    // ==================== FONCTIONS API ====================
     async function apiFetch(endpoint, options = {}) {
       const res = await fetch(`${API_BASE}${endpoint}`, {
         ...options,
@@ -540,29 +565,21 @@
       } catch(err) { showError(err.message); }
     }
 
-    // ==================== SUPPRESSION VISITEUR (ROUTE DELETE) ====================
     async function deleteVisitor(visitorId) {
-      if (!visitorId) {
-        showError("Aucun identifiant de visiteur fourni.");
-        return;
-      }
+      if (!visitorId) { showError("Aucun identifiant de visiteur fourni."); return; }
       const confirmDelete = confirm("⚠️ Supprimer ce visiteur supprimera TOUTES ses visites et documents associés. Action irréversible. Continuer ?");
       if (!confirmDelete) return;
-
       try {
         await apiFetch(`/visiteurs/${visitorId}`, { method: 'DELETE' });
         showSuccess("Visiteur et toutes ses données supprimés.");
         document.getElementById('detailModal').classList.remove('active');
-        await loadAllData(); // recharge les visites + historique
-      } catch (err) {
-        showError(err.message);
-      }
+        await loadAllData();
+      } catch (err) { showError(err.message); }
     }
 
     function openDetailModal(visite) {
       const vis = visite.visiteurId || {};
       const visitorId = vis._id;
-
       document.getElementById('modalVisitor').innerText = `${vis.prenom || ''} ${vis.nom || ''}`;
       document.getElementById('modalPiece').innerText = vis.numeroPiece || '-';
       document.getElementById('modalService').innerText = visite.service || '-';
@@ -570,30 +587,14 @@
       document.getElementById('modalExit').innerText = visite.heureSortie ? new Date(visite.heureSortie).toLocaleString() : 'Non sorti';
       document.getElementById('modalStatus').innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${visite.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${visite.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span>`;
       document.getElementById('modalVisitorId').innerText = visitorId || 'inconnu';
-
       const deleteBtn = document.getElementById('deleteVisitorBtn');
-      if (deleteBtn && visitorId) {
-        deleteBtn.setAttribute('data-visitor-id', visitorId);
-      } else if (deleteBtn) {
-        deleteBtn.setAttribute('data-visitor-id', '');
-      }
-
+      if (deleteBtn && visitorId) deleteBtn.setAttribute('data-visitor-id', visitorId);
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN (OCR) ====================
-    let videoStream = null;
-    const video = document.getElementById('video-preview');
-    const canvas = document.getElementById('snapshot-canvas');
-    const ctx = canvas.getContext('2d');
-    const scanModal = document.getElementById('scanModal');
-    let isProcessing = false;
-
+    // ==================== SCAN RECTO-VERSO ====================
     async function stopCamera() {
-      if (videoStream) {
-        videoStream.getTracks().forEach(t => t.stop());
-        videoStream = null;
-      }
+      if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
       if (video) video.srcObject = null;
     }
 
@@ -605,153 +606,174 @@
         video.srcObject = stream;
         await video.play();
         return true;
-      } catch (e) {
-        showError("Caméra indisponible");
-        return false;
-      }
+      } catch (e) { showError("Caméra indisponible"); return false; }
     }
 
     function showFeedbackIcon(success) {
       return new Promise((resolve) => {
-        const overlay = document.getElementById('feedbackOverlay');
-        const iconDiv = document.getElementById('feedbackIcon');
-        if (success) {
-          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#00fa6c;">check_circle</span>';
-        } else {
-          iconDiv.innerHTML = '<span class="material-symbols-outlined" style="font-size:6rem; color:#ff4444;">cancel</span>';
-        }
-        overlay.classList.add('active');
-        setTimeout(() => {
-          overlay.classList.remove('active');
-          resolve();
-        }, 1800);
+        feedbackIcon.innerHTML = success ? '<span class="material-symbols-outlined" style="font-size:6rem; color:#00fa6c;">check_circle</span>' : '<span class="material-symbols-outlined" style="font-size:6rem; color:#ff4444;">cancel</span>';
+        feedbackOverlay.classList.add('active');
+        setTimeout(() => { feedbackOverlay.classList.remove('active'); resolve(); }, 1500);
       });
     }
 
-    async function captureAndSendToBackend() {
+    // Extraction du recto (champs classiques)
+    function extraireInfosRecto(ocrText) {
+      const infos = {};
+      const lignes = ocrText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      // Nom
+      let match = ocrText.match(/Nom[\s:]+([A-Za-zÀ-ÿ\-]+)/i);
+      infos.nom = match ? match[1] : null;
+      // Prénom
+      match = ocrText.match(/Prénom(?:s)?[\s:]+([A-Za-zÀ-ÿ\-]+)/i);
+      infos.prenom = match ? match[1] : null;
+      // Date de naissance
+      match = ocrText.match(/\b(\d{2}\/\d{2}\/\d{4})\b/);
+      if (match) infos.dateNaissance = match[1];
+      // Sexe
+      match = ocrText.match(/\b([MF])\b/);
+      if (match) infos.sexe = match[1];
+      // Taille
+      match = ocrText.match(/(\d{2,3})\s*cm/i);
+      if (match) infos.taille = parseInt(match[1], 10);
+      // Numéro de pièce (si présent sur recto)
+      match = ocrText.match(/\b(\d{10,})\b/);
+      if (match) infos.numeroPieceRecto = match[1];
+      return infos;
+    }
+
+    // Extraction du verso : uniquement le NIN
+    function extraireNIN(ocrText) {
+      // Cherche "NIN" suivi de chiffres (avec ou sans espaces)
+      let match = ocrText.match(/NIN\s+([\d\s]+)/i);
+      if (match) {
+        let nin = match[1].replace(/\s/g, '');
+        if (nin.length > 5) return nin;
+      }
+      // Parfois écrit "N I N" ou "N.I.N."
+      match = ocrText.match(/N[.\s]*I[.\s]*N[.\s]*([\d\s]+)/i);
+      if (match) {
+        let nin = match[1].replace(/\s/g, '');
+        if (nin.length > 5) return nin;
+      }
+      // Recherche d'un long nombre (13 à 15 chiffres) qui pourrait être le NIN
+      match = ocrText.match(/\b(\d{13,15})\b/);
+      if (match) return match[1];
+      return null;
+    }
+
+    async function captureAndProcess() {
       if (isProcessing) return;
       isProcessing = true;
-      const btn = document.getElementById('scanTriggerBtn');
-      btn.disabled = true;
+      scanTriggerBtn.disabled = true;
+      nextSideBtn.disabled = true;
 
+      // Prendre une photo
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       ctx.drawImage(video, 0, 0);
+      const imgData = canvas.toDataURL('image/jpeg', 0.9);
+
+      try {
+        // OCR via Tesseract
+        const { data: { text } } = await Tesseract.recognize(imgData, 'fra+eng');
+        if (!text || text.trim().length < 10) throw new Error("Texte non détecté");
+
+        if (currentSide === 'recto') {
+          const infos = extraireInfosRecto(text);
+          if (!infos.nom && !infos.prenom) throw new Error("Nom/prénom non trouvés sur le recto");
+          rectoData = infos;
+          await showFeedbackIcon(true);
+          // Passer au verso
+          currentSide = 'verso';
+          stepRecto.classList.remove('active');
+          stepVerso.classList.add('active');
+          scanTriggerBtn.disabled = false;
+          nextSideBtn.style.display = 'none';
+          // Réinitialiser le message
+        } else { // verso
+          const nin = extraireNIN(text);
+          if (!nin) throw new Error("NIN non trouvé sur le verso");
+          rectoData.nin = nin; // on ajoute le NIN aux données
+          await showFeedbackIcon(true);
+          // Fusionner et envoyer
+          await finaliserVisiteurAvecNIN();
+        }
+      } catch (err) {
+        console.error(err);
+        await showFeedbackIcon(false);
+        showError(`Erreur scan ${currentSide} : ${err.message}`);
+      } finally {
+        isProcessing = false;
+        scanTriggerBtn.disabled = false;
+        if (currentSide === 'recto') {
+          nextSideBtn.style.display = 'block';
+          nextSideBtn.disabled = false;
+        }
+      }
+    }
+
+    async function finaliserVisiteurAvecNIN() {
+      if (!rectoData) return;
+      // Préparer les données pour l'API
+      let numeroPiece = rectoData.nin || rectoData.numeroPieceRecto;
+      if (!numeroPiece) numeroPiece = `TEMP_${Date.now()}`;
       
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
-      const formData = new FormData();
-      formData.append('image', blob, 'scan.jpg');
+      let dateNaissance = rectoData.dateNaissance ? rectoData.dateNaissance.split('/').reverse().join('-') : null;
+      let taille = rectoData.taille ? parseInt(rectoData.taille) : null;
+      if (taille !== null && (taille < 50 || taille > 300)) taille = null;
+      let sexe = rectoData.sexe === 'M' || rectoData.sexe === 'F' ? rectoData.sexe : 'M';
+
+      const visitorPayload = {
+        nom: rectoData.nom || "Visiteur",
+        prenom: rectoData.prenom || "Inconnu",
+        numeroPiece: numeroPiece,
+        typePiece: "CNI",
+        dateNaissance: dateNaissance,
+        lieuNaissance: "",
+        sexe: sexe,
+        taille: taille,
+        dateDelivrance: null,
+        dateExpiration: null,
+        centreEnregistrement: "",
+        adresseDomicile: ""
+      };
 
       try {
         const tokenActual = localStorage.getItem('auth_token');
-        if (!tokenActual) throw new Error('Vous êtes déconnecté. Veuillez vous reconnecter.');
-
-        const response = await fetch(`${API_BASE}/scan`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${tokenActual}` },
-          body: formData
-        });
-
-        if (response.status === 401 || response.status === 403) {
-          localStorage.clear();
-          showError('Session expirée ou accès interdit. Redirection...');
-          setTimeout(() => window.location.href = '/login.html', 2000);
-          return;
-        }
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.message || `Erreur HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-        let infos = data.infosExtraites || {};
-
-        let nom = (infos.nom || '').trim();
-        let prenom = (infos.prenom || '').trim();
-        let numeroPiece = (infos.numeroPiece || '').replace(/\s/g, '');
-        let sexe = (infos.sexe || '').trim().toUpperCase();
-        let taille = infos.taille ? parseInt(infos.taille, 10) : null;
-
-        if (taille !== null && (taille < 50 || taille > 300)) {
-          console.warn(`Taille invalide extraite: ${taille} cm. Valeur ignorée.`);
-          taille = null;
-        }
-
-        if (!nom && prenom) nom = prenom;
-        if (!prenom && nom) prenom = nom;
-        if (!nom && !prenom) {
-          nom = "Visiteur";
-          prenom = "Inconnu";
-        }
-        if (!numeroPiece) {
-          numeroPiece = `TEMP_${Date.now()}`;
-        }
-        if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
-
-        const visitorPayload = {
-          nom: nom,
-          prenom: prenom,
-          numeroPiece: numeroPiece,
-          typePiece: infos.typePiece || 'CNI',
-          dateNaissance: infos.dateNaissance || null,
-          lieuNaissance: infos.lieuNaissance || '',
-          sexe: sexe,
-          taille: taille,
-          dateDelivrance: infos.dateDelivrance || null,
-          dateExpiration: infos.dateExpiration || null,
-          centreEnregistrement: infos.centreEnregistrement || '',
-          adresseDomicile: infos.adresseDomicile || ''
-        };
-
-        console.log('📦 Payload final :', visitorPayload);
-
-        const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
+        // Création du visiteur
+        const resVisiteur = await fetch(`${API_BASE}/visiteurs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
           body: JSON.stringify(visitorPayload)
         });
-
-        if (visiteurRes.status === 401 || visiteurRes.status === 403) {
-          localStorage.clear();
-          showError('Session expirée. Veuillez vous reconnecter.');
-          setTimeout(() => window.location.href = '/login.html', 2000);
-          return;
-        }
-
-        const visiteurData = await visiteurRes.json();
+        const visiteurData = await resVisiteur.json();
         if (!visiteurData.success) throw new Error(visiteurData.message);
         const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
 
+        // Enregistrement de l'entrée
         await apiFetch('/visites/entree', {
           method: 'POST',
-          body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan automatique" })
+          body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan recto-verso" })
         });
 
         await showFeedbackIcon(true);
-        await loadAllData();
         await closeScanModalAndStop();
+        await loadAllData();
+        showSuccess(`Visiteur ${visitorPayload.prenom} ${visitorPayload.nom} enregistré avec NIN: ${numeroPiece}`);
       } catch (err) {
-        console.error("❌ Erreur scan :", err);
-        await showFeedbackIcon(false);
-        let userMessage = err.message;
-        if (err.message.includes('validation') || err.message.includes('sexe')) {
-          userMessage = "Le sexe extrait n'est pas valide (M/F). Contactez l'administrateur.";
-        } else if (err.message.includes('numéro')) {
-          userMessage = "Numéro de pièce invalide ou manquant. Veuillez réessayer.";
-        } else if (err.message.includes('taille')) {
-          userMessage = "La taille extraite est hors limites. Veuillez vérifier ou saisir manuellement.";
-        } else if (err.message.includes('OCR')) {
-          userMessage = "Impossible de lire la carte. Assurez-vous qu'elle est bien éclairée et cadrée.";
-        }
-        showError(userMessage);
-      } finally {
-        isProcessing = false;
-        btn.disabled = false;
+        console.error(err);
+        showError(`Erreur enregistrement: ${err.message}`);
       }
     }
 
     async function openScanModal() {
+      rectoData = null;
+      currentSide = 'recto';
+      stepRecto.classList.add('active');
+      stepVerso.classList.remove('active');
+      nextSideBtn.style.display = 'none';
+      scanTriggerBtn.disabled = false;
       scanModal.classList.add('active');
       const ok = await initCameraPreview();
       if (!ok) scanModal.classList.remove('active');
@@ -760,17 +782,28 @@
     async function closeScanModalAndStop() {
       await stopCamera();
       scanModal.classList.remove('active');
-      const btn = document.getElementById('scanTriggerBtn');
-      if (btn) btn.disabled = false;
+      rectoData = null;
+      currentSide = 'recto';
+      stepRecto.classList.add('active');
+      stepVerso.classList.remove('active');
+      nextSideBtn.style.display = 'none';
     }
 
-    // ==================== ÉVÉNEMENTS ====================
+    // Événements scan
     document.getElementById('scanFloatingBtn')?.addEventListener('click', openScanModal);
-    document.getElementById('scanTriggerBtn')?.addEventListener('click', captureAndSendToBackend);
+    scanTriggerBtn?.addEventListener('click', captureAndProcess);
+    nextSideBtn?.addEventListener('click', () => {
+      currentSide = 'verso';
+      stepRecto.classList.remove('active');
+      stepVerso.classList.add('active');
+      nextSideBtn.style.display = 'none';
+      scanTriggerBtn.disabled = false;
+    });
     document.getElementById('closeScanBtn')?.addEventListener('click', closeScanModalAndStop);
 
+    // ==================== AUTRES ÉVÉNEMENTS ====================
     document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
-      let csv = "Visiteur,Pièce,Entrée,Sortie,Statut\n";
+      let csv = "Visiteur,NIN,Entrée,Sortie,Statut\n";
       allVisits.forEach(v => { const vis = v.visiteurId||{}; csv+=`"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie?new Date(v.heureSortie).toLocaleString():''},${v.statut}\n`; });
       const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="visites.csv"; a.click();
     });
@@ -793,25 +826,19 @@
     document.querySelectorAll('.closeModalBtn').forEach(btn => btn.addEventListener('click', () => document.getElementById('detailModal').classList.remove('active')));
     document.querySelector('.closeSuccessBtn')?.addEventListener('click', () => document.getElementById('successModal').classList.remove('active'));
     document.querySelector('.closeErrorBtn')?.addEventListener('click', () => document.getElementById('errorModal').classList.remove('active'));
-
-    // Bouton suppression visiteur dans la modale
-    document.getElementById('deleteVisitorBtn')?.addEventListener('click', (e) => {
-      const visitorId = e.currentTarget.getAttribute('data-visitor-id');
-      if (visitorId && visitorId !== 'inconnu') {
-        deleteVisitor(visitorId);
-      } else {
-        showError("Impossible de supprimer : visiteur introuvable.");
-      }
-    });
+    document.getElementById('deleteVisitorBtn')?.addEventListener('click', (e) => { const visitorId = e.currentTarget.getAttribute('data-visitor-id'); if (visitorId && visitorId !== 'inconnu') deleteVisitor(visitorId); else showError("Impossible de supprimer : visiteur introuvable."); });
 
     function startAutoRefresh() { if (autoRefreshInterval) clearInterval(autoRefreshInterval); autoRefreshInterval = setInterval(() => { loadAllData(); }, 15000); }
     function stopAutoRefresh() { if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; } }
     window.addEventListener('beforeunload', () => { stopAutoRefresh(); });
 
+    // Sidebar mobile
     const sidebar = document.getElementById('mainSidebar'), backdrop = document.getElementById('sidebarBackdrop');
     document.getElementById('openSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.add('open'); backdrop.classList.add('open'); document.body.classList.add('mobile-sidebar-open'); });
     document.getElementById('closeSidebarBtn')?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
     backdrop?.addEventListener('click', ()=>{ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); });
+
+    // Thème
     const themeToggle = document.getElementById('theme-toggle'), themeIcon = document.getElementById('theme-icon'), htmlEl = document.documentElement;
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') { htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); themeIcon.textContent = 'light_mode'; }
@@ -820,6 +847,8 @@
       if (htmlEl.classList.contains('dark')) { htmlEl.classList.remove('dark'); htmlEl.classList.add('light'); localStorage.setItem('theme', 'light'); themeIcon.textContent = 'light_mode'; }
       else { htmlEl.classList.remove('light'); htmlEl.classList.add('dark'); localStorage.setItem('theme', 'dark'); themeIcon.textContent = 'dark_mode'; }
     });
+
+    // Navigation
     const navLinks = document.querySelectorAll('.nav-link'), sections = document.querySelectorAll('.content-section'), pageTitleSpan = document.getElementById('page-title');
     navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); const target = link.dataset.section; navLinks.forEach(l=>l.classList.remove('nav-active')); link.classList.add('nav-active'); sections.forEach(s=>s.classList.remove('active')); document.getElementById(target)?.classList.add('active'); pageTitleSpan.innerText = target==='dashboard'?'Tableau de bord':target==='documents'?'Historiques':'Paramètres'; if(window.innerWidth<769){ sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.classList.remove('mobile-sidebar-open'); } }));
 
