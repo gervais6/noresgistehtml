@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>Registre+ | Agent – Scan recto-verso (NIN uniquement au verso)</title>
+<title>Registre+ | Agent – Scan & badge</title>
 <link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -104,6 +104,8 @@
       object-fit: cover;
       border-radius: 0;
       margin-bottom: 0;
+      /* Suppression du miroir horizontal pour que le texte ne soit pas inversé */
+      /* transform: scaleX(-1); */
     }
     #scanModal .modal-header {
       background-color: rgba(0,0,0,0.7);
@@ -116,20 +118,6 @@
       right: 0;
     }
     #scanModal .modal-header h3 { color: white; }
-    .scan-step-indicator {
-      position: absolute;
-      top: 70px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      padding: 8px;
-      font-weight: bold;
-      color: #00fa6c;
-      z-index: 15;
-      font-size: 0.9rem;
-    }
     #scanModal .action-buttons {
       position: absolute;
       bottom: 40px;
@@ -138,8 +126,6 @@
       background: transparent;
       justify-content: center;
       z-index: 20;
-      display: flex;
-      gap: 16px;
     }
     #scanModal .action-buttons button {
       background-color: #00fa6c;
@@ -151,10 +137,6 @@
       font-size: 1.2rem;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       cursor: pointer;
-    }
-    #scanModal .action-buttons button#cancelScanBtn {
-      background-color: rgba(255,255,255,0.2);
-      color: white;
     }
     .feedback-overlay {
       position: absolute;
@@ -233,7 +215,7 @@
       <div class="max-w-7xl mx-auto">
         <section class="content-section active space-y-5 md:space-y-6" id="dashboard">
           <div class="flex flex-wrap justify-between items-end gap-4 mb-4">
-            <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Scan recto-verso (NIN uniquement au dos)</p></div>
+            <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Badgez les entrées / sorties</p></div>
             <div class="flex gap-2">
               <button id="exportCsvBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-white/10 text-xs md:text-sm font-medium hover:bg-white/5"><span class="material-symbols-outlined text-base md:text-lg">download</span> <span class="hidden sm:inline">Exporter CSV</span></button>
             </div>
@@ -265,7 +247,7 @@
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Heure entrée</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Visiteur</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider hidden sm:table-cell">Pièce</th>
-                  <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">NIN</th>
+                  <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Service</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
                 </thead>
@@ -281,11 +263,11 @@
         </section>
 
         <section class="content-section space-y-5 md:space-y-6" id="documents">
-          <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties avec NIN</p></div>
+          <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p></div>
           <div class="glass-card rounded-xl overflow-x-auto">
             <table class="w-full min-w-[600px] text-left">
-              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">NIN</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
-              <tbody id="historyTableBody"><tr><td colspan="6" class="text-center py-6">Chargement...</td></tr></tbody>
+              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
+              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
             </table>
           </div>
         </section>
@@ -316,12 +298,12 @@
             <div class="p-5 md:p-6 border-b border-white/5">
               <h3 class="text-lg font-bold mb-4">Sécurité</h3>
               <div class="space-y-3">
-                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">2FA</p><p class="text-xs">Renforce la sécurité</p></div><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="twoFactorToggle" class="sr-only peer"><div class="w-11 h-6 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label></div>
-                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">SSO (Okta/Google)</p><p class="text-xs">Connexion entreprise</p></div><button id="configureSSOBtn" class="text-primary text-sm border-b border-primary">Configurer</button></div>
-                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Sessions actives</p><p class="text-xs">Gérez vos appareils</p></div><button id="manageSessionsBtn" class="text-primary text-sm border-b border-primary">Voir</button></div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Authentification à deux facteurs (2FA)</p><p class="text-xs">Renforce la sécurité de votre compte</p></div><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="twoFactorToggle" class="sr-only peer"><div class="w-11 h-6 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label></div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">SSO (Okta / Google)</p><p class="text-xs">Connectez-vous avec votre compte entreprise</p></div><button id="configureSSOBtn" class="text-primary text-sm border-b border-primary">Configurer</button></div>
+                <div class="flex flex-wrap justify-between items-center p-3 bg-surface-container/50 rounded-lg"><div><p class="font-semibold">Sessions actives</p><p class="text-xs">Gérez vos appareils connectés</p></div><button id="manageSessionsBtn" class="text-primary text-sm border-b border-primary">Voir</button></div>
               </div>
             </div>
-            <div class="p-5 bg-surface-container/30 text-right"><button id="saveSettingsBtn" class="bg-primary text-black font-bold px-6 py-2.5 rounded-lg hover:brightness-110 transition-all">Enregistrer</button></div>
+            <div class="p-5 bg-surface-container/30 text-right"><button id="saveSettingsBtn" class="bg-primary text-black font-bold px-6 py-2.5 rounded-lg hover:brightness-110 transition-all">Enregistrer les modifications</button></div>
           </div>
         </section>
       </div>
@@ -329,24 +311,21 @@
   </div>
 
   <!-- Modales -->
-  <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">NIN :</div><div class="detail-value" id="modalNin"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div></div><div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
+  <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div></div><div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
 
-  <!-- Scan Modal -->
   <div id="scanModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="text-lg font-bold text-white">Scanner pièce d'identité (recto/verso)</h3>
+        <h3 class="text-lg font-bold text-white">Scanner une pièce d'identité</h3>
         <button id="closeScanBtn"><span class="material-symbols-outlined text-white">close</span></button>
       </div>
       <div class="modal-body">
         <video id="video-preview" autoplay playsinline muted></video>
         <canvas id="snapshot-canvas" style="display:none;"></canvas>
-        <div id="stepIndicator" class="scan-step-indicator">📸 Étape 1/2 : Scannez le RECTÔ</div>
         <div class="action-buttons">
-          <button id="cancelScanBtn">Annuler</button>
-          <button id="scanActionBtn">Scanner recto</button>
+          <button id="scanTriggerBtn">Scanner</button>
         </div>
         <div id="feedbackOverlay" class="feedback-overlay">
           <div id="feedbackIcon" class="feedback-icon"></div>
@@ -370,10 +349,6 @@
     let currentTypeFilter = 'all';
     let currentStatusFilter = 'all';
     let autoRefreshInterval = null;
-    let scanStep = 'front';
-    let frontData = null;
-    let videoStream = null;
-    let isProcessing = false;
 
     async function apiFetch(endpoint, options = {}) {
       const res = await fetch(`${API_BASE}${endpoint}`, {
@@ -406,8 +381,14 @@
 
     function updateStats() {
       const total = allVisits.length;
-      const present = allVisits.filter(v => !v.heureSortie).length;
-      const sortis = allVisits.filter(v => v.heureSortie).length;
+      const present = allVisits.filter(v => {
+        const s = String(v.statut || '').toLowerCase();
+        return (s === 'present' || s === 'en-cours' || s === 'en cours' || s === 'on-site') || (!v.heureSortie && s !== 'sorti' && s !== 'sortis');
+      }).length;
+      const sortis = allVisits.filter(v => {
+        const s = String(v.statut || '').toLowerCase();
+        return s === 'sorti' || s === 'sortis' || s === 'exited' || s === 'terminé' || v.heureSortie;
+      }).length;
       document.getElementById('totalEntries').innerText = total;
       document.getElementById('currentlyInside').innerText = present;
       document.getElementById('totalExits').innerText = sortis;
@@ -415,10 +396,19 @@
 
     function getFilteredVisits() {
       let filtered = [...allVisits];
-      if (currentTypeFilter === 'person') filtered = filtered.filter(v => !v.vehicule);
-      else if (currentTypeFilter === 'vehicule') filtered = filtered.filter(v => v.vehicule);
-      if (currentStatusFilter === 'present') filtered = filtered.filter(v => !v.heureSortie);
-      else if (currentStatusFilter === 'sorti') filtered = filtered.filter(v => v.heureSortie);
+      if (currentTypeFilter === 'person') filtered = filtered.filter(v => !v.vehicule && v.type !== 'vehicule');
+      else if (currentTypeFilter === 'vehicule') filtered = filtered.filter(v => v.vehicule || v.type === 'vehicule');
+      if (currentStatusFilter === 'present') {
+        filtered = filtered.filter(v => {
+          const s = String(v.statut || '').toLowerCase();
+          return (s === 'present' || s === 'en-cours' || s === 'en cours' || s === 'on-site') || (!v.heureSortie && s !== 'sorti' && s !== 'sortis');
+        });
+      } else if (currentStatusFilter === 'sorti') {
+        filtered = filtered.filter(v => {
+          const s = String(v.statut || '').toLowerCase();
+          return s === 'sorti' || s === 'sortis' || s === 'exited' || s === 'terminé' || v.heureSortie;
+        });
+      }
       return filtered;
     }
 
@@ -434,16 +424,15 @@
       } else {
         for (const v of pageData) {
           const vis = v.visiteurId || {};
-          const nin = vis.nin || '-';
           const row = tbody.insertRow();
           row.className = 'table-row-hover';
           row.innerHTML = `
             <td class="px-4 md:px-6 py-3 text-sm">${new Date(v.heureEntree).toLocaleTimeString('fr-FR')}</td>
             <td class="px-4 md:px-6 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">${(vis.prenom?.[0]||'')+(vis.nom?.[0]||'')}</div><span class="font-medium text-sm">${vis.prenom || ''} ${vis.nom || ''}</span></div></td>
             <td class="px-4 md:px-6 py-3 text-on-surface-variant text-sm hidden sm:table-cell font-mono">${vis.numeroPiece || '-'}</td>
-            <td class="px-4 md:px-6 py-3 font-mono text-sm">${nin}</td>
-            <td class="px-4 md:px-6 py-3"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${!v.heureSortie ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${!v.heureSortie ? 'En cours' : 'Sorti'}</span></td>
-            <td class="px-4 md:px-6 py-3 text-center"><div class="flex gap-3 justify-center"><button class="view-visite-btn text-primary" data-visite='${JSON.stringify(v)}'><span class="material-symbols-outlined text-xl">visibility</span></button>${!v.heureSortie ? `<button class="sortie-btn text-yellow-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">exit_to_app</span></button>` : ''}<button class="delete-visite-btn text-red-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
+            <td class="px-4 md:px-6 py-3">${v.service || '-'}</td>
+            <td class="px-4 md:px-6 py-3"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span></td>
+            <td class="px-4 md:px-6 py-3 text-center"><div class="flex gap-3 justify-center"><button class="view-visite-btn text-primary" data-visite='${JSON.stringify(v)}'><span class="material-symbols-outlined text-xl">visibility</span></button>${v.statut === 'EN_COURS' ? `<button class="sortie-btn text-yellow-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">exit_to_app</span></button>` : ''}<button class="delete-visite-btn text-red-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
           `;
         }
       }
@@ -480,15 +469,13 @@
         tbody.innerHTML = '';
         for (const v of visits) {
           const vis = v.visiteurId || {};
-          const nin = vis.nin || '-';
           const row = tbody.insertRow();
           row.innerHTML = `
             <td class="px-4 py-3">${vis.prenom || ''} ${vis.nom || ''}</td>
             <td class="px-4 py-3 font-mono">${vis.numeroPiece || '-'}</td>
-            <td class="px-4 py-3 font-mono">${nin}</td>
             <td class="px-4 py-3">${new Date(v.heureEntree).toLocaleString()}</td>
             <td class="px-4 py-3">${v.heureSortie ? new Date(v.heureSortie).toLocaleString() : '-'}</td>
-            <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs ${!v.heureSortie ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${!v.heureSortie ? 'En cours' : 'Sorti'}</span></td>
+            <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span></td>
           `;
         }
       } catch(err) { showError(err.message); }
@@ -532,49 +519,22 @@
 
     function openDetailModal(visite) {
       const vis = visite.visiteurId || {};
-      const nin = vis.nin || '-';
       document.getElementById('modalVisitor').innerText = `${vis.prenom || ''} ${vis.nom || ''}`;
       document.getElementById('modalPiece').innerText = vis.numeroPiece || '-';
-      document.getElementById('modalNin').innerText = nin;
+      document.getElementById('modalService').innerText = visite.service || '-';
       document.getElementById('modalEntry').innerText = new Date(visite.heureEntree).toLocaleString();
       document.getElementById('modalExit').innerText = visite.heureSortie ? new Date(visite.heureSortie).toLocaleString() : 'Non sorti';
-      document.getElementById('modalStatus').innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${!visite.heureSortie ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${!visite.heureSortie ? 'En cours' : 'Sorti'}</span>`;
+      document.getElementById('modalStatus').innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${visite.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${visite.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span>`;
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN : RECHERCHE NIN UNIQUEMENT AU VERSO ====================
+    // ==================== SCAN – VERSION SANS INVERSION TEXTE ====================
+    let videoStream = null;
     const video = document.getElementById('video-preview');
     const canvas = document.getElementById('snapshot-canvas');
     const ctx = canvas.getContext('2d');
-    const scanModalElem = document.getElementById('scanModal');
-    const stepIndicator = document.getElementById('stepIndicator');
-    const scanActionBtn = document.getElementById('scanActionBtn');
-
-    // Fonction qui cherche UNIQUEMENT un NIN dans le texte OCR (verso)
-    function findNinInText(text) {
-      if (!text) return null;
-      // Patterns spécifiques au NIN
-      const patterns = [
-        /\bNIN\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
-        /\bN[°\s]*NI\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
-        /\bNUMERO\s+NATIONAL\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
-        /\bNUMERO\s+D['']IDENTITE\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
-        /\bNATIONAL\s+ID\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
-        /\bNIF\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
-        /\b([0-9]{13})\b/   // 13 chiffres consécutifs (format courant)
-      ];
-      for (let pattern of patterns) {
-        const match = text.match(pattern);
-        if (match && match[1]) {
-          const candidate = match[1].trim();
-          // Exclure les mots comme "REPUBLIQUE" (si trop long ou alphabétique)
-          if (!/^[A-Z]{8,}$/i.test(candidate) || /^[0-9]+$/.test(candidate)) {
-            return candidate;
-          }
-        }
-      }
-      return null;
-    }
+    const scanModal = document.getElementById('scanModal');
+    let isProcessing = false;
 
     async function stopCamera() {
       if (videoStream) {
@@ -593,7 +553,7 @@
         await video.play();
         return true;
       } catch (e) {
-        showError("Caméra indisponible. Vérifiez les permissions.");
+        showError("Caméra indisponible");
         return false;
       }
     }
@@ -615,10 +575,11 @@
       });
     }
 
-    async function captureAndProcess() {
+    async function captureAndSendToBackend() {
       if (isProcessing) return;
       isProcessing = true;
-      scanActionBtn.disabled = true;
+      const btn = document.getElementById('scanTriggerBtn');
+      btn.disabled = true;
 
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -630,7 +591,7 @@
 
       try {
         const tokenActual = localStorage.getItem('auth_token');
-        if (!tokenActual) throw new Error('Déconnecté');
+        if (!tokenActual) throw new Error('Vous êtes déconnecté. Veuillez vous reconnecter.');
 
         const response = await fetch(`${API_BASE}/scan`, {
           method: 'POST',
@@ -640,7 +601,7 @@
 
         if (response.status === 401 || response.status === 403) {
           localStorage.clear();
-          showError('Session expirée. Redirection...');
+          showError('Session expirée ou accès interdit. Redirection...');
           setTimeout(() => window.location.href = '/login.html', 2000);
           return;
         }
@@ -651,141 +612,113 @@
         }
 
         const data = await response.json();
-        const extracted = data.infosExtraites || {};
-        const ocrText = data.texteRaw || data.ocr_text || '';
+        let infos = data.infosExtraites || {};
 
-        if (scanStep === 'front') {
-          // Récupération des informations du recto (nom, prénom, numéro de pièce, etc.)
-          // On utilise ce que Veryfi a extrait, sinon on tente de deviner
-          let nom = extracted.nom || '';
-          let prenom = extracted.prenom || '';
-          let numeroPiece = extracted.numeroPiece || '';
-          
-          // Si Veryfi n'a rien trouvé, on essaie de trouver dans le texte brut
-          if (!nom && !prenom) {
-            const lines = ocrText.split('\n');
-            for (let line of lines) {
-              if (line.match(/^Nom\s*[:;]/i)) nom = line.replace(/^Nom\s*[:;]\s*/i, '').trim();
-              if (line.match(/^Pr[eé]noms?\s*[:;]/i)) prenom = line.replace(/^Pr[eé]noms?\s*[:;]\s*/i, '').trim();
-              if (line.match(/^Prenom\s*[:;]/i)) prenom = line.replace(/^Prenom\s*[:;]\s*/i, '').trim();
-              if (!numeroPiece && line.match(/\b([A-Z0-9]{10,20})\b/)) numeroPiece = line.match(/\b([A-Z0-9]{10,20})\b/)[1];
-            }
-          }
-          
-          frontData = { nom, prenom, numeroPiece, ...extracted };
-          await showFeedbackIcon(true);
-          scanStep = 'back';
-          stepIndicator.innerHTML = '🔄 Étape 2/2 : Scannez le VERSO (recherche du NIN)';
-          scanActionBtn.innerText = 'Scanner verso';
-        } 
-        else { // étape verso : on ne cherche que le NIN
-          const nin = extracted.nin || findNinInText(ocrText);
-          
-          // Fusion des données recto + NIN trouvé
-          const finalData = { ...frontData, nin };
-          
-          // Validation des champs obligatoires
-          let nom = (finalData.nom || '').trim();
-          let prenom = (finalData.prenom || '').trim();
-          let numeroPiece = (finalData.numeroPiece || '').replace(/\s/g, '');
-          if (!nom && prenom) nom = prenom;
-          if (!prenom && nom) prenom = nom;
-          if (!nom && !prenom) { nom = "Visiteur"; prenom = "Inconnu"; }
-          if (!numeroPiece) numeroPiece = `TEMP_${Date.now()}`;
-          
-          const finalNin = finalData.nin || null;
-          
-          const visitorPayload = {
-            nom, prenom, numeroPiece,
-            typePiece: finalData.typePiece || 'CNI',
-            dateNaissance: finalData.dateNaissance || null,
-            lieuNaissance: finalData.lieuNaissance || '',
-            sexe: finalData.sexe || 'M',
-            taille: finalData.taille || null,
-            nin: finalNin,
-            dateDelivrance: finalData.dateDelivrance || null,
-            dateExpiration: finalData.dateExpiration || null,
-            centreEnregistrement: finalData.centreEnregistrement || '',
-            adresseDomicile: finalData.adresseDomicile || ''
-          };
+        let nom = (infos.nom || '').trim();
+        let prenom = (infos.prenom || '').trim();
+        let numeroPiece = (infos.numeroPiece || '').replace(/\s/g, '');
+        let sexe = (infos.sexe || '').trim().toUpperCase();
+        let taille = infos.taille ? parseInt(infos.taille, 10) : null;
 
-          const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
-            body: JSON.stringify(visitorPayload)
-          });
-          
-          if (visiteurRes.status === 401 || visiteurRes.status === 403) {
-            localStorage.clear();
-            showError('Session expirée');
-            setTimeout(() => window.location.href = '/login.html', 2000);
-            return;
-          }
-          
-          if (!visiteurRes.ok) {
-            const errData = await visiteurRes.json();
-            throw new Error(errData.message || 'Création visiteur échouée');
-          }
-          
-          const visiteurData = await visiteurRes.json();
-          const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
-
-          await apiFetch('/visites/entree', {
-            method: 'POST',
-            body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan recto-verso" })
-          });
-
-          await showFeedbackIcon(true);
-          const ninMsg = finalNin ? `NIN: ${finalNin}` : 'NIN non détecté (verso illisible)';
-          showSuccess(`Visiteur enregistré (${ninMsg})`);
-          await loadAllData();
-          await closeScanModalAndStop();
+        if (taille !== null && (taille < 50 || taille > 300)) {
+          console.warn(`Taille invalide extraite: ${taille} cm. Valeur ignorée.`);
+          taille = null;
         }
+
+        if (!nom && prenom) nom = prenom;
+        if (!prenom && nom) prenom = nom;
+        if (!nom && !prenom) {
+          nom = "Visiteur";
+          prenom = "Inconnu";
+        }
+        if (!numeroPiece) {
+          numeroPiece = `TEMP_${Date.now()}`;
+        }
+        if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
+
+        const visitorPayload = {
+          nom: nom,
+          prenom: prenom,
+          numeroPiece: numeroPiece,
+          typePiece: infos.typePiece || 'CNI',
+          dateNaissance: infos.dateNaissance || null,
+          lieuNaissance: infos.lieuNaissance || '',
+          sexe: sexe,
+          taille: taille,
+          dateDelivrance: infos.dateDelivrance || null,
+          dateExpiration: infos.dateExpiration || null,
+          centreEnregistrement: infos.centreEnregistrement || '',
+          adresseDomicile: infos.adresseDomicile || ''
+        };
+
+        console.log('📦 Payload final :', visitorPayload);
+
+        const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
+          body: JSON.stringify(visitorPayload)
+        });
+
+        if (visiteurRes.status === 401 || visiteurRes.status === 403) {
+          localStorage.clear();
+          showError('Session expirée. Veuillez vous reconnecter.');
+          setTimeout(() => window.location.href = '/login.html', 2000);
+          return;
+        }
+
+        const visiteurData = await visiteurRes.json();
+        if (!visiteurData.success) throw new Error(visiteurData.message);
+        const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
+
+        await apiFetch('/visites/entree', {
+          method: 'POST',
+          body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan automatique" })
+        });
+
+        await showFeedbackIcon(true);
+        await loadAllData();
+        await closeScanModalAndStop();
       } catch (err) {
-        console.error("Erreur scan:", err);
+        console.error("❌ Erreur scan :", err);
         await showFeedbackIcon(false);
-        showError(err.message || "Erreur lors du scan. Assurez-vous que la carte est bien cadrée.");
+        let userMessage = err.message;
+        if (err.message.includes('validation') || err.message.includes('sexe')) {
+          userMessage = "Le sexe extrait n'est pas valide (M/F). Contactez l'administrateur.";
+        } else if (err.message.includes('numéro')) {
+          userMessage = "Numéro de pièce invalide ou manquant. Veuillez réessayer.";
+        } else if (err.message.includes('taille')) {
+          userMessage = "La taille extraite est hors limites. Veuillez vérifier ou saisir manuellement.";
+        } else if (err.message.includes('OCR')) {
+          userMessage = "Impossible de lire la carte. Assurez-vous qu'elle est bien éclairée et cadrée.";
+        }
+        showError(userMessage);
       } finally {
         isProcessing = false;
-        scanActionBtn.disabled = false;
+        btn.disabled = false;
       }
     }
 
-    function resetScanState() {
-      scanStep = 'front';
-      frontData = null;
-      stepIndicator.innerHTML = '📸 Étape 1/2 : Scannez le RECTÔ';
-      scanActionBtn.innerText = 'Scanner recto';
-    }
-
     async function openScanModal() {
-      resetScanState();
-      scanModalElem.classList.add('active');
+      scanModal.classList.add('active');
       const ok = await initCameraPreview();
-      if (!ok) scanModalElem.classList.remove('active');
+      if (!ok) scanModal.classList.remove('active');
     }
 
     async function closeScanModalAndStop() {
       await stopCamera();
-      scanModalElem.classList.remove('active');
-      resetScanState();
-      scanActionBtn.disabled = false;
+      scanModal.classList.remove('active');
+      const btn = document.getElementById('scanTriggerBtn');
+      if (btn) btn.disabled = false;
     }
 
     // Événements
     document.getElementById('scanFloatingBtn')?.addEventListener('click', openScanModal);
-    scanActionBtn?.addEventListener('click', captureAndProcess);
-    document.getElementById('cancelScanBtn')?.addEventListener('click', closeScanModalAndStop);
+    document.getElementById('scanTriggerBtn')?.addEventListener('click', captureAndSendToBackend);
     document.getElementById('closeScanBtn')?.addEventListener('click', closeScanModalAndStop);
 
-    // Événements standards (CSV, filtres, etc.)
     document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
-      let csv = "Visiteur,Pièce,NIN,Entrée,Sortie,Statut\n";
-      allVisits.forEach(v => { 
-        const vis = v.visiteurId||{}; 
-        const nin = vis.nin || '';
-        csv+=`"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${nin},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie?new Date(v.heureSortie).toLocaleString():''},${v.heureSortie?'Sorti':'En cours'}\n`; 
-      });
+      let csv = "Visiteur,Pièce,Entrée,Sortie,Statut\n";
+      allVisits.forEach(v => { const vis = v.visiteurId||{}; csv+=`"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie?new Date(v.heureSortie).toLocaleString():''},${v.statut}\n`; });
       const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="visites.csv"; a.click();
     });
     document.getElementById('statusFilter')?.addEventListener('change', (e) => { currentStatusFilter = e.target.value; currentPage=1; renderDashboard(); });
