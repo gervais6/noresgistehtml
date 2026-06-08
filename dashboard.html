@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
-    /* Tous les styles identiques à la version précédente (inchangés) */
+    /* Tous les styles (inchangés depuis la version précédente) */
     * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
     body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
     .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
@@ -324,7 +324,7 @@
     </main>
   </div>
 
-  <!-- MODALES -->
+  <!-- MODALES EXISTANTES -->
   <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">NIN :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div><div class="detail-row"><div class="detail-label">ID Visiteur :</div><div class="detail-value font-mono text-xs" id="modalVisitorId"></div></div></div><div class="modal-footer justify-between flex-wrap"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button><button id="deleteVisitorBtn" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 flex items-center gap-2"><span class="material-symbols-outlined text-base">delete_forever</span> Supprimer le visiteur</button></div></div></div>
   <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
@@ -350,6 +350,28 @@
         <div id="feedbackOverlay" class="feedback-overlay">
           <div id="feedbackIcon" class="feedback-icon"></div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOUVELLE MODALE DE CONFIRMATION DES DONNÉES SCANNÉES -->
+  <div id="confirmModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="text-lg font-bold text-white">Vérification des données</h3>
+        <button id="closeConfirmModalBtn"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body text-left">
+        <div class="detail-row"><div class="detail-label">Nom :</div><div class="detail-value" id="confirmNom"></div></div>
+        <div class="detail-row"><div class="detail-label">Prénom :</div><div class="detail-value" id="confirmPrenom"></div></div>
+        <div class="detail-row"><div class="detail-label">NIN :</div><div class="detail-value font-mono" id="confirmNin"></div></div>
+        <div class="detail-row"><div class="detail-label">Date naiss. :</div><div class="detail-value" id="confirmDateNaissance"></div></div>
+        <div class="detail-row"><div class="detail-label">Sexe :</div><div class="detail-value" id="confirmSexe"></div></div>
+        <div class="detail-row"><div class="detail-label">Taille :</div><div class="detail-value" id="confirmTaille"></div></div>
+      </div>
+      <div class="modal-footer justify-between">
+        <button id="cancelConfirmBtn" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Annuler</button>
+        <button id="validateConfirmBtn" class="px-4 py-2 bg-primary text-black rounded-lg font-bold">Confirmer l'enregistrement</button>
       </div>
     </div>
   </div>
@@ -385,6 +407,16 @@
     const scanTriggerBtn = document.getElementById('scanTriggerBtn');
     const feedbackOverlay = document.getElementById('feedbackOverlay');
     const feedbackIcon = document.getElementById('feedbackIcon');
+
+    // Références modale confirmation
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmNom = document.getElementById('confirmNom');
+    const confirmPrenom = document.getElementById('confirmPrenom');
+    const confirmNin = document.getElementById('confirmNin');
+    const confirmDateNaissance = document.getElementById('confirmDateNaissance');
+    const confirmSexe = document.getElementById('confirmSexe');
+    const confirmTaille = document.getElementById('confirmTaille');
+    let pendingVisitorData = null;
 
     // ==================== FONCTIONS API ====================
     async function apiFetch(endpoint, options = {}) {
@@ -581,7 +613,7 @@
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN RECTO-VERSO ====================
+    // ==================== SCAN ====================
     async function stopCamera() {
       if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
       if (video) video.srcObject = null;
@@ -606,15 +638,12 @@
       });
     }
 
-    // ✅ NOUVELLE FONCTION : extraire le NIN depuis le texte brut OCR
     function extraireNINDepuisTexte(texteRaw) {
       if (!texteRaw) return null;
-      // Recherche du NIN : pattern "NIN" suivi de chiffres avec ou sans espaces
       let match = texteRaw.match(/NIN\s+([\d\s]+)/i);
       if (match) return match[1].replace(/\s/g, '');
       match = texteRaw.match(/N[.\s]*I[.\s]*N[.\s]*([\d\s]+)/i);
       if (match) return match[1].replace(/\s/g, '');
-      // Recherche d'un nombre de 13 à 15 chiffres (format typique NIN sénégalais)
       match = texteRaw.match(/\b(\d{13,15})\b/);
       if (match) return match[1];
       return null;
@@ -655,20 +684,21 @@
           nextSideBtn.style.display = 'block';
           nextSideBtn.disabled = false;
           scanTriggerBtn.disabled = false;
-        } else { // verso
-          // Extraire le NIN du texte brut
+        } else {
           let nin = extraireNINDepuisTexte(texteRaw);
-          // Si non trouvé, essayer dans infos.numeroPiece
           if (!nin && infos.numeroPiece) nin = infos.numeroPiece.replace(/\s/g, '');
-          if (!nin) throw new Error("Aucun NIN détecté sur le verso (vérifier l'éclairage)");
-          rectoData.numeroPiece = nin;   // remplacer le numéro de pièce par le NIN
+          if (!nin) throw new Error("Aucun NIN détecté sur le verso");
+          rectoData.numeroPiece = nin;
           await showFeedbackIcon(true);
-          await finaliserVisiteur();
+          // Afficher la modale de confirmation au lieu d'enregistrer directement
+          afficherModalConfirmation(rectoData);
         }
       } catch (err) {
         console.error(err);
         await showFeedbackIcon(false);
         showError(`Scan ${currentSide} : ${err.message}`);
+        resetScanState();
+        closeScanModalAndStop();
       } finally {
         if (currentSide !== 'recto') {
           isProcessing = false;
@@ -677,7 +707,36 @@
       }
     }
 
-    async function finaliserVisiteur() {
+    function afficherModalConfirmation(data) {
+      if (!data) return;
+      confirmNom.innerText = data.nom || '-';
+      confirmPrenom.innerText = data.prenom || '-';
+      confirmNin.innerText = data.numeroPiece || '-';
+      let dn = data.dateNaissance || '';
+      if (dn && dn.includes('-')) dn = dn.split('-').reverse().join('/');
+      confirmDateNaissance.innerText = dn || '-';
+      confirmSexe.innerText = data.sexe || '-';
+      confirmTaille.innerText = data.taille ? data.taille + ' cm' : '-';
+      pendingVisitorData = { ...data };
+      confirmModal.classList.add('active');
+    }
+
+    async function confirmerEnregistrement() {
+      if (!pendingVisitorData) return;
+      confirmModal.classList.remove('active');
+      await finaliserVisiteurAvecDonnees(pendingVisitorData);
+      pendingVisitorData = null;
+    }
+
+    function annulerEnregistrement() {
+      confirmModal.classList.remove('active');
+      pendingVisitorData = null;
+      resetScanState();
+      closeScanModalAndStop();
+      showError("Enregistrement annulé.");
+    }
+
+    async function finaliserVisiteurAvecDonnees(rectoData) {
       if (!rectoData) return;
       let nom = (rectoData.nom || '').trim();
       let prenom = (rectoData.prenom || '').trim();
@@ -765,6 +824,12 @@
       scanTriggerBtn.disabled = false;
     });
     document.getElementById('closeScanBtn')?.addEventListener('click', closeScanModalAndStop);
+
+    // Événements modale confirmation
+    document.getElementById('validateConfirmBtn')?.addEventListener('click', confirmerEnregistrement);
+    document.getElementById('cancelConfirmBtn')?.addEventListener('click', annulerEnregistrement);
+    document.getElementById('closeConfirmModalBtn')?.addEventListener('click', annulerEnregistrement);
+    confirmModal?.addEventListener('click', (e) => { if (e.target === confirmModal) annulerEnregistrement(); });
 
     // ==================== AUTRES ÉVÉNEMENTS ====================
     document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
