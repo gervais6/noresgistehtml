@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>Registre+ | Agent – Scan & badge</title>
+<title>Registre+ | Agent – Scan recto-verso avec NIN</title>
 <link rel="icon" type="image/svg+xml" href="images/noregis.svg"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -23,7 +23,6 @@
     }
   </script>
 <style>
-    /* (tous les styles sont identiques à la version précédente – gardez-les) */
     * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
     body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
     .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
@@ -118,6 +117,20 @@
       right: 0;
     }
     #scanModal .modal-header h3 { color: white; }
+    .scan-step-indicator {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      padding: 8px;
+      font-weight: bold;
+      color: #00fa6c;
+      z-index: 15;
+      font-size: 0.9rem;
+    }
     #scanModal .action-buttons {
       position: absolute;
       bottom: 40px;
@@ -126,6 +139,8 @@
       background: transparent;
       justify-content: center;
       z-index: 20;
+      display: flex;
+      gap: 16px;
     }
     #scanModal .action-buttons button {
       background-color: #00fa6c;
@@ -137,6 +152,10 @@
       font-size: 1.2rem;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       cursor: pointer;
+    }
+    #scanModal .action-buttons button#cancelScanBtn {
+      background-color: rgba(255,255,255,0.2);
+      color: white;
     }
     .feedback-overlay {
       position: absolute;
@@ -215,7 +234,7 @@
       <div class="max-w-7xl mx-auto">
         <section class="content-section active space-y-5 md:space-y-6" id="dashboard">
           <div class="flex flex-wrap justify-between items-end gap-4 mb-4">
-            <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Badgez les entrées / sorties</p></div>
+            <div><h2 class="text-xl md:text-2xl font-bold text-white">Réception des visiteurs</h2><p class="text-on-surface-variant text-xs md:text-sm">Badgez les entrées / sorties (scan recto-verso avec NIN)</p></div>
             <div class="flex gap-2">
               <button id="exportCsvBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-white/10 text-xs md:text-sm font-medium hover:bg-white/5"><span class="material-symbols-outlined text-base md:text-lg">download</span> <span class="hidden sm:inline">Exporter CSV</span></button>
             </div>
@@ -247,11 +266,11 @@
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Heure entrée</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Visiteur</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider hidden sm:table-cell">Pièce</th>
-                  <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Service</th>
+                  <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">NIN</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th>
                   <th class="px-4 md:px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
                 </thead>
-                <tbody id="dashboardTableBody"><tr><td colspan="6" class="text-center py-6">Chargement...</td></tr></tbody>
+                <tbody id="dashboardTableBody"><tr><td colspan="6" class="text-center py-6">Chargement...</td></table></tbody>
               </table>
             </div>
             <div class="px-4 md:px-6 py-3 border-t border-white/5 flex justify-between items-center">
@@ -263,11 +282,11 @@
         </section>
 
         <section class="content-section space-y-5 md:space-y-6" id="documents">
-          <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p></div>
+          <div><h2 class="text-xl md:text-2xl font-bold text-white">Historique des visites</h2><p class="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties avec NIN</p></div>
           <div class="glass-card rounded-xl overflow-x-auto">
             <table class="w-full min-w-[600px] text-left">
-              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
-              <tbody id="historyTableBody"><tr><td colspan="5" class="text-center py-6">Chargement...</td></tr></tbody>
+              <thead class="bg-surface-container/50 border-b border-white/5"><th class="px-4 py-3 text-xs">Visiteur</th><th class="px-4 py-3 text-xs">Pièce</th><th class="px-4 py-3 text-xs">NIN</th><th class="px-4 py-3 text-xs">Entrée</th><th class="px-4 py-3 text-xs">Sortie</th><th class="px-4 py-3 text-xs">Statut</th></thead>
+              <tbody id="historyTableBody"><tr><td colspan="6" class="text-center py-6">Chargement...</td></tr></tbody>
             </table>
           </div>
         </section>
@@ -311,21 +330,24 @@
   </div>
 
   <!-- Modales -->
-  <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">Service :</div><div class="detail-value" id="modalService"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div></div><div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
+  <div id="detailModal" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 class="text-lg font-bold text-white">Détails de la visite</h3><button class="closeModalBtn"><span class="material-symbols-outlined">close</span></button></div><div class="modal-body text-left"><div class="detail-row"><div class="detail-label">Visiteur :</div><div class="detail-value" id="modalVisitor"></div></div><div class="detail-row"><div class="detail-label">Pièce :</div><div class="detail-value font-mono" id="modalPiece"></div></div><div class="detail-row"><div class="detail-label">NIN :</div><div class="detail-value" id="modalNin"></div></div><div class="detail-row"><div class="detail-label">Entrée :</div><div class="detail-value" id="modalEntry"></div></div><div class="detail-row"><div class="detail-label">Sortie :</div><div class="detail-value" id="modalExit"></div></div><div class="detail-row"><div class="detail-label">Statut :</div><div class="detail-value" id="modalStatus"></div></div></div><div class="modal-footer"><button class="closeModalBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="successModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-primary text-7xl">check_circle</span><h3 class="text-xl font-bold mt-4">Succès</h3><p id="successMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeSuccessBtn px-4 py-2 bg-primary/20 text-primary rounded-lg">Fermer</button></div></div></div>
   <div id="errorModal" class="modal-overlay"><div class="modal-content max-w-sm"><div class="modal-body"><span class="material-symbols-outlined text-red-400 text-7xl">error</span><h3 class="text-xl font-bold mt-4">Erreur</h3><p id="errorMsg" class="text-on-surface-variant mt-2"></p></div><div class="modal-footer"><button class="closeErrorBtn px-4 py-2 bg-red-500/20 text-red-400 rounded-lg">Fermer</button></div></div></div>
 
+  <!-- Scan Modal avec recto-verso -->
   <div id="scanModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="text-lg font-bold text-white">Scanner une pièce d'identité</h3>
+        <h3 class="text-lg font-bold text-white">Scanner la pièce d'identité (recto + verso)</h3>
         <button id="closeScanBtn"><span class="material-symbols-outlined text-white">close</span></button>
       </div>
       <div class="modal-body">
         <video id="video-preview" autoplay playsinline muted></video>
         <canvas id="snapshot-canvas" style="display:none;"></canvas>
+        <div id="stepIndicator" class="scan-step-indicator">📸 Étape 1/2 : Scannez le RECTÔ</div>
         <div class="action-buttons">
-          <button id="scanTriggerBtn">Scanner</button>
+          <button id="cancelScanBtn">Annuler</button>
+          <button id="scanActionBtn">Scanner recto</button>
         </div>
         <div id="feedbackOverlay" class="feedback-overlay">
           <div id="feedbackIcon" class="feedback-icon"></div>
@@ -349,6 +371,12 @@
     let currentTypeFilter = 'all';
     let currentStatusFilter = 'all';
     let autoRefreshInterval = null;
+
+    // Scan recto-verso state
+    let scanStep = 'front'; // 'front' or 'back'
+    let frontData = null;
+    let videoStream = null;
+    let isProcessing = false;
 
     async function apiFetch(endpoint, options = {}) {
       const res = await fetch(`${API_BASE}${endpoint}`, {
@@ -424,13 +452,14 @@
       } else {
         for (const v of pageData) {
           const vis = v.visiteurId || {};
+          const nin = vis.nin || vis.numeroNational || '-';
           const row = tbody.insertRow();
           row.className = 'table-row-hover';
           row.innerHTML = `
             <td class="px-4 md:px-6 py-3 text-sm">${new Date(v.heureEntree).toLocaleTimeString('fr-FR')}</td>
             <td class="px-4 md:px-6 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-xs">${(vis.prenom?.[0]||'')+(vis.nom?.[0]||'')}</div><span class="font-medium text-sm">${vis.prenom || ''} ${vis.nom || ''}</span></div></td>
             <td class="px-4 md:px-6 py-3 text-on-surface-variant text-sm hidden sm:table-cell font-mono">${vis.numeroPiece || '-'}</td>
-            <td class="px-4 md:px-6 py-3">${v.service || '-'}</td>
+            <td class="px-4 md:px-6 py-3 font-mono text-sm">${nin}</td>
             <td class="px-4 md:px-6 py-3"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span></td>
             <td class="px-4 md:px-6 py-3 text-center"><div class="flex gap-3 justify-center"><button class="view-visite-btn text-primary" data-visite='${JSON.stringify(v)}'><span class="material-symbols-outlined text-xl">visibility</span></button>${v.statut === 'EN_COURS' ? `<button class="sortie-btn text-yellow-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">exit_to_app</span></button>` : ''}<button class="delete-visite-btn text-red-400" data-id="${v._id}"><span class="material-symbols-outlined text-xl">delete</span></button></div></td>
           `;
@@ -469,10 +498,12 @@
         tbody.innerHTML = '';
         for (const v of visits) {
           const vis = v.visiteurId || {};
+          const nin = vis.nin || vis.numeroNational || '-';
           const row = tbody.insertRow();
           row.innerHTML = `
             <td class="px-4 py-3">${vis.prenom || ''} ${vis.nom || ''}</td>
             <td class="px-4 py-3 font-mono">${vis.numeroPiece || '-'}</td>
+            <td class="px-4 py-3 font-mono">${nin}</td>
             <td class="px-4 py-3">${new Date(v.heureEntree).toLocaleString()}</td>
             <td class="px-4 py-3">${v.heureSortie ? new Date(v.heureSortie).toLocaleString() : '-'}</td>
             <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs ${v.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${v.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span></td>
@@ -519,22 +550,57 @@
 
     function openDetailModal(visite) {
       const vis = visite.visiteurId || {};
+      const nin = vis.nin || vis.numeroNational || '-';
       document.getElementById('modalVisitor').innerText = `${vis.prenom || ''} ${vis.nom || ''}`;
       document.getElementById('modalPiece').innerText = vis.numeroPiece || '-';
-      document.getElementById('modalService').innerText = visite.service || '-';
+      document.getElementById('modalNin').innerText = nin;
       document.getElementById('modalEntry').innerText = new Date(visite.heureEntree).toLocaleString();
       document.getElementById('modalExit').innerText = visite.heureSortie ? new Date(visite.heureSortie).toLocaleString() : 'Non sorti';
       document.getElementById('modalStatus').innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs ${visite.statut === 'EN_COURS' ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}">${visite.statut === 'EN_COURS' ? 'En cours' : 'Sorti'}</span>`;
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN – ENVOI AVEC VALEUR PAR DÉFAUT POUR SEXE ====================
-    let videoStream = null;
+    // ==================== SCAN RECTO-VERSO AVEC EXTRACTION NIN FIABLE ====================
     const video = document.getElementById('video-preview');
     const canvas = document.getElementById('snapshot-canvas');
     const ctx = canvas.getContext('2d');
     const scanModal = document.getElementById('scanModal');
-    let isProcessing = false;
+    const stepIndicator = document.getElementById('stepIndicator');
+    const scanActionBtn = document.getElementById('scanActionBtn');
+
+    // Fonction améliorée pour extraire le NIN
+    function extractNin(extracted, ocrText) {
+      // 1. Chercher dans les champs spécifiques retournés par Veryfi
+      const possibleKeys = ['nin', 'ninNumber', 'numeroNational', 'nationalId', 'nif', 'ninValue', 'idNumber'];
+      for (let key of possibleKeys) {
+        if (extracted[key] && extracted[key].trim()) {
+          return extracted[key].trim();
+        }
+      }
+      
+      // 2. Chercher dans le texte OCR brut (le plus fiable)
+      const textToSearch = ocrText || extracted.texteComplet || extracted.texteRaw || extracted.ocr_text || '';
+      if (textToSearch) {
+        const patterns = [
+          /\bNIN\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
+          /\bN[°\s]*NI\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
+          /\bNUMERO\s+NATIONAL\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
+          /\bNUMERO\s+D['']IDENTITE\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
+          /\bNATIONAL\s+ID\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
+          /\bNIF\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
+          /\bIDENTITE\s+NATIONALE\s*[:;]?\s*([A-Z0-9]{8,20})\b/i,
+          // Séquence de 10 à 20 caractères alphanumériques (fallback)
+          /\b([A-Z0-9]{10,20})\b/
+        ];
+        for (let pattern of patterns) {
+          const match = textToSearch.match(pattern);
+          if (match && match[1]) {
+            return match[1].trim();
+          }
+        }
+      }
+      return null;
+    }
 
     async function stopCamera() {
       if (videoStream) {
@@ -553,7 +619,7 @@
         await video.play();
         return true;
       } catch (e) {
-        showError("Caméra indisponible");
+        showError("Caméra indisponible. Vérifiez les permissions.");
         return false;
       }
     }
@@ -575,11 +641,10 @@
       });
     }
 
-    async function captureAndSendToBackend() {
+    async function captureAndProcess() {
       if (isProcessing) return;
       isProcessing = true;
-      const btn = document.getElementById('scanTriggerBtn');
-      btn.disabled = true;
+      scanActionBtn.disabled = true;
 
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -591,7 +656,7 @@
 
       try {
         const tokenActual = localStorage.getItem('auth_token');
-        if (!tokenActual) throw new Error('Vous êtes déconnecté. Veuillez vous reconnecter.');
+        if (!tokenActual) throw new Error('Déconnecté');
 
         const response = await fetch(`${API_BASE}/scan`, {
           method: 'POST',
@@ -601,7 +666,7 @@
 
         if (response.status === 401 || response.status === 403) {
           localStorage.clear();
-          showError('Session expirée ou accès interdit. Redirection...');
+          showError('Session expirée. Redirection...');
           setTimeout(() => window.location.href = '/login.html', 2000);
           return;
         }
@@ -612,72 +677,105 @@
         }
 
         const data = await response.json();
-        const infos = data.infosExtraites || {};
+        const extracted = data.infosExtraites || {};
+        const ocrText = data.texteRaw || data.ocr_text || '';
 
-        if (!infos.numeroPiece && (!infos.nom || !infos.prenom)) {
-          throw new Error('Impossible d\'extraire les informations. Vérifiez la lisibilité de la pièce.');
+        if (scanStep === 'front') {
+          // Sauvegarde des données recto
+          frontData = extracted;
+          await showFeedbackIcon(true);
+          scanStep = 'back';
+          stepIndicator.innerHTML = '🔄 Étape 2/2 : Scannez le VERSO (NIN au dos)';
+          scanActionBtn.innerText = 'Scanner verso';
+        } 
+        else { // étape verso : on extrait le NIN et on fusionne
+          // Extraire le NIN depuis le texte OCR
+          const nin = extractNin(extracted, ocrText);
+          
+          // Fusionner les données recto + verso (le verso écrase le recto si conflit)
+          const merged = { ...frontData, ...extracted };
+          if (nin) merged.nin = nin;
+
+          // Nettoyage / validation
+          let nom = (merged.nom || '').trim();
+          let prenom = (merged.prenom || '').trim();
+          let numeroPiece = (merged.numeroPiece || '').replace(/\s/g, '');
+          let sexe = (merged.sexe || '').trim().toUpperCase();
+          let taille = merged.taille ? parseInt(merged.taille, 10) : null;
+          if (taille !== null && (taille < 50 || taille > 300)) taille = null;
+          if (!nom && prenom) nom = prenom;
+          if (!prenom && nom) prenom = nom;
+          if (!nom && !prenom) { nom = "Visiteur"; prenom = "Inconnu"; }
+          if (!numeroPiece) numeroPiece = `TEMP_${Date.now()}`;
+          if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
+          const finalNin = merged.nin || null;
+
+          const visitorPayload = {
+            nom, prenom, numeroPiece,
+            typePiece: merged.typePiece || 'CNI',
+            dateNaissance: merged.dateNaissance || null,
+            lieuNaissance: merged.lieuNaissance || '',
+            sexe, taille,
+            nin: finalNin,
+            dateDelivrance: merged.dateDelivrance || null,
+            dateExpiration: merged.dateExpiration || null,
+            centreEnregistrement: merged.centreEnregistrement || '',
+            adresseDomicile: merged.adresseDomicile || ''
+          };
+
+          // Création visiteur avec NIN
+          const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
+            body: JSON.stringify(visitorPayload)
+          });
+          
+          if (visiteurRes.status === 401 || visiteurRes.status === 403) {
+            localStorage.clear();
+            showError('Session expirée. Veuillez vous reconnecter.');
+            setTimeout(() => window.location.href = '/login.html', 2000);
+            return;
+          }
+          
+          if (!visiteurRes.ok) {
+            const errData = await visiteurRes.json();
+            throw new Error(errData.message || 'Création visiteur échouée');
+          }
+          
+          const visiteurData = await visiteurRes.json();
+          const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
+
+          // Enregistrement entrée
+          await apiFetch('/visites/entree', {
+            method: 'POST',
+            body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan recto-verso avec NIN" })
+          });
+
+          await showFeedbackIcon(true);
+          const ninMsg = finalNin ? `NIN: ${finalNin}` : 'NIN non trouvé (veuillez vérifier la carte)';
+          showSuccess(`Visiteur enregistré (${ninMsg})`);
+          await loadAllData();
+          await closeScanModalAndStop();
         }
-
-        // Construction du payload avec une valeur par défaut pour sexe
-        // L'API accepte uniquement 'M' ou 'F'. Si la donnée OCR n'est pas valide, on force 'M'.
-        let sexeValue = 'M'; // valeur par défaut
-        if (infos.sexe === 'M' || infos.sexe === 'F') {
-          sexeValue = infos.sexe;
-        }
-
-        const visitorPayload = {
-          nom: infos.nom?.trim() || 'Inconnu',
-          prenom: infos.prenom?.trim() || 'Inconnu',
-          numeroPiece: infos.numeroPiece ? infos.numeroPiece.replace(/\s/g, '') : `SCAN_${Date.now()}`,
-          typePiece: infos.typePiece || 'CNI',
-          dateNaissance: infos.dateNaissance || null,
-          lieuNaissance: infos.lieuNaissance?.trim() || '',
-          sexe: sexeValue,          // toujours 'M' ou 'F'
-          taille: infos.taille ? parseInt(infos.taille, 10) : null,
-          dateDelivrance: infos.dateDelivrance || null,
-          dateExpiration: infos.dateExpiration || null,
-          centreEnregistrement: infos.centreEnregistrement?.trim() || '',
-          adresseDomicile: infos.adresseDomicile?.trim() || ''
-        };
-
-        console.log('📦 Payload (sexe forcé) :', visitorPayload);
-
-        const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
-          body: JSON.stringify(visitorPayload)
-        });
-
-        if (visiteurRes.status === 401 || visiteurRes.status === 403) {
-          localStorage.clear();
-          showError('Session expirée. Veuillez vous reconnecter.');
-          setTimeout(() => window.location.href = '/login.html', 2000);
-          return;
-        }
-
-        const visiteurData = await visiteurRes.json();
-        if (!visiteurData.success) throw new Error(visiteurData.message);
-        const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
-
-        await apiFetch('/visites/entree', {
-          method: 'POST',
-          body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan automatique" })
-        });
-
-        await showFeedbackIcon(true);
-        await loadAllData();
-        await closeScanModalAndStop();
       } catch (err) {
-        console.error(err);
+        console.error("Erreur scan:", err);
         await showFeedbackIcon(false);
-        showError(err.message);
+        showError(err.message || "Erreur lors du scan. Vérifiez que la carte est bien cadrée.");
       } finally {
         isProcessing = false;
-        btn.disabled = false;
+        scanActionBtn.disabled = false;
       }
     }
 
+    function resetScanState() {
+      scanStep = 'front';
+      frontData = null;
+      stepIndicator.innerHTML = '📸 Étape 1/2 : Scannez le RECTÔ';
+      scanActionBtn.innerText = 'Scanner recto';
+    }
+
     async function openScanModal() {
+      resetScanState();
       scanModal.classList.add('active');
       const ok = await initCameraPreview();
       if (!ok) scanModal.classList.remove('active');
@@ -686,18 +784,24 @@
     async function closeScanModalAndStop() {
       await stopCamera();
       scanModal.classList.remove('active');
-      const btn = document.getElementById('scanTriggerBtn');
-      if (btn) btn.disabled = false;
+      resetScanState();
+      scanActionBtn.disabled = false;
     }
 
-    // Événements
+    // Événements scan
     document.getElementById('scanFloatingBtn')?.addEventListener('click', openScanModal);
-    document.getElementById('scanTriggerBtn')?.addEventListener('click', captureAndSendToBackend);
+    scanActionBtn?.addEventListener('click', captureAndProcess);
+    document.getElementById('cancelScanBtn')?.addEventListener('click', closeScanModalAndStop);
     document.getElementById('closeScanBtn')?.addEventListener('click', closeScanModalAndStop);
 
+    // Événements standards
     document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
-      let csv = "Visiteur,Pièce,Entrée,Sortie,Statut\n";
-      allVisits.forEach(v => { const vis = v.visiteurId||{}; csv+=`"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie?new Date(v.heureSortie).toLocaleString():''},${v.statut}\n`; });
+      let csv = "Visiteur,Pièce,NIN,Entrée,Sortie,Statut\n";
+      allVisits.forEach(v => { 
+        const vis = v.visiteurId||{}; 
+        const nin = vis.nin || vis.numeroNational || '';
+        csv+=`"${vis.prenom||''} ${vis.nom||''}",${vis.numeroPiece||''},${nin},${new Date(v.heureEntree).toLocaleString()},${v.heureSortie?new Date(v.heureSortie).toLocaleString():''},${v.statut}\n`; 
+      });
       const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="visites.csv"; a.click();
     });
     document.getElementById('statusFilter')?.addEventListener('change', (e) => { currentStatusFilter = e.target.value; currentPage=1; renderDashboard(); });
