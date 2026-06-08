@@ -341,14 +341,14 @@
   <div id="scanModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="text-lg font-bold text-white">Scanner une pièce d'identité</h3>
+        <h3 class="text-lg font-bold text-white">Scanner une pièce d'identité (recto)</h3>
         <button id="closeScanBtn"><span class="material-symbols-outlined text-white">close</span></button>
       </div>
       <div class="modal-body">
         <video id="video-preview" autoplay playsinline muted></video>
         <canvas id="snapshot-canvas" style="display:none;"></canvas>
         <div class="action-buttons">
-          <button id="scanTriggerBtn">Scanner</button>
+          <button id="scanTriggerBtn">Scanner (recto)</button>
         </div>
         <div id="feedbackOverlay" class="feedback-overlay">
           <div id="feedbackIcon" class="feedback-icon"></div>
@@ -373,7 +373,11 @@
     let currentStatusFilter = 'all';
     let autoRefreshInterval = null;
 
-    // apiFetch améliorée : gestion des réponses HTML
+    // Variables pour le double scan
+    let scanMode = 'recto';      // 'recto' ou 'verso'
+    let pendingVisitorId = null; // ID du visiteur créé après le recto
+
+    // ==================== FONCTIONS EXISTANTES (inchangées) ====================
     async function apiFetch(endpoint, options = {}) {
       const res = await fetch(`${API_BASE}${endpoint}`, {
         ...options,
@@ -392,7 +396,7 @@
         return data;
       } else {
         const text = await res.text();
-        throw new Error(`Réserve non JSON (${res.status}) : ${text.substring(0, 100)}`);
+        throw new Error(`Réponse non JSON (${res.status}) : ${text.substring(0, 100)}`);
       }
     }
 
@@ -589,12 +593,12 @@
       document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== SCAN (OCR) AVEC VALIDATION STRICTE ====================
+    // ==================== SCAN DOUBLE (recto puis verso) ====================
     let videoStream = null;
     const video = document.getElementById('video-preview');
     const canvas = document.getElementById('snapshot-canvas');
     const ctx = canvas.getContext('2d');
-    const scanModal = document.getElementById('scanModal');
+    const scanModalEl = document.getElementById('scanModal');
     let isProcessing = false;
 
     async function stopCamera() {
@@ -652,7 +656,7 @@
 
       try {
         const tokenActual = localStorage.getItem('auth_token');
-        if (!tokenActual) throw new Error('Vous êtes déconnecté. Veuillez vous reconnecter.');
+        if (!tokenActual) throw new Error('Vous êtes déconnecté.');
 
         const response = await fetch(`${API_BASE}/scan`, {
           method: 'POST',
@@ -662,7 +666,7 @@
 
         if (response.status === 401 || response.status === 403) {
           localStorage.clear();
-          showError('Session expirée ou accès interdit. Redirection...');
+          showError('Session expirée. Veuillez vous reconnecter.');
           setTimeout(() => window.location.href = '/login.html', 2000);
           return;
         }
@@ -674,80 +678,100 @@
 
         const data = await response.json();
         let infos = data.infosExtraites || {};
+        const ocrText = data.ocr_text || '';
 
-        let nom = (infos.nom || '').trim();
-        let prenom = (infos.prenom || '').trim();
-        let numeroPiece = (infos.numeroPiece || '').replace(/\s/g, '');
+        if (scanMode === 'recto') {
+          // ---- RECTO : extraire nom, prénom, numéro pièce ----
+          let nom = (infos.nom || '').trim();
+          let prenom = (infos.prenom || '').trim();
+          let numeroPiece = (infos.numeroPiece || '').replace(/\s/g, '');
 
-        // VALIDATION STRICTE : on refuse les scans incomplets
-        if (!nom || !prenom || !numeroPiece) {
-          throw new Error('Lecture échouée : nom, prénom ou numéro de pièce manquant. Veuillez bien cadrer la carte et réessayer.');
+          if (!nom || !prenom || !numeroPiece) {
+            throw new Error('Recto illisible : nom, prénom ou numéro de pièce manquant. Veuillez bien cadrer la carte.');
+          }
+
+          let sexe = (infos.sexe || '').trim().toUpperCase();
+          let taille = infos.taille ? parseInt(infos.taille, 10) : null;
+          if (taille !== null && (taille < 50 || taille > 300)) taille = null;
+          if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
+
+          const visitorPayload = {
+            nom, prenom, numeroPiece,
+            typePiece: infos.typePiece || 'CNI',
+            dateNaissance: infos.dateNaissance || null,
+            lieuNaissance: infos.lieuNaissance || '',
+            sexe, taille,
+            dateDelivrance: infos.dateDelivrance || null,
+            dateExpiration: infos.dateExpiration || null,
+            centreEnregistrement: infos.centreEnregistrement || '',
+            adresseDomicile: infos.adresseDomicile || ''
+          };
+
+          const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
+            body: JSON.stringify(visitorPayload)
+          });
+          const visiteurData = await visiteurRes.json();
+          if (!visiteurData.success) throw new Error(visiteurData.message);
+          pendingVisitorId = visiteurData.id || visiteurData.visiteur?._id;
+
+          // Passer en mode verso
+          scanMode = 'verso';
+          document.querySelector('#scanModal .modal-header h3').innerText = 'Scanner le verso (NIN)';
+          btn.innerText = 'Scanner le verso';
+          await showFeedbackIcon(true);
+          showSuccess('Recto enregistré ! Scannez maintenant le verso pour le NIN.');
+          // Ne pas fermer la modale
+        } 
+        else if (scanMode === 'verso') {
+          // ---- VERSO : extraire le NIN ----
+          const textUpper = ocrText.toUpperCase();
+          let nin = null;
+          // Recherche de NIN (13 chiffres, adaptez si nécessaire)
+          let match = textUpper.match(/\bNIN\s*[:\-]?\s*(\d{13})\b/i);
+          if (!match) match = textUpper.match(/\b(\d{13})\b/);
+          if (match) nin = match[1];
+          else throw new Error('Aucun NIN (13 chiffres) trouvé sur le verso. Veuillez repositionner la carte.');
+
+          if (!pendingVisitorId) throw new Error('Aucun visiteur en attente. Veuillez recommencer le scan recto.');
+
+          // Mise à jour du visiteur avec le NIN
+          const updateRes = await fetch(`${API_BASE}/visiteurs/${pendingVisitorId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
+            body: JSON.stringify({ nin })
+          });
+          const updateData = await updateRes.json();
+          if (!updateData.success) throw new Error(updateData.message);
+
+          // Enregistrement de l'entrée
+          await apiFetch('/visites/entree', {
+            method: 'POST',
+            body: JSON.stringify({ 
+              visiteurId: pendingVisitorId, 
+              personneVisitee: currentUser?.nom || "Agent", 
+              service: "Accueil", 
+              motif: "Scan complet recto+verso" 
+            })
+          });
+
+          await showFeedbackIcon(true);
+          await loadAllData();
+          await closeScanModalAndStop();
+          showSuccess('Visiteur enregistré avec succès !');
+          // Réinitialiser pour le prochain scan
+          scanMode = 'recto';
+          pendingVisitorId = null;
+          document.querySelector('#scanModal .modal-header h3').innerText = 'Scanner une pièce d\'identité (recto)';
+          btn.innerText = 'Scanner (recto)';
         }
-
-        let sexe = (infos.sexe || '').trim().toUpperCase();
-        let taille = infos.taille ? parseInt(infos.taille, 10) : null;
-
-        if (taille !== null && (taille < 50 || taille > 300)) {
-          console.warn(`Taille invalide extraite: ${taille} cm. Valeur ignorée.`);
-          taille = null;
-        }
-        if (sexe !== 'M' && sexe !== 'F') sexe = 'M';
-
-        const visitorPayload = {
-          nom: nom,
-          prenom: prenom,
-          numeroPiece: numeroPiece,
-          typePiece: infos.typePiece || 'CNI',
-          dateNaissance: infos.dateNaissance || null,
-          lieuNaissance: infos.lieuNaissance || '',
-          sexe: sexe,
-          taille: taille,
-          dateDelivrance: infos.dateDelivrance || null,
-          dateExpiration: infos.dateExpiration || null,
-          centreEnregistrement: infos.centreEnregistrement || '',
-          adresseDomicile: infos.adresseDomicile || ''
-        };
-
-        console.log('📦 Payload final :', visitorPayload);
-
-        const visiteurRes = await fetch(`${API_BASE}/visiteurs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenActual}` },
-          body: JSON.stringify(visitorPayload)
-        });
-
-        if (visiteurRes.status === 401 || visiteurRes.status === 403) {
-          localStorage.clear();
-          showError('Session expirée. Veuillez vous reconnecter.');
-          setTimeout(() => window.location.href = '/login.html', 2000);
-          return;
-        }
-
-        const visiteurData = await visiteurRes.json();
-        if (!visiteurData.success) throw new Error(visiteurData.message);
-        const visiteurId = visiteurData.id || visiteurData.visiteur?._id;
-
-        await apiFetch('/visites/entree', {
-          method: 'POST',
-          body: JSON.stringify({ visiteurId, personneVisitee: currentUser?.nom || "Agent", service: "Accueil", motif: "Scan automatique" })
-        });
-
-        await showFeedbackIcon(true);
-        await loadAllData();
-        await closeScanModalAndStop();
       } catch (err) {
         console.error("❌ Erreur scan :", err);
         await showFeedbackIcon(false);
         let userMessage = err.message;
-        if (err.message.includes('validation') || err.message.includes('sexe')) {
-          userMessage = "Le sexe extrait n'est pas valide (M/F). Contactez l'administrateur.";
-        } else if (err.message.includes('numéro')) {
-          userMessage = "Numéro de pièce invalide ou manquant. Veuillez réessayer.";
-        } else if (err.message.includes('taille')) {
-          userMessage = "La taille extraite est hors limites. Veuillez vérifier ou saisir manuellement.";
-        } else if (err.message.includes('OCR')) {
-          userMessage = "Impossible de lire la carte. Assurez-vous qu'elle est bien éclairée et cadrée.";
-        }
+        if (err.message.includes('OCR')) userMessage = "Impossible de lire la carte. Assurez-vous qu'elle est bien éclairée.";
+        else if (err.message.includes('NIN')) userMessage = "Impossible de lire le NIN. Vérifiez que le verso est bien cadré et lisible.";
         showError(userMessage);
       } finally {
         isProcessing = false;
@@ -756,16 +780,29 @@
     }
 
     async function openScanModal() {
-      scanModal.classList.add('active');
+      // Réinitialiser l'état
+      scanMode = 'recto';
+      pendingVisitorId = null;
+      const titleEl = document.querySelector('#scanModal .modal-header h3');
+      if (titleEl) titleEl.innerText = 'Scanner une pièce d\'identité (recto)';
+      const btn = document.getElementById('scanTriggerBtn');
+      if (btn) btn.innerText = 'Scanner (recto)';
+      scanModalEl.classList.add('active');
       const ok = await initCameraPreview();
-      if (!ok) scanModal.classList.remove('active');
+      if (!ok) scanModalEl.classList.remove('active');
     }
 
     async function closeScanModalAndStop() {
       await stopCamera();
-      scanModal.classList.remove('active');
+      scanModalEl.classList.remove('active');
       const btn = document.getElementById('scanTriggerBtn');
       if (btn) btn.disabled = false;
+      // Remettre l'état par défaut
+      scanMode = 'recto';
+      pendingVisitorId = null;
+      const titleEl = document.querySelector('#scanModal .modal-header h3');
+      if (titleEl) titleEl.innerText = 'Scanner une pièce d\'identité (recto)';
+      if (btn) btn.innerText = 'Scanner (recto)';
     }
 
     // ==================== ÉVÉNEMENTS ====================
