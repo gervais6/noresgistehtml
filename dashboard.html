@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
-    /* Tous les styles (inchangés depuis la version précédente) */
+    /* Tous les styles (inchangés) */
     * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
     body { background-color: #111410; color: #e2e3dd; font-family: 'Hanken Grotesk', sans-serif; }
     .glass-card { background: rgba(25, 29, 24, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
@@ -354,7 +354,7 @@
     </div>
   </div>
 
-  <!-- NOUVELLE MODALE DE CONFIRMATION DES DONNÉES SCANNÉES -->
+  <!-- MODALE DE CONFIRMATION DES DONNÉES SCANNÉES -->
   <div id="confirmModal" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
@@ -510,8 +510,8 @@
       document.getElementById('paginationInfo').innerText = `Page ${currentPage} / ${totalPages || 1}`;
       
       document.querySelectorAll('.view-visite-btn').forEach(btn => btn.addEventListener('click', () => openDetailModal(JSON.parse(btn.dataset.visite))));
-      document.querySelectorAll('.sortie-btn').forEach(btn => btn.addEventListener('click', async () => { if(confirm('Enregistrer la sortie ?')) await enregistrerSortie(btn.dataset.id); }));
-      document.querySelectorAll('.delete-visite-btn').forEach(btn => btn.addEventListener('click', async () => { if(confirm('Supprimer définitivement cette visite ?')) await deleteVisite(btn.dataset.id); }));
+      document.querySelectorAll('.sortie-btn').forEach(btn => btn.addEventListener('click', () => enregistrerSortie(btn.dataset.id)));
+      document.querySelectorAll('.delete-visite-btn').forEach(btn => btn.addEventListener('click', () => deleteVisite(btn.dataset.id)));
     }
 
     async function enregistrerSortie(visiteId) {
@@ -588,8 +588,6 @@
 
     async function deleteVisitor(visitorId) {
       if (!visitorId) { showError("Aucun identifiant de visiteur fourni."); return; }
-      const confirmDelete = confirm("⚠️ Supprimer ce visiteur supprimera TOUTES ses visites et documents associés. Action irréversible. Continuer ?");
-      if (!confirmDelete) return;
       try {
         await apiFetch(`/visiteurs/${visitorId}`, { method: 'DELETE' });
         showSuccess("Visiteur et toutes ses données supprimés.");
@@ -690,7 +688,6 @@
           if (!nin) throw new Error("Aucun NIN détecté sur le verso");
           rectoData.numeroPiece = nin;
           await showFeedbackIcon(true);
-          // Afficher la modale de confirmation au lieu d'enregistrer directement
           afficherModalConfirmation(rectoData);
         }
       } catch (err) {
