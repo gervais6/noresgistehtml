@@ -278,6 +278,7 @@ export default function AgentDashboardPage() {
   };
 
   const handleScanComplete = (data: any) => {
+    setShowScanModal(false);
     setPendingVisitorData(data);
     setShowConfirmModal(true);
   };
