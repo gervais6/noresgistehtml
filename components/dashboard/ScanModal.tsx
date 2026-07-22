@@ -75,6 +75,12 @@ export default function ScanModal({
     }
   };
 
+  const passerVerso = async () => {
+    if (isProcessing) return;
+    await showFeedback(true);
+    onScanComplete(rectoData);
+  };
+
   const showFeedback = (success: boolean) => {
     return new Promise<void>((resolve) => {
       setFeedback({ active: true, success });
@@ -139,11 +145,14 @@ export default function ScanModal({
         await showFeedback(true);
         setCurrentSide('verso');
       } else {
+        // Le NIN n'est pas toujours présent au verso (certaines cartes n'ont pas de verso,
+        // ou le NIN n'y figure pas). On retombe sur le numéro de pièce déjà extrait au recto
+        // plutôt que de bloquer le scan.
         let nin = extraireNINDepuisTexte(texteRaw);
         if (!nin && infos.numeroPiece) nin = infos.numeroPiece.replace(/\s/g, '');
-        if (!nin) throw new Error("Aucun NIN détecté sur le verso");
+        if (!nin) nin = rectoData?.numeroPiece || null;
 
-        const completeData = { ...rectoData, numeroPiece: nin };
+        const completeData = { ...rectoData, ...(nin ? { numeroPiece: nin } : {}) };
         await showFeedback(true);
         onScanComplete(completeData);
       }
@@ -237,6 +246,15 @@ export default function ScanModal({
                 </button>
               )}
             </div>
+            {currentSide === 'verso' && (
+              <button
+                onClick={passerVerso}
+                disabled={isProcessing}
+                className="text-white/70 hover:text-white text-sm underline underline-offset-2 disabled:opacity-50 cursor-pointer"
+              >
+                Pas de verso / Passer
+              </button>
+            )}
           </div>
 
           {/* Scan Feedback Overlay */}
