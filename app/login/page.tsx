@@ -158,7 +158,7 @@ export default function LoginPage() {
                   id="email" 
                   value={email}
                   onChange={handleEmailChange}
-                  className={`w-full custom-input rounded-xl py-3.5 px-5 bg-transparent border ${emailError ? 'border-red-500' : 'border-white/10'} focus:border-primary text-gray-900 dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none`} 
+                  className={`w-full custom-input rounded-xl py-3.5 px-5 bg-transparent border ${emailError ? 'border-red-500' : 'border-gray-300 dark:border-white/10'} focus:border-primary text-gray-900 dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none`} 
                   placeholder="vous@entreprise.com" 
                 />
                 {emailError && (
@@ -182,7 +182,7 @@ export default function LoginPage() {
                     id="password" 
                     value={password}
                     onChange={handlePasswordChange}
-                    className={`w-full custom-input rounded-xl py-3.5 px-5 bg-transparent border ${passwordError ? 'border-red-500' : 'border-white/10'} focus:border-primary text-gray-900 dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none`} 
+                    className={`w-full custom-input rounded-xl py-3.5 px-5 bg-transparent border ${passwordError ? 'border-red-500' : 'border-gray-300 dark:border-white/10'} focus:border-primary text-gray-900 dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none`} 
                     placeholder="••••••••" 
                   />
                   <button 

@@ -16,30 +16,30 @@ export default function ConfirmModal({
   if (!show || !pendingData) return null;
 
   return (
-    <div className="modal-overlay active" style={{ zIndex: 1200 }}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h3 className="text-lg font-bold text-white">Vérification des données</h3>
-          <button onClick={onCancel} className="cursor-pointer">
-            <span className="material-symbols-outlined text-white">close</span>
+    <div className="fixed inset-0 z-[1200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-surface-container border border-gray-200 dark:border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 text-left" onClick={(e) => e.stopPropagation()}>
+        <div className="flex justify-between items-center pb-3 border-b border-gray-200 dark:border-white/10">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Vérification des données</h3>
+          <button onClick={onCancel} className="cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors">
+            <span className="material-symbols-outlined">close</span>
           </button>
         </div>
-        <div className="modal-body text-left">
-          <div className="detail-row">
-            <div className="detail-label">Nom :</div>
-            <div className="detail-value text-white">{pendingData.nom || '-'}</div>
+        <div className="space-y-3 py-1 text-left">
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Nom :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.nom || '-'}</div>
           </div>
-          <div className="detail-row">
-            <div className="detail-label">Prénom :</div>
-            <div className="detail-value text-white">{pendingData.prenom || '-'}</div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Prénom :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.prenom || '-'}</div>
           </div>
-          <div className="detail-row">
-            <div className="detail-label">NIN :</div>
-            <div className="detail-value font-mono text-white">{pendingData.numeroPiece || '-'}</div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">NIN :</div>
+            <div className="text-sm font-mono font-medium text-gray-900 dark:text-white">{pendingData.numeroPiece || '-'}</div>
           </div>
-          <div className="detail-row">
-            <div className="detail-label">Date naiss. :</div>
-            <div className="detail-value text-white">
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Date naiss. :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">
               {pendingData.dateNaissance ? 
                 (pendingData.dateNaissance.includes('-') ? 
                   pendingData.dateNaissance.split('-').reverse().join('/') : 
@@ -48,25 +48,25 @@ export default function ConfirmModal({
               }
             </div>
           </div>
-          <div className="detail-row">
-            <div className="detail-label">Sexe :</div>
-            <div className="detail-value text-white">{pendingData.sexe || '-'}</div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Sexe :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.sexe || '-'}</div>
           </div>
-          <div className="detail-row">
-            <div className="detail-label">Taille :</div>
-            <div className="detail-value text-white">{pendingData.taille ? `${pendingData.taille} cm` : '-'}</div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Taille :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.taille ? `${pendingData.taille} cm` : '-'}</div>
           </div>
         </div>
-        <div className="modal-footer justify-between">
+        <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex justify-between items-center">
           <button 
             onClick={onCancel}
-            className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg font-semibold cursor-pointer"
+            className="px-4 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-xl font-semibold text-sm cursor-pointer transition-all"
           >
             Annuler
           </button>
           <button 
             onClick={onConfirm}
-            className="px-4 py-2 bg-primary text-black rounded-lg font-bold hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer"
+            className="px-4 py-2 bg-primary text-black rounded-xl font-bold text-sm hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer shadow-md"
           >
             Confirmer l'enregistrement
           </button>
