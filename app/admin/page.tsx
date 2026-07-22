@@ -950,62 +950,62 @@ export default function AdminDashboardPage() {
 
       {/* Create Agent Account Modal */}
       {showCreateUserModal && (
-        <div className="modal-overlay active" onClick={() => setShowCreateUserModal(false)}>
-          <div className="modal-content text-left" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3 className="text-lg font-bold text-white">Créer un agent</h3>
-              <button onClick={() => setShowCreateUserModal(false)}>
-                <span className="material-symbols-outlined text-white">close</span>
+        <div className="fixed inset-0 z-[1200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowCreateUserModal(false)}>
+          <div className="bg-surface-container border border-gray-200 dark:border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 text-left" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center pb-3 border-b border-gray-200 dark:border-white/10">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">Créer un agent</h3>
+              <button onClick={() => setShowCreateUserModal(false)} className="cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors">
+                <span className="material-symbols-outlined">close</span>
               </button>
             </div>
-            <div className="modal-body text-left space-y-3">
+            <div className="space-y-3 py-1">
               <input 
                 type="text" 
                 value={newNom}
                 onChange={(e) => setNewNom(e.target.value)}
                 placeholder="Nom" 
-                className="w-full border border-white/10 rounded-lg p-2 bg-surface-container text-white focus:outline-none focus:border-primary text-sm"
+                className="w-full border border-gray-200 dark:border-white/10 rounded-xl p-3 bg-surface-container text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary text-sm"
               />
               <input 
                 type="text" 
                 value={newPrenom}
                 onChange={(e) => setNewPrenom(e.target.value)}
                 placeholder="Prénom" 
-                className="w-full border border-white/10 rounded-lg p-2 bg-surface-container text-white focus:outline-none focus:border-primary text-sm"
+                className="w-full border border-gray-200 dark:border-white/10 rounded-xl p-3 bg-surface-container text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary text-sm"
               />
               <input 
                 type="email" 
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder="Email" 
-                className="w-full border border-white/10 rounded-lg p-2 bg-surface-container text-white focus:outline-none focus:border-primary text-sm"
+                className="w-full border border-gray-200 dark:border-white/10 rounded-xl p-3 bg-surface-container text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary text-sm"
               />
               <input 
                 type="password" 
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Mot de passe" 
-                className="w-full border border-white/10 rounded-lg p-2 bg-surface-container text-white focus:outline-none focus:border-primary text-sm"
+                className="w-full border border-gray-200 dark:border-white/10 rounded-xl p-3 bg-surface-container text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary text-sm"
               />
               <select 
                 value={newRole}
                 onChange={(e) => setNewRole(e.target.value)}
-                className="w-full border border-white/10 rounded-lg p-2 bg-surface-container text-white focus:outline-none focus:border-primary text-sm"
+                className="w-full border border-gray-200 dark:border-white/10 rounded-xl p-3 bg-surface-container text-gray-900 dark:text-white focus:outline-none focus:border-primary text-sm"
               >
-                <option value="AGENT">Agent</option>
-                <option value="ADMIN">Administrateur</option>
+                <option value="AGENT" className="bg-surface-container text-gray-900 dark:text-white">Agent</option>
+                <option value="ADMIN" className="bg-surface-container text-gray-900 dark:text-white">Administrateur</option>
               </select>
             </div>
-            <div className="modal-footer justify-end gap-2">
+            <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex justify-end gap-3">
               <button 
                 onClick={() => setShowCreateUserModal(false)}
-                className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg font-semibold text-sm"
+                className="px-4 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-xl font-semibold text-sm cursor-pointer transition-all"
               >
                 Annuler
               </button>
               <button 
                 onClick={handleCreateAgentSubmit}
-                className="px-4 py-2 bg-primary text-black rounded-lg font-bold text-sm hover:brightness-110 active:scale-95 transition-all"
+                className="px-5 py-2 bg-primary text-black rounded-xl font-bold text-sm hover:brightness-110 active:scale-95 transition-all shadow-md cursor-pointer"
               >
                 Créer
               </button>
@@ -1016,17 +1016,17 @@ export default function AdminDashboardPage() {
 
       {/* Success Notification Modal */}
       {successMsg && (
-        <div className="modal-overlay active" onClick={() => setSuccessMsg(null)}>
-          <div className="modal-content max-w-sm" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-body text-center flex flex-col items-center">
-              <span className="material-symbols-outlined text-primary text-7xl">check_circle</span>
-              <h3 className="text-xl font-bold mt-4 text-white">Succès</h3>
+        <div className="fixed inset-0 z-[1300] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setSuccessMsg(null)}>
+          <div className="bg-surface-container border border-gray-200 dark:border-white/10 rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="flex flex-col items-center">
+              <span className="material-symbols-outlined text-primary text-6xl">check_circle</span>
+              <h3 className="text-xl font-bold mt-3 text-gray-900 dark:text-white">Succès</h3>
               <p className="text-on-surface-variant mt-2 text-sm">{successMsg}</p>
             </div>
-            <div className="modal-footer">
+            <div className="pt-2 flex justify-center">
               <button 
                 onClick={() => setSuccessMsg(null)}
-                className="px-4 py-2 bg-primary/20 text-primary rounded-lg font-semibold"
+                className="px-5 py-2 bg-primary/20 text-primary hover:bg-primary/30 rounded-xl font-semibold text-sm cursor-pointer transition-all"
               >
                 Fermer
               </button>
@@ -1037,17 +1037,17 @@ export default function AdminDashboardPage() {
 
       {/* Error Notification Modal */}
       {errorMsg && (
-        <div className="modal-overlay active" onClick={() => setErrorMsg(null)}>
-          <div className="modal-content max-w-sm" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-body text-center flex flex-col items-center">
-              <span className="material-symbols-outlined text-red-400 text-7xl">error</span>
-              <h3 className="text-xl font-bold mt-4 text-white">Erreur</h3>
+        <div className="fixed inset-0 z-[1300] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setErrorMsg(null)}>
+          <div className="bg-surface-container border border-gray-200 dark:border-white/10 rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="flex flex-col items-center">
+              <span className="material-symbols-outlined text-red-400 text-6xl">error</span>
+              <h3 className="text-xl font-bold mt-3 text-gray-900 dark:text-white">Erreur</h3>
               <p className="text-on-surface-variant mt-2 text-sm">{errorMsg}</p>
             </div>
-            <div className="modal-footer">
+            <div className="pt-2 flex justify-center">
               <button 
                 onClick={() => setErrorMsg(null)}
-                className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg font-semibold"
+                className="px-5 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-xl font-semibold text-sm cursor-pointer transition-all"
               >
                 Fermer
               </button>

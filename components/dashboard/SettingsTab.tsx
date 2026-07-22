@@ -103,7 +103,7 @@ export default function SettingsTab({
               type="text" 
               value={nom} 
               onChange={(e) => setNom(e.target.value)}
-              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
+              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-gray-200 dark:border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
               placeholder="Nom"
             />
           </div>
@@ -113,7 +113,7 @@ export default function SettingsTab({
               type="text" 
               value={prenom}
               onChange={(e) => setPrenom(e.target.value)}
-              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
+              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-gray-200 dark:border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
               placeholder="Prénom"
             />
           </div>
@@ -132,7 +132,7 @@ export default function SettingsTab({
               type="tel" 
               value={telephone}
               onChange={(e) => setTelephone(e.target.value)}
-              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
+              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-gray-200 dark:border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
               placeholder="+226 XX XX XX XX"
             />
           </div>
@@ -142,7 +142,7 @@ export default function SettingsTab({
               type="text" 
               value={departement}
               onChange={(e) => setDepartement(e.target.value)}
-              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
+              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-gray-200 dark:border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
               placeholder="Ex: RH, IT, Logistique"
             />
           </div>
@@ -152,7 +152,7 @@ export default function SettingsTab({
               type="text" 
               value={poste}
               onChange={(e) => setPoste(e.target.value)}
-              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
+              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-gray-200 dark:border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
               placeholder="Ex: Agent de sécurité"
             />
           </div>
@@ -161,7 +161,7 @@ export default function SettingsTab({
             <select 
               value={accreditation}
               onChange={(e) => setAccreditation(e.target.value)}
-              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary"
+              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-gray-200 dark:border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary"
             >
               <option value="">Sélectionner</option>
               <option value="Niveau 1">Niveau 1</option>
@@ -175,7 +175,7 @@ export default function SettingsTab({
               type="date" 
               value={dateArrivee}
               onChange={(e) => setDateArrivee(e.target.value)}
-              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
+              className="w-full border rounded-lg p-3 text-sm bg-surface-container border-gray-200 dark:border-white/10 text-gray-900 dark:text-white focus:outline-none focus:border-primary" 
             />
           </div>
         </div>

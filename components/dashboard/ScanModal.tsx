@@ -160,16 +160,16 @@ export default function ScanModal({
   if (!show) return null;
 
   return (
-    <div className="modal-overlay active" style={{ zIndex: 1100 }}>
-      <div className="modal-content flex flex-col bg-black max-w-md w-[92%] h-[550px] rounded-2xl overflow-hidden relative shadow-2xl border border-white/10">
-        <div className="modal-header bg-black/70 backdrop-blur-sm z-10 border-none absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
+    <div className="fixed inset-0 z-[1100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="flex flex-col bg-black max-w-md w-full h-[550px] rounded-2xl overflow-hidden relative shadow-2xl border border-white/10" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-black/70 backdrop-blur-sm z-10 border-none absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
           <h3 className="text-base font-bold text-white">Scanner une pièce d'identité</h3>
-          <button onClick={onClose} className="cursor-pointer flex items-center justify-center">
-            <span className="material-symbols-outlined text-white">close</span>
+          <button onClick={onClose} className="cursor-pointer flex items-center justify-center text-white hover:text-gray-300 transition-colors">
+            <span className="material-symbols-outlined">close</span>
           </button>
         </div>
         
-        <div className="modal-body flex-1 flex flex-col p-0 overflow-hidden relative">
+        <div className="flex-1 flex flex-col p-0 overflow-hidden relative">
           {/* Step indicator */}
           <div className="step-indicator absolute top-16 left-0 right-0 flex justify-center gap-4 bg-black/60 p-2 z-15">
             <div className={`step px-3 py-1 rounded-full text-[10px] font-bold ${currentSide === 'recto' ? 'active bg-primary text-black' : 'text-white/60'}`}>
