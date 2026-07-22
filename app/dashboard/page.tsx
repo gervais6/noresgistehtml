@@ -13,6 +13,7 @@ import SettingsTab from '@/components/dashboard/SettingsTab';
 import ScanModal from '@/components/dashboard/ScanModal';
 import ConfirmModal from '@/components/dashboard/ConfirmModal';
 import DetailModal from '@/components/dashboard/DetailModal';
+import HistoryDetailModal from '@/components/dashboard/HistoryDetailModal';
 import NotificationModals from '@/components/dashboard/NotificationModals';
 
 interface Visitor {
@@ -72,6 +73,8 @@ export default function AgentDashboardPage() {
   // Modals Visibility
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedVisit, setSelectedVisit] = useState<Visit | null>(null);
+  const [showHistoryDetailModal, setShowHistoryDetailModal] = useState(false);
+  const [selectedHistoryVisit, setSelectedHistoryVisit] = useState<Visit | null>(null);
   const [showScanModal, setShowScanModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pendingVisitorData, setPendingVisitorData] = useState<any>(null);
@@ -426,9 +429,10 @@ export default function AgentDashboardPage() {
                   <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Historique des visites</h2>
                   <p className="text-on-surface-variant text-xs md:text-sm">Toutes les entrées et sorties</p>
                 </div>
-                <HistoryTable 
+                <HistoryTable
                   loadingVisits={loadingVisits}
                   allVisits={allVisits}
+                  onViewDetails={(v) => { setSelectedHistoryVisit(v); setShowHistoryDetailModal(true); }}
                 />
               </section>
             )}
@@ -478,11 +482,17 @@ export default function AgentDashboardPage() {
         onCancel={handleCancelConfirm}
       />
 
-      <DetailModal 
+      <DetailModal
         show={showDetailModal}
         selectedVisit={selectedVisit}
         onClose={() => setShowDetailModal(false)}
         onDeleteVisitor={handleDeleteVisitor}
+      />
+
+      <HistoryDetailModal
+        show={showHistoryDetailModal}
+        selectedVisit={selectedHistoryVisit}
+        onClose={() => setShowHistoryDetailModal(false)}
       />
 
       <NotificationModals 

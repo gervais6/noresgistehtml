@@ -19,11 +19,13 @@ interface Visit {
 interface HistoryTableProps {
   loadingVisits: boolean;
   allVisits: Visit[];
+  onViewDetails: (visit: Visit) => void;
 }
 
 export default function HistoryTable({
   loadingVisits,
   allVisits,
+  onViewDetails,
 }: HistoryTableProps) {
   return (
     <div className="glass-card rounded-xl overflow-x-auto">
@@ -35,16 +37,17 @@ export default function HistoryTable({
             <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Entrée</th>
             <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Sortie</th>
             <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Statut</th>
+            <th className="px-4 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           {loadingVisits ? (
             <tr>
-              <td colSpan={5} className="text-center py-6 text-on-surface-variant">Chargement...</td>
+              <td colSpan={6} className="text-center py-6 text-on-surface-variant">Chargement...</td>
             </tr>
           ) : allVisits.length === 0 ? (
             <tr>
-              <td colSpan={5} className="text-center py-6 text-on-surface-variant">Aucun historique de visite</td>
+              <td colSpan={6} className="text-center py-6 text-on-surface-variant">Aucun historique de visite</td>
             </tr>
           ) : (
             allVisits.map((v) => {
@@ -62,6 +65,16 @@ export default function HistoryTable({
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${isPresent ? 'bg-primary/10 text-primary' : 'bg-yellow-500/20 text-yellow-400'}`}>
                       {isPresent ? 'En cours' : 'Sorti'}
                     </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => onViewDetails(v)}
+                        className="text-primary hover:scale-110 transition-transform cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-xl">visibility</span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

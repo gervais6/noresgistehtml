@@ -36,7 +36,7 @@ export default function DetailModal({
 
   return (
     <div className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-surface-container border border-gray-200 dark:border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 text-left" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-surface-container border border-gray-200 dark:border-white/10 rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto p-6 shadow-2xl space-y-4 text-left" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-between items-center pb-3 border-b border-gray-200 dark:border-white/10">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white">Détails de la visite</h3>
           <button onClick={onClose} className="cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors">
@@ -83,7 +83,7 @@ export default function DetailModal({
         </div>
         <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex justify-center">
           {vis._id && (
-            <button 
+            <button
               onClick={() => onDeleteVisitor(vis._id!)}
               className="px-4 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-xl flex items-center gap-2 font-semibold cursor-pointer text-sm transition-all"
             >

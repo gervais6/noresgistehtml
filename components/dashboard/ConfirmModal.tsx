@@ -56,6 +56,44 @@ export default function ConfirmModal({
             <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Taille :</div>
             <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.taille ? `${pendingData.taille} cm` : '-'}</div>
           </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Type pièce :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.typePiece || '-'}</div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Lieu naiss. :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.lieuNaissance || '-'}</div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Adresse :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.adresseDomicile || '-'}</div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Délivrance :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">
+              {pendingData.dateDelivrance ?
+                (pendingData.dateDelivrance.includes('-') ?
+                  pendingData.dateDelivrance.split('-').reverse().join('/') :
+                  pendingData.dateDelivrance) :
+                '-'
+              }
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Expiration :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">
+              {pendingData.dateExpiration ?
+                (pendingData.dateExpiration.includes('-') ?
+                  pendingData.dateExpiration.split('-').reverse().join('/') :
+                  pendingData.dateExpiration) :
+                '-'
+              }
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Centre :</div>
+            <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.centreEnregistrement || '-'}</div>
+          </div>
         </div>
         <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex justify-between items-center">
           <button 
