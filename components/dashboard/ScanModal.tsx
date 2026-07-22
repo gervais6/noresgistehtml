@@ -209,8 +209,8 @@ export default function ScanModal({
               >
                 {isProcessing ? 'PROCESS...' : 'Scanner'}
               </button>
-              {isPOSDevice ? (
-                <button 
+              {isPOSDevice && (
+                <button
                   onClick={() => {
                     if (typeof window !== 'undefined' && (window as any).WizarPOSBridge) {
                       (window as any).WizarPOSBridge.startNFCScan();
@@ -221,36 +221,13 @@ export default function ScanModal({
                 >
                   📟 Lire NFC (POS)
                 </button>
-              ) : (
-                <button 
-                  onClick={() => {
-                    if (typeof window !== 'undefined' && (window as any).onNFCResult) {
-                      const mockData = JSON.stringify({
-                        nom: "SY",
-                        prenom: "Sam",
-                        numeroPiece: "B12345678",
-                        typePiece: "CNI",
-                        sexe: "M",
-                        taille: "180",
-                        dateNaissance: "1995-05-15",
-                        lieuNaissance: "Ouagadougou",
-                        adresseDomicile: "Avenue de l'Indépendance"
-                      });
-                      (window as any).onNFCResult(mockData);
-                      onClose();
-                    }
-                  }}
-                  className="bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 border border-yellow-500/30 font-bold px-8 py-3.5 rounded-full text-lg shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                >
-                  📟 Simuler NFC (Dev)
-                </button>
               )}
             </div>
             {currentSide === 'verso' && (
               <button
                 onClick={passerVerso}
                 disabled={isProcessing}
-                className="text-white/70 hover:text-white text-sm underline underline-offset-2 disabled:opacity-50 cursor-pointer"
+                className="bg-red-600 hover:bg-red-700 text-white border-none font-bold px-6 py-2.5 rounded-full text-sm shadow-xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
               >
                 Pas de verso / Passer
               </button>
