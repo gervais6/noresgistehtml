@@ -94,6 +94,12 @@ export default function ConfirmModal({
             <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Centre :</div>
             <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.centreEnregistrement || '-'}</div>
           </div>
+          {pendingData.profession && (
+            <div className="flex items-center space-x-3">
+              <div className="w-28 shrink-0 text-sm font-semibold text-gray-500 dark:text-gray-400">Profession :</div>
+              <div className="text-sm font-medium text-gray-900 dark:text-white">{pendingData.profession}</div>
+            </div>
+          )}
         </div>
         <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex justify-between items-center">
           <button 
